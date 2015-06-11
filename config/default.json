@@ -1,0 +1,11 @@
+{
+  "port": 9090,
+  "connectionString":"postgres://postgres:khoa123@localhost/sf_connect",
+  "clientId" : "3MVG9xOCXq4ID1uH7gGXG4VzSDGgemhwGIGEb0qMfgF3eH1YqEtAEgKRROJZlZBLd7qgGPlV2Nq1CbfMxvvf1",
+  "clientSecret" : "6549645686862280754",
+  "redirectUri" : "https://force.veritone.com",
+  "sfOAuthUrl": "https://login.salesforce.com/services/oauth2/authorize",
+  "appNamespace":"Veritone",
+  "tokenHeader":"x-veritone-connect-token",
+  "searchUrl":"https://core.veritone.com/search"
+}

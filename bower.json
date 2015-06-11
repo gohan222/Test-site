@@ -1,0 +1,8 @@
+{
+  "name": "veritone-connect",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "dustjs-linkedin": "~2.6.2"
+  }
+}

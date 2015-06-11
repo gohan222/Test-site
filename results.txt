@@ -1,0 +1,167 @@
+
+[0m[0m
+[0m  Testing Dal Salesforce[0m
+[0m    Testing function getConnectionByUuid[0m
+[2K[0G    [32m  ✓[0m[90m test null options[0m
+[2K[0G    [32m  ✓[0m[90m test null uuid[0m
+[2K[0G    [32m  ✓[0m[90m test find unknown id[0m
+[31m[2015-04-27 02:26:12.075] [ERROR] [default] - [39merror running getConnectionByUuid query { [error: invalid input syntax for uuid: "12345"]
+  name: 'error',
+  length: 88,
+  severity: 'ERROR',
+  code: '22P02',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'uuid.c',
+  line: '129',
+  routine: 'string_to_uuid' }
+error: invalid input syntax for uuid: "12345"
+    at Connection.parseE (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:534:11)
+    at Connection.parseMessage (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:361:17)
+    at Socket.<anonymous> (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:105:22)
+    at Socket.emit (events.js:95:17)
+    at Socket.<anonymous> (_stream_readable.js:765:14)
+    at Socket.emit (events.js:92:17)
+    at emitReadable_ (_stream_readable.js:427:10)
+    at emitReadable (_stream_readable.js:423:5)
+    at readableAddChunk (_stream_readable.js:166:9)
+    at Socket.Readable.push (_stream_readable.js:128:10)
+[2K[0G    [32m  ✓[0m[90m test find invalid data type id[0m
+[2K[0G    [32m  ✓[0m[90m test find valid id[0m
+[0m    Testing function getConnectionByOrganizationId [0m
+[2K[0G    [32m  ✓[0m[90m test null options[0m
+[2K[0G    [32m  ✓[0m[90m test null organization[0m
+[2K[0G    [32m  ✓[0m[90m test find unknown id[0m
+[2K[0G    [32m  ✓[0m[90m test find invalid data type id[0m
+[2K[0G    [32m  ✓[0m[90m test find valid id[0m
+[0m    Testing function deleteSalesforceConnectionByUuid [0m
+[2K[0G    [32m  ✓[0m[90m test null options[0m
+[2K[0G    [32m  ✓[0m[90m test null uuid[0m
+[2K[0G    [32m  ✓[0m[90m test find unknown id[0m
+[31m[2015-04-27 02:26:12.133] [ERROR] [default] - [39merror running deleteSalesforceConnectionByUuid query  { [error: invalid input syntax for uuid: "12345"]
+  name: 'error',
+  length: 88,
+  severity: 'ERROR',
+  code: '22P02',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'uuid.c',
+  line: '129',
+  routine: 'string_to_uuid' }
+error: invalid input syntax for uuid: "12345"
+    at Connection.parseE (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:534:11)
+    at Connection.parseMessage (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:361:17)
+    at Socket.<anonymous> (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:105:22)
+    at Socket.emit (events.js:95:17)
+    at Socket.<anonymous> (_stream_readable.js:765:14)
+    at Socket.emit (events.js:92:17)
+    at emitReadable_ (_stream_readable.js:427:10)
+    at emitReadable (_stream_readable.js:423:5)
+    at readableAddChunk (_stream_readable.js:166:9)
+    at Socket.Readable.push (_stream_readable.js:128:10)
+[2K[0G    [32m  ✓[0m[90m test find invalid data type id[0m
+[2K[0G    [32m  ✓[0m[90m test find valid id[0m
+[31m[2015-04-27 02:26:12.141] [ERROR] [default] - [39m[Error: record not found]
+Error: record not found
+    at null.<anonymous> (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/server/dal/salesforce.js:226:33)
+    at null.<anonymous> (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/server/dal/salesforce.js:91:22)
+    at null.<anonymous> (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/server/dal/salesforce.js:47:16)
+    at b [as callback] (domain.js:183:18)
+    at Query.handleReadyForQuery (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/query.js:80:10)
+    at null.<anonymous> (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/client.js:158:19)
+    at emit (events.js:117:20)
+    at Socket.<anonymous> (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:109:12)
+    at Socket.emit (events.js:95:17)
+    at Socket.<anonymous> (_stream_readable.js:765:14)
+[0m    Testing function checkApplicationToken [0m
+[2K[0G    [32m  ✓[0m[90m test null options[0m
+[2K[0G    [32m  ✓[0m[90m test null appToken[0m
+[2K[0G    [32m  ✓[0m[90m test find unknown id[0m
+[2K[0G    [32m  ✓[0m[90m test find invalid data type id[0m
+[2K[0G    [32m  ✓[0m[90m test find valid id[0m
+[0m    Testing function updateSalesforceAccessToken [0m
+[2K[0G    [32m  ✓[0m[90m test null options[0m
+[2K[0G    [32m  ✓[0m[90m test null accessToken[0m
+[2K[0G    [32m  ✓[0m[90m test null uuid[0m
+[2K[0G    [32m  ✓[0m[90m test null uuid and accessToken[0m
+[2K[0G    [32m  ✓[0m[90m test update unknown uuid[0m
+[31m[2015-04-27 02:26:12.169] [ERROR] [default] - [39merror running updateSalesforceAccessToken query  { [error: invalid input syntax for uuid: "1234567890"]
+  name: 'error',
+  length: 93,
+  severity: 'ERROR',
+  code: '22P02',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'uuid.c',
+  line: '129',
+  routine: 'string_to_uuid' }
+error: invalid input syntax for uuid: "1234567890"
+    at Connection.parseE (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:534:11)
+    at Connection.parseMessage (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:361:17)
+    at Socket.<anonymous> (/Users/tuan/Development/GitHub/Inspirent/veritone-connect-repo/node_modules/pg/lib/connection.js:105:22)
+    at Socket.emit (events.js:95:17)
+    at Socket.<anonymous> (_stream_readable.js:765:14)
+    at Socket.emit (events.js:92:17)
+    at emitReadable_ (_stream_readable.js:427:10)
+    at emitReadable (_stream_readable.js:423:5)
+    at readableAddChunk (_stream_readable.js:166:9)
+    at Socket.Readable.push (_stream_readable.js:128:10)
+[2K[0G    [32m  ✓[0m[90m test update invalid data type uuid[0m
+[2K[0G    [32m  ✓[0m[90m test update valid uuid[0m
+[0m    Testing function updateSalesforceConnect [0m
+[2K[0G    [32m  ✓[0m[90m test null options[0m
+[2K[0G    [32m  ✓[0m[90m test null accessToken[0m
+[2K[0G    [32m  ✓[0m[90m test null refreshToken[0m
+[2K[0G    [32m  ✓[0m[90m test null organizationId[0m
+[2K[0G    [32m  ✓[0m[90m test null instanceUrl[0m
+[2K[0G    [32m  ✓[0m[90m test null instanceUrl[0m
+[2K[0G    [32m  ✓[0m[90m test update valid access token[0m
+[2K[0G    [32m  ✓[0m[90m test update valid refresh token[0m
+[0m    Testing function createSalesforceConnection [0m
+[2K[0G    [32m  ✓[0m[90m test null options[0m
+[2K[0G    [32m  ✓[0m[90m test null accessToken[0m
+[2K[0G    [32m  ✓[0m[90m test null refreshToken[0m
+[2K[0G    [32m  ✓[0m[90m test null organizationId[0m
+[2K[0G    [32m  ✓[0m[90m test null instanceUrl[0m
+[2K[0G    [32m  ✓[0m[90m test null uuid[0m
+[2K[0G    [32m  ✓[0m[90m test create duplicate connection[0m
+[2K[0G    [32m  ✓[0m[90m test create new record with new different uuid[0m
+[2K[0G    [32m  ✓[0m[90m test create new record with new different organizationId[0m
+[2K[0G    [32m  ✓[0m[90m test create new record with new different instanceUrl[0m
+[2K[0G    [32m  ✓[0m[90m test create new record with new different instanceUrl, organizationId[0m
+[2K[0G    [32m  ✓[0m[90m test create new record with new different uuid[0m
+
+[0m  Give it some context[0m
+[0m    maybe a bit more context here[0m
+[2K[0G    [32m  ✓[0m[90m should run here few assertions[0m
+
+
+[92m [0m[32m 48 passing[0m[90m (286ms)[0m
+

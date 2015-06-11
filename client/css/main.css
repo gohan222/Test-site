@@ -1,0 +1,110 @@
+/*.logo{
+  margin: 45px auto;
+  width: 294px;
+  height: 57px;
+  background-image:url('../image/veritone-media-color.png');
+}*/
+
+.loginContainer{
+  width: 395px;
+	height: 341px;
+	-webkit-border-radius: 6px/5px;
+	-moz-border-radius: 6px/5px;
+	border-radius: 6px/5px;
+	background-color: #f4f4f4;
+	-webkit-box-shadow: 0 1px 5px rgba(0,0,0,.21);
+	-moz-box-shadow: 0 1px 5px rgba(0,0,0,.21);
+	box-shadow: 0 1px 5px rgba(0,0,0,.21);
+  margin:auto;
+}
+
+.loginCredentialContainer{
+  margin: auto 45px;
+}
+
+.loginCredentialContainer input{
+  margin-bottom:25px;
+  height:45px;
+  text-align:center;
+  width: 310px;
+	height: 45px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	background-color: #fff;
+	-webkit-box-shadow: inset 0 2px 1px rgba(0,1,1,.1);
+	-moz-box-shadow: inset 0 2px 1px rgba(0,1,1,.1);
+	box-shadow: inset 0 2px 1px rgba(0,1,1,.1);
+}
+
+::-webkit-input-placeholder {
+   color: #ccc;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: #ccc;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: #ccc;
+}
+
+:-ms-input-placeholder {
+  color: #ccc;
+}
+
+
+.errorContainer{
+  width: 450px;
+  height: 350px;
+  margin:auto;
+}
+
+.containerHeader{
+  text-align:center;
+  font-size:16px;
+}
+
+/**************
+* WIDGET
+***************/
+
+*{font-family:'Lato', sans-serif;}
+
+.programPlayer{
+  padding: 0px;
+  margin: 0px 15px 10px 0px;
+}
+
+.programPlayer_mobile audio{
+  height: 50px;
+  width:100%;
+}
+
+.programPlayer img,audio,video{
+  width:100%;
+}
+
+.programName{
+  font-size:15px;
+  font-weight:bold;
+  padding: 0px;
+  margin: 0px 15px 2px 0px;
+}
+
+.programDateTime{
+  font-size:12px;
+  padding: 0px;
+  margin:0px 15px 15px 0px;
+}
+
+.programText{
+  font-size:14px;
+  padding: 0px;
+  margin:0px 15px 15px 0px;
+}
+
+.programContainer{
+  background-color:#f6f6f6;
+  padding: 15px 0px 0px 15px;
+}

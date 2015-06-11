@@ -1,0 +1,7 @@
+*.DS_Store
+bower_components/*
+client/bower_components
+logs
+node_modules
+test
+dist
