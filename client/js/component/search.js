@@ -1,27 +1,24 @@
 'use strict';
 
+var AppConstant = require('../constant/appConstant'),
+$ = require('jquery'),
+React = require('react');
+
 var Mention = React.createClass({
   render: function() {
-    return (
-      <div className="mentionList">
-        <span>{this.props.data.programName}</span>
-      </div>
-    );
+    console.log(AppConstant.ACTION_CREATE);
+    var child = React.DOM.span(null,this.props.data.programName);
+    var elm = React.DOM.div({className:'mentionList'}, child);
+    return elm;
   }
 });
 
 var MentionList = React.createClass({
   render: function() {
     var mentionNodes = this.props.data.map(function (mention) {
-      return (
-        <Mention data={mention}></Mention>
-      );
+      return React.createElement(Mention, {data:mention});
     });
-    return (
-      <div className="mentionList">
-        {mentionNodes}
-      </div>
-    );
+    return React.DOM.div({className: 'mentionList'}, mentionNodes);
   }
 });
 
@@ -38,20 +35,19 @@ var MentionBox = React.createClass({
       }.bind(this)
     });
   },
-  getInitialState: function() {
-    return {data: []};
-  },
   componentDidMount: function() {
     this.loadCommentsFromServer();
   },
+  getInitialState: function() {
+    return {data: []};
+  },
   render: function() {
-    return (
-      <MentionList data={this.state.data} />
-    );
+    return React.createElement(MentionList, {data:this.state.data});
   }
 });
 
 React.render(
-  <MentionBox url="http://localhost:9090/search?confidence=12&includeSnippet=true&limit=25&offset=0&q=lakers" />,
+  React.createElement(MentionBox, {url: "http://localhost:9090/search?confidence=12&includeSnippet=true&limit=25&offset=0&q=lakers"}),
+  // React.createElement(MentionBox),
   document.getElementById('searchResult')
 );

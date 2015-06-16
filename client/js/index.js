@@ -1,6 +1,6 @@
 var React = require('react'),
     // This is our React component, shared by server and browser thanks to browserify
-    App = React.createFactory(require('./homepage'))
+    App = React.createFactory(require('../../server/templates/homepage'))
 
 // This script will run in the browser and will render our component using the
 // value from APP_PROPS that we generate inline in the page's html on the server.

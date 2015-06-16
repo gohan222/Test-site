@@ -6,6 +6,7 @@ service = require('../service/salesforce'),
 dal = require('../dal/salesforce'),
 mapping = require('../model/salesforce'),
 config = require('../config'),
+browserify = require('browserify-middleware'),
 logger = require('../logger/logger');
 
 function updateAccessToken(options){

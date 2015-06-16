@@ -13,8 +13,6 @@ router.get('/', function(req, res) {
   };
 
   service.getSearchResults(options, function(err, result, response) {
-    logger.debug(result);
-    logger.debug(err);
     if (response) {
       res.setHeader('Content-Type', 'application/json');
       response.send(result);

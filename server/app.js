@@ -3,6 +3,7 @@
 var cluster = require('cluster'),
 config = require('./config'),
 compress = require('compression'),
+browserify = require('browserify-middleware'),
 logger = require('./logger/logger');
 
 
@@ -41,7 +42,15 @@ if (cluster.isMaster) {
   var express = require('express'),
   cons = require('consolidate'),
   bodyParser = require('body-parser'),
-  app = express();
+  app = express(),
+  shared = ['flux',
+            'react',
+            'jquery',
+            './client/js/constant/appConstant.js',
+            './client/js/action/appAction.js', 
+            './client/js/dispatcher/appDispatcher.js',
+            './client/js/store/appStore.js'
+            ];
 
   // assign the dust engine to .dust files
   app.use(compress());
@@ -52,8 +61,16 @@ if (cluster.isMaster) {
   app.set('views', __dirname + '/view');
 
   //apply static location
-  app.use(express.static('client', staticOptions));
-
+  app.use(express.static('client'));
+  // app.use('/css',express.static('client/css', staticOptions));
+  // app.use('/image',express.static('client/image', staticOptions));
+  app.get('/js/searchPageView.js', browserify('./client/js/component/search.js'
+  ,{
+    cache: true,
+    precompile: true
+  }));
+  app.use('/js', browserify('./client', {external: shared}));
+  
   // middleware specific to this router
   app.use(function UrlLog(req, res, next) {
     logger.info(req.method + ' ' + req.originalUrl);
@@ -62,7 +79,7 @@ if (cluster.isMaster) {
 
   //web apis
   //can return redirects and html.
-  // app.use('/', require('./router/salesforce'));
+  app.use('/', require('./router/searchPage'));
 
   //app apis
   //should return data and status codes.
@@ -70,15 +87,15 @@ if (cluster.isMaster) {
 
   //app apis
   //should return data and status codes.
-  // app.use('/search', require('./router/search'));
+  app.use('/search', require('./router/search'));
 
   //app apis
   //should return data and status codes.
   // app.use('/widget', require('./router/widget'));
 
   //app apis
-  //should return data and status codes.
-  app.use('/', require('./router/index'));
+  // should return data and status codes.
+  app.use('/page', require('./router/index'));
 
   app.listen(config.port);
 }

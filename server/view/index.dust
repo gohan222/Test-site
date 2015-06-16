@@ -3,8 +3,6 @@
 
 <head>
   <title>Hello React</title>
-  <script type="text/javascript" src="https://fb.me/react-0.13.2.js"></script>
-  <script type="text/javascript" src="https://fb.me/JSXTransformer-0.13.2.js"></script>
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/consumer.css">
@@ -24,16 +22,10 @@
             <a href="/"></a>
           </div>
           <div class="searchbox">
-            <form>
+            <form id="headerFormSearch">
               <input name="searchTerm" type="text" class="blank" placeholder="Explore..." id="ui-search-text">
               <a href="" class="search-btn s-animate"></a>
             </form>
-            <ul search-bubbles="" setting="setting" class="s-pills ng-isolate-scope" search="search()">
-              <li>
-                <span style="pointer-events: auto;cursor: text;">kobe</span>
-                <a href="javascript:;;" class="x"></a>
-              </li>
-              <div class="save_star"></div>
           </div>
           <div class="site-navi">
             <div class="settings">
@@ -44,233 +36,30 @@
       </div>
     </div>
     <!--END OF HEADER-->
-    <div ng-include="contentTemplate" class="ng-scope">
-      <div class="content-wrap ng-scope">
+    <div class="">
+      <div class="content-wrap ">
         <!-- ngIf: searchStart && relatedTopics.records -->
-        <div class="blue-bar ng-scope" ng-if="searchStart &amp;&amp; relatedTopics.records ">
+        <div class="blue-bar ">
           <div id="veritone-noti" class="confirm make-alert favorite-confirm">
             <span id="veritone-noti-text"></span>
             <a href="javascript:;;" class="ring_close" onclick="app.util.hideNotification();"></a>
           </div>
           <div class="contain">
             <!-- ngIf: relatedTopics.records -->
-            <ul class="rel-search ng-scope" ng-if="relatedTopics.records">
-              <li>Related Searches:</li>
-              <!-- ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">kobe</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">bryant</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">"scoring list"</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">jordan</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">worst</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">"lisa leslie"</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">nba</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">team</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">sixers</a>
-              </li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
-              <li ng-repeat="topic in trimmedRelatedTopics()" class="ng-scope">
-                <a href="javascript:;;" ng-bind="topic" ng-click="searchRelatedTerm()" class="ng-binding">beat</a>
-              </li>
+            <ul class="rel-search ">
               <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
             </ul>
             <!-- end ngIf: relatedTopics.records -->
           </div>
         </div>
-        <!-- end ngIf: searchStart && relatedTopics.records -->
-        <div class="offleft">
-          <prog-bar style="display: none;">
-            <div class="loading-indicator" style="left: 0px;">
-              <img src="/images/loading32.gif">
-            </div>
-          </prog-bar>
-        </div>
-        <!-- ngIf: getPlatformType() == 'social' -->
-        <div ng-if="getPlatformType() == 'social'" class="ng-scope">
-          <create-collection item="to_collection" collaction="collaction" class="ng-isolate-scope">
-            <link href="css/default_curator.css" rel="stylesheet" type="text/css">
-            <div class="whitepop black_overlay hide ng-hide" ng-show="isNewCollectionOpen()" ng-class="{false: 'hide'}[isNewCollectionOpen()]" style="left: 0px;">
-              <!-- ngIf: !isLegacyModal && !editCollab -->
-              <div class="whitepop black_overlay ng-scope" id="ec" ng-if="!isLegacyModal &amp;&amp; !editCollab" style="left: 0px;">
-                <div class="pop_body ofix" style="width: 670px; height: 540px;" ng-style="isCurator(current_user) ? ({'height': '543px'}) : ({'height': '540px'})">
-                  <div class="blue_head">Collection Details &amp; Settings
-                    <a href="javascript:void(0)" class="ring_close" ng-click="closeNewCollection($event)"></a>
-                  </div>
-                  <form name="newCollectionForm" ng-submit="saveCollection()" class="ng-pristine ng-invalid ng-invalid-required">
-                    <div class="clear">
-                      <div class="splitform">
-                        <ul class="v_form">
-                          <li>
-                            <label>Collection Name</label>
-                            <div class="fields">
-                              <input name="collectionName" type="text" ng-model="new_collection.CollectionName" required="" class="ng-pristine ng-invalid ng-invalid-required">
-                            </div>
-                          </li>
-                          <li>
-                            <label>Description</label>
-                            <div class="fields">
-                              <textarea name="description" cols="" rows="" ng-model="new_collection.Description" class="ng-pristine ng-valid"></textarea>
-                            </div>
-                          </li>
-                          <li>
-                            <label>Cover Image</label>
-                            <div class="editcover" style="background:url(  ) center; background-size:cover;">
-                              <a href="javascript:void(0)" class="upload animate ng-binding" ng-click="initCoverUpload()" ng-bind="new_collection.Image ? 'Change Image': 'Upload Image'" file-upload="" mimetypes="image/*" button-text="Choose Image" target-dir="avatar" services="COMPUTER,URL">Upload Image</a>
-                            </div>
-                            <!--editcover-->
-                          </li>
-                        </ul>
-                        <!--v_form-->
-                      </div>
-                      <!--splitform-->
-
-                      <div class="splitform">
-                        <ul class="v_form">
-                          <li style="height: 120px;" ng-show="isCurator(current_user)" class="ng-hide">
-                            <label>Collection Type
-                              <i class="qmark" style="margin: 0px 0 0 5px;">?
-                      <div class="q_tip" style="height: 95px; top:-105px; z-index:10;">
-                        <b>List Collection:</b> used as a “bucket” for any of your favorite clips you’d like to save.<br>
-                        <b>Curated Collection:</b> useful for telling a story with media clips. You can also add commentary to your posts.
-                      </div>
-                    </i>
-                            </label>
-                            <div class="fields pad5">
-                              <div class="m10">
-                                <label class="radio hauto" ng-class="{'active': (new_collection.collectionTypeId == 1)}">
-                                  <input type="radio" value="1" ng-model="new_collection.collectionTypeId" class="ng-pristine ng-valid" name="0E3">
-                                  <span class="cl_tiny"></span>List</label>
-                              </div>
-                              <div class="m10">
-                                <label class="radio hauto" ng-class="{'active': (new_collection.collectionTypeId == 2)}">
-                                  <input type="radio" value="2" ng-model="new_collection.collectionTypeId" class="ng-pristine ng-valid" name="0E4">
-                                  <span class="cc_tiny"></span>Curated</label>
-                              </div>
-                            </div>
-                          </li>
-                          <li>
-                            <label class="p_settings">Settings</label>
-                            <div class="fields">
-                              <div class="inblock">
-                                <label class="cb normal" ng-class="{'active': new_collection.isPrivate}" ng-click="togglePrivacy();">
-                                  <input type="checkbox" ng-click="togglePrivacy();">Set Collection as Private</label>
-                                <i class="qmark" style="margin: 8px 0 0 0px;">?
-                      <div class="q_tip" style="height: 44px; top:-55px;">
-                        Can only be viewed by Curators, Collaborators and Members only.
-                      </div>
-                    </i>
-                              </div>
-                              <!-- inblock -->
-                              <br>
-                            </div>
-                            <div class="inblock ng-hide" ng-show="isCurator(current_user)">
-                              <label class="cb normal" ng-class="{'active': new_collection.isCommentDisabled}">
-                                <input type="checkbox" ng-model="new_collection.isCommentDisabled" class="ng-pristine ng-valid"> Disable Comments
-                              </label>
-                            </div>
-                          </li>
-
-                          <li>
-                            <label>Smart Tags
-                              <i class="qmark">?
-                    <div class="q_tip" style="height: 44px; top:-55px; z-index:10;">Automatic smart tags based on the mentions in the collections</div>
-                  </i>
-                              <!--<div class="goright inblock">
-                    <label class="radio" ng-class="{'active': (new_collection.isSmartTagsEnabled)}" ng-click="togglePrivacy();">
-                      <input type="radio">On
-                    </label>
-                    <label class="radio" ng-class="{'active': (!new_collection.isSmartTagsEnabled)}" ng-click="new_collection.isSmartTagsEnabled = false">
-                      <input type="radio" value="false">Off
-                    </label>
-                  </div>-->
-                            </label>
-                            <div class="fields">
-                              <div class="fake_ta">
-                                <!-- ngRepeat: tag in new_collection.smartTags -->
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                        <!--v_form-->
-                        <div class="fields">
-                        </div>
-                      </div>
-                      <!--splitform-->
-                    </div>
-                    <!--clear-->
-                    <div class="newpop_foot">
-                      <!-- ngIf: new_collection.Id -->
-                      <a href="javascript:void(0)" class="cancel" ng-click="closeNewCollection($event)">Cancel</a>
-                      <input type="submit" class="blue_btn small e2e-save-collection" style="margin-left:15px;" value="Save Changes" ng-disabled="collectionForm.$invalid || inProgress">
-                    </div>
-                    <!--buy_popup-->
-                  </form>
-                </div>
-              </div>
-              <!-- end ngIf: !isLegacyModal && !editCollab -->
-              <!-- ngIf: !isLegacyModel && editCollab -->
-
-              <div class="whitepop black_overlay hide ui-delete-collection-dialog" style="left: 0px;">
-                <div class="win_blue" style="z-index:1; width:380px; height: 255px;">
-                  <div class="blue_head">Delete Collection?
-                    <a href="javascript:;;" ng-click="hideDeleteCollectionModal()" class="b_close"></a>
-                  </div>
-                  <div class="clear">
-                    <div class="pop_col1 alert">
-                      Are you sure you want to permanently delete this collection? You won’t be able to undo this.
-                      <div class="btn_row">
-                        <a href="javascript:;;" class="cancel small" ng-click="hideDeleteCollectionModal()">Cancel</a>
-                        <a href="javascript:;;" class="blue_btn small e2e-confirm-delete" ng-click="deleteCollection($event);">Delete Collection</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </create-collection>
-        </div>
-        <!-- end ngIf: getPlatformType() == 'social' -->
-        <div class="contain min-height active" ng-class="{true: 'active'}[hideHomeScreen]">
-          <div class="min-height ng-scope" ng-controller="RelatedCollectionCtrl" ng-show="!showAllRelatedCollections">
-            <div class="exp-col1 ui-exp-coll min-height" ng-hide="searching || currentSearchTerm.length === 0">
+        <div class="contain min-height active">
+          <div class="min-height ">
+            <div class="exp-col1 ui-exp-coll min-height">
               <!-- ngInclude: filterTemplate -->
-              <div ng-include="filterTemplate" class="page-title bb ng-scope" ng-show="!piIndicator">
-                <div ng-show="showFilter()" dockit="" class="ng-scope">
+              <div class="page-title bb ">
+                <div dockit="" class="">
                   <!-- ngIf: hasSearchResult -->
-                  <span ng-if="hasSearchResult" class="ui-has-search-result ng-scope">
-                    <span ng-show="srCount > 0" class="">
-                      <span class="f22 mr20">Clips</span>
-                      <b ng-bind="srCount" class="ng-binding">41982</b>
-                      <span class="c95 mr20">
-                        <span> </span> Results
-                      </span>
-                    </span>
-                    <span class="f22 mr20 ng-hide" ng-show="srCount === 0"> No results for "
-                      <span ng-bind="currentSearchTerm" class="ng-binding">lakers</span> "</span>
+                  <span class="ui-has-search-result ">
                   </span>
                   <!-- end ngIf: hasSearchResult -->
                   <span filter-display="" class="ui-has-search-result">
@@ -278,8 +67,6 @@
                       <li class="ui-filter-label" style="display: none;">Filters</li>
                       <li class="ui-prg-filter" style="display: none;">
                         <div class="pill ng-binding">
-                          0
-                          <ng-pluralize count="numOfSelectedProg()" when="{'1': 'Program', 'other': 'Programs'}">Programs</ng-pluralize>
                           <a href="javascript:void(0)" class="ui-rem-prog hover e2e-pill-program"></a>
                         </div>
                       </li>
@@ -297,8 +84,6 @@
                       </li>
                       <li class="ui-media-filter" style="display: none;">
                         <div class="pill ng-binding">
-                          0 Media
-                          <ng-pluralize count="selectedMediaTypeCount()" when="{'1': 'Type', 'other': 'Types'}">Types</ng-pluralize>
                           <a href="javascript:void(0)" class="ui-rem-media hover e2e-pill-media"></a>
                         </div>
                       </li>
@@ -306,21 +91,21 @@
                   </span>
 
                   <!-- ngIf: hasSearchResult -->
-                  <div class="adv-holder ng-scope" ng-if="hasSearchResult">
-                    <a href="javascript:;;" class="adv-search animate ui-explore-filter" ng-click="toggleFilterResult()" ng-class="filterStatusFlag" lo-toggle-class="" data-cl-name="">
+                  <div class="adv-holder ">
+                    <a href="javascript:;;" class="adv-search animate ui-explore-filter">
       Advanced Search
     </a>
-                    <div class="adv-dropdown sh-ani  hide" ng-class="{'hide' : isFilterActive() != 'active'}" style="min-height:600px;">
+                    <div class="adv-dropdown sh-ani  hide">
                       <div class="filter-ftr">
-                        <a href="javascript:;;" class="reset ui-clear-filter" ng-click="removeAllFilters()">Reset</a>
-                        <a href="javascript:;;" class="primary ml20  s-animate small wide e2e-apply-button" ng-click="applyFilteredSearch()">Apply</a>
+                        <a href="javascript:;;" class="reset ui-clear-filter">Reset</a>
+                        <a href="javascript:;;" class="primary ml20  s-animate small wide e2e-apply-button">Apply</a>
                       </div>
                     </div>
 
                   </div>
                   <!-- end ngIf: hasSearchResult -->
                 </div>
-                <span class="ng-scope">
+                <span class="">
                   <b class="hide ui-collection-result-title"></b>
                 </span>
 
@@ -328,16 +113,11 @@
               </div>
               <!-- ngIf: list.length > 0 -->
               <!-- ngInclude: mentionListTpl -->
-              <div ng-include="mentionListTpl" ng-if="list.length > 0" class="ng-scope">
-                <div class="ng-scope">
+              <div class="">
+                <div class="">
                   <div class="offleft">
-                    <prog-bar style="display: none;">
-                      <div class="loading-indicator" style="left: 0px;">
-                        <img src="/images/loading32.gif">
-                      </div>
-                    </prog-bar>
                   </div>
-                  <div ng-class="{false: 'unmask', true: 'mask'}[showPopItem()]" class="unmask">
+                  <div class="unmask">
                     <!-- ngIf: showPopItem() -->
                     <ul id="searchResult" class="results">
                     </ul>
@@ -345,119 +125,22 @@
                 </div>
 
               </div>
-              <!-- end ngIf: list.length > 0 -->
-              <!-- ngIf: !setting.isMasked -->
-              <!-- end ngIf: !setting.isMasked -->
             </div>
-            <!--BUG FIX:  INLINE elements will respect whitespaces so we need to enclose div new lines in html comment tags-->
-            <!--
-      -->
-            <!-- ngIf: searchStart -->
-            <!-- ngInclude: '/js/angular/views/explore/partials/rightbar_collection.html' -->
-            <div class="exp-col2 ng-scope" id="ui-collection-search" ng-include="'/js/angular/views/explore/partials/rightbar_collection.html'" ng-if="searchStart" ng-hide="searching">
-              <div class="cntr_cr ng-scope">
-                <!-- ngIf: noRelatedCollection -->
-              </div>
-              <!-- ngIf: relatedCollections.totalCount > 0 -->
-              <div ng-if="relatedCollections.totalCount > 0" class="ng-scope">
-                <div class="page-title bb ">
-                  <a href="javascript:;;" ng-click="openAllRelatedCollections()" class="goright f13 ng-hide" style="padding-top:10px;" ng-show="false">View All Related Collections</a>
-                  <span class="f22 mr20">Collections</span>
-
-                </div>
-                <!-- ngRepeat: collection in relatedCollections.records.slice(0,3) -->
-                <div class="coll-prv ng-scope" ng-repeat="collection in relatedCollections.records.slice(0,3)">
-
-                  <a ng-href="#/explore/collectiondetail/385" href="#/explore/collectiondetail/385">
-                    <div class="coll-cover" back-img="http://a.espncdn.com/i/espnradio/stations/la/podcasts/max_marcellus_300.jpg" style="background-image: url(http://a.espncdn.com/i/espnradio/stations/la/podcasts/max_marcellus_300.jpg); background-size: cover;">
-                    </div>
-                  </a>
-                  <div class="p15">
-                    <div class="f16 m5 bold">
-                      <a ng-href="#/explore/collectiondetail/385" ng-bind="collection.collectionName" class="ng-binding" href="#/explore/collectiondetail/385">Lakers KSPN</a>
-                    </div>
-                    <a ng-href="#/explore/collectiondetail/385" href="#/explore/collectiondetail/385">
-                      <p ng-bind="collection.collectionDescription" class="ng-binding">Lakers content on KSPN</p>
-
-                    </a>
-                    <a ng-href="#/explore/collectiondetail/385" href="#/explore/collectiondetail/385">
-                      <div class="cr_info">
-                        <div class="avtr-60px" back-img="https://s3.amazonaws.com/prod-veritone-ugc/48a22664-3285-41bf-97d4-39c03b78f70f%2Favatar%2FyNt3YvFXRvuM6Z4Pq18Y_10523333_10153021180709741_5185963864419946761_o.jpg" data-alt-img="/images/no_avatar.png" style="background-image: url(https://s3.amazonaws.com/prod-veritone-ugc/48a22664-3285-41bf-97d4-39c03b78f70f%2Favatar%2FyNt3YvFXRvuM6Z4Pq18Y_10523333_10153021180709741_5185963864419946761_o.jpg); background-size: cover;"></div>
-                        <div class="avtr-title">
-                          <span class="f12 c666">Curated by</span>
-                          <br>
-                          <span ng-bind="collectionOwnerName(collection.createdByUserId, collection.usersPaged.records)" class="f16 bold ng-binding">sean mccormack</span>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-
-                </div>
-                <!-- end ngRepeat: collection in relatedCollections.records.slice(0,3) -->
-                <div class="coll-prv ng-scope" ng-repeat="collection in relatedCollections.records.slice(0,3)">
-
-                  <a ng-href="#/explore/collectiondetail/130" href="#/explore/collectiondetail/130">
-                    <div class="coll-cover" back-img="https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FOfppjjKkSYGsd6P9WuU3_2778_Laker_Legends_IMPA318.jpg" style="background-image: url(https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FOfppjjKkSYGsd6P9WuU3_2778_Laker_Legends_IMPA318.jpg); background-size: cover;">
-                    </div>
-                  </a>
-                  <div class="p15">
-                    <div class="f16 m5 bold">
-                      <a ng-href="#/explore/collectiondetail/130" ng-bind="collection.collectionName" class="ng-binding" href="#/explore/collectiondetail/130">Lakers Nation</a>
-                    </div>
-                    <a ng-href="#/explore/collectiondetail/130" href="#/explore/collectiondetail/130">
-                      <p ng-bind="collection.collectionDescription" class="ng-binding">This is dedicated to all Lakers fans!</p>
-
-                    </a>
-                    <a ng-href="#/explore/collectiondetail/130" href="#/explore/collectiondetail/130">
-                      <div class="cr_info">
-                        <div class="avtr-60px" back-img="https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg" data-alt-img="/images/no_avatar.png" style="background-image: url(https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg); background-size: cover;"></div>
-                        <div class="avtr-title">
-                          <span class="f12 c666">Curated by</span>
-                          <br>
-                          <span ng-bind="collectionOwnerName(collection.createdByUserId, collection.usersPaged.records)" class="f16 bold ng-binding">Tuan Nguyen</span>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-
-                </div>
-                <!-- end ngRepeat: collection in relatedCollections.records.slice(0,3) -->
-                <div class="coll-prv ng-scope" ng-repeat="collection in relatedCollections.records.slice(0,3)">
-
-                  <a ng-href="#/explore/collectiondetail/274" href="#/explore/collectiondetail/274">
-                    <div class="coll-cover" back-img="https://s3.amazonaws.com/prod-veritone-ugc/ae980f4a-08c7-47c2-85be-5b07fc3e690f%2Favatar%2FvJacoLoeQReONEjbHmfd_los-angeles-lakers-elite-daily-800x400.png" style="background-image: url(https://s3.amazonaws.com/prod-veritone-ugc/ae980f4a-08c7-47c2-85be-5b07fc3e690f%2Favatar%2FvJacoLoeQReONEjbHmfd_los-angeles-lakers-elite-daily-800x400.png); background-size: cover;">
-                    </div>
-                  </a>
-                  <div class="p15">
-                    <div class="f16 m5 bold">
-                      <a ng-href="#/explore/collectiondetail/274" ng-bind="collection.collectionName" class="ng-binding" href="#/explore/collectiondetail/274">Lakers</a>
-                    </div>
-                    <a ng-href="#/explore/collectiondetail/274" href="#/explore/collectiondetail/274">
-                      <p ng-bind="collection.collectionDescription" class="ng-binding"></p>
-
-                    </a>
-                    <a ng-href="#/explore/collectiondetail/274" href="#/explore/collectiondetail/274">
-                      <div class="cr_info">
-                        <div class="avtr-60px" back-img="https://s3.amazonaws.com/prod-veritone-ugc/ae980f4a-08c7-47c2-85be-5b07fc3e690f%2Favatar%2FOke1DTJISPu47ZgVWreu_266697609153431142RX23OWjsc.jpg" data-alt-img="/images/no_avatar.png" style="background-image: url(https://s3.amazonaws.com/prod-veritone-ugc/ae980f4a-08c7-47c2-85be-5b07fc3e690f%2Favatar%2FOke1DTJISPu47ZgVWreu_266697609153431142RX23OWjsc.jpg); background-size: cover;"></div>
-                        <div class="avtr-title">
-                          <span class="f12 c666">Curated by</span>
-                          <br>
-                          <span ng-bind="collectionOwnerName(collection.createdByUserId, collection.usersPaged.records)" class="f16 bold ng-binding">Minh Le</span>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-
-                </div>
-                <!-- end ngRepeat: collection in relatedCollections.records.slice(0,3) -->
-                <a href="javascript:;;" class="create-col animate" ng-click="openNewCollection('create', null, null)">+  Create a collection</a>
-              </div>
-              <!-- end ngIf: relatedCollections.totalCount > 0 -->
+            <div class="exp-col2 " id="ui-collection-search">
+              
             </div>
             <!-- end ngIf: searchStart -->
           </div>
-          <script src="bower_components/jquery/dist/jquery.js"></script>
-          <script type="text/jsx" src="js/search.js"></script>
+          <!--
+          <script type="text/javascript" src="js/constant/appConstant.js"></script>
+          <script type="text/javascript" src="js/constant/appConstant.js"></script>
+          <script type="text/javascript" src="js/action/appAction.js"></script>
+          <script type="text/javascript" src="js/store/appStore.js"></script>
+          <script type="text/javascript" src="js/dispatcher/appDispatcher.js"></script>
+          -->
+          <!--<script type="text/javascript" src="js/react/react.min.js"></script>
+          <script src="bower_components/jquery/dist/jquery.js"></script>-->
+          <script type="text/javascript" src="js/searchPageView.js"></script>
 </body>
 
 </html>

@@ -31,7 +31,6 @@ router.get('/', function(req, res) {
         'Item 0',
         'Item 1',
         'Item </script>',
-        'Item <!--inject!-->',
       ]
     };
 
@@ -61,7 +60,7 @@ router.get('/', function(req, res) {
       // Then the browser will fetch and run the browserified bundle consisting
       // of browser.js and all its dependencies.
       // We serve this from the endpoint a few lines down.
-      script({src: '/bundle.js'})
+      script({src: 'page/bundle.js'})
     ));
 
     // Return the page to the browser
@@ -79,7 +78,7 @@ router.get('/bundle.js', function(req, res) {
     // so that it uses the global variable (from the CDN JS file) instead of
     // bundling it up with everything else
     browserify()
-      .add('server/templates/browser.js')
+      .add('client/js/index.js')
       .transform(literalify.configure({react: 'window.React'}))
       .bundle()
       .pipe(res);
