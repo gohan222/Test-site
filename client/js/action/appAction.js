@@ -11,6 +11,7 @@
 
 var AppDispatcher = require('../dispatcher/appDispatcher');
 var AppConstant = require('../constant/appConstant');
+var AppService = require('../service/search');
 
 var appAction = {
 
@@ -80,9 +81,12 @@ var appAction = {
     });
   },
 
-  searchInit:function(keyword){
-    AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_SEARCH_INIT
+  searchInit:function(searchTerms){
+    AppService.getSearch(searchTerms,function(data){
+      AppDispatcher.dispatch({
+      actionType: AppConstant.ACTION_SEARCH_INIT,
+      searchResults:data
+    });
     });
   }
 

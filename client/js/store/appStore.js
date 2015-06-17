@@ -17,6 +17,7 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 
 var _todos = {};
+var searchResults = [];
 
 /**
  * Create a TODO item.
@@ -75,6 +76,10 @@ function destroyCompleted() {
   }
 }
 
+function updateSearchResults(results){
+  searchResults = results;
+}
+
 var TodoStore = assign({}, EventEmitter.prototype, {
 
   /**
@@ -114,7 +119,13 @@ var TodoStore = assign({}, EventEmitter.prototype, {
    */
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
+  },
+
+  getSearchResults: function(){
+    return searchResults;
   }
+
+
 });
 
 // Register callback to handle all updates
@@ -122,7 +133,7 @@ AppDispatcher.register(function(action) {
   var text;
 
   switch(action.actionType) {
-    case TodoConstants.TODO_CREATE:
+    case TodoConstants.ACTION_CREATE:
       text = action.text.trim();
       if (text !== '') {
         create(text);
@@ -130,7 +141,7 @@ AppDispatcher.register(function(action) {
       }
       break;
 
-    case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
+    case TodoConstants.ACTION_TOGGLE_COMPLETE_ALL:
       if (TodoStore.areAllComplete()) {
         updateAll({complete: false});
       } else {
@@ -139,17 +150,17 @@ AppDispatcher.register(function(action) {
       TodoStore.emitChange();
       break;
 
-    case TodoConstants.TODO_UNDO_COMPLETE:
+    case TodoConstants.ACTION_UNDO_COMPLETE:
       update(action.id, {complete: false});
       TodoStore.emitChange();
       break;
 
-    case TodoConstants.TODO_COMPLETE:
+    case TodoConstants.ACTION_COMPLETE:
       update(action.id, {complete: true});
       TodoStore.emitChange();
       break;
 
-    case TodoConstants.TODO_UPDATE_TEXT:
+    case TodoConstants.ACTION_UPDATE_TEXT:
       text = action.text.trim();
       if (text !== '') {
         update(action.id, {text: text});
@@ -157,13 +168,18 @@ AppDispatcher.register(function(action) {
       }
       break;
 
-    case TodoConstants.TODO_DESTROY:
+    case TodoConstants.ACTION_DESTROY:
       destroy(action.id);
       TodoStore.emitChange();
       break;
 
-    case TodoConstants.TODO_DESTROY_COMPLETED:
+    case TodoConstants.ACTION_DESTROY_COMPLETED:
       destroyCompleted();
+      TodoStore.emitChange();
+      break;
+
+    case TodoConstants.ACTION_SEARCH_INIT:
+      updateSearchResults(action.searchResults)
       TodoStore.emitChange();
       break;
 

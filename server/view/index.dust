@@ -21,11 +21,9 @@
           <div class="logo">
             <a href="/"></a>
           </div>
-          <div class="searchbox">
-            <form id="headerFormSearch">
-              <input name="searchTerm" type="text" class="blank" placeholder="Explore..." id="ui-search-text">
-              <a href="" class="search-btn s-animate"></a>
-            </form>
+          <div id="headerFormSearch" class="searchbox">
+            <input name="searchTerm" type="text" class="blank" placeholder="Explore..." id="ui-search-text">
+            <a href="" class="search-btn s-animate"></a>
           </div>
           <div class="site-navi">
             <div class="settings">

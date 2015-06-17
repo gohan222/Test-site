@@ -42,15 +42,7 @@ if (cluster.isMaster) {
   var express = require('express'),
   cons = require('consolidate'),
   bodyParser = require('body-parser'),
-  app = express(),
-  shared = ['flux',
-            'react',
-            'jquery',
-            './client/js/constant/appConstant.js',
-            './client/js/action/appAction.js', 
-            './client/js/dispatcher/appDispatcher.js',
-            './client/js/store/appStore.js'
-            ];
+  app = express();
 
   // assign the dust engine to .dust files
   app.use(compress());
@@ -62,24 +54,11 @@ if (cluster.isMaster) {
 
   //apply static location
   app.use(express.static('client'));
-  // app.use('/css',express.static('client/css', staticOptions));
-  // app.use('/image',express.static('client/image', staticOptions));
-  /*app.get('/js/searchPageView.js', browserify('./client/js/component/search.js'
-  ,{
-    cache: true,
-    precompile: true
-  }));
-  app.get('/js/searchPageHeader.js', browserify('./client/js/component/header.js'
-  ,{
-    cache: true,
-    precompile: true
-  }));*/
   app.get('/js/searchPageView.js', browserify('./client/js/view/searchPage.js'
   ,{
     cache: true,
     precompile: true
   }));
-  // app.use('/js', browserify('./client', {external: shared}));
   
   // middleware specific to this router
   app.use(function UrlLog(req, res, next) {

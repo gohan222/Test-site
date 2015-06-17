@@ -2,6 +2,7 @@
 
 var AppConstant = require('../constant/appConstant'),
 $ = require('jquery'),
+AppStore = require('../store/appStore'),
 React = require('react');
 
 var Mention = React.createClass({
@@ -35,8 +36,15 @@ module.exports = React.createClass({
       }.bind(this)
     });
   },
+  onChange: function() {
+    this.setState({data: AppStore.getSearchResults()});
+  },
   componentDidMount: function() {
-    this.loadCommentsFromServer();
+    this.setState({data: AppStore.getSearchResults()});
+    AppStore.addChangeListener(this.onChange);
+  },
+  componentWillUnmount: function() {
+    AppStore.removeChangeListener(this.onChange);
   },
   getInitialState: function() {
     return {data: []};

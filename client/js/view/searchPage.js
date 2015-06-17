@@ -9,7 +9,6 @@ React.render(
 );
 
 React.render(
-  React.createElement(SearchBody, {url: "http://localhost:9090/search?confidence=12&includeSnippet=true&limit=25&offset=0&q=lakers"}),
-  // React.createElement(MentionBox),
+  React.createElement(SearchBody),
   document.getElementById('searchResult')
 );
