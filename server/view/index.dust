@@ -140,7 +140,11 @@
           -->
           <!--<script type="text/javascript" src="js/react/react.min.js"></script>
           <script src="bower_components/jquery/dist/jquery.js"></script>-->
+          <!--<script type="text/javascript" src="js/core.js"></script>
+          <script type="text/javascript" src="js/component/search.js"></script>
+          <script type="text/javascript" src="js/component/header.js"></script>-->
           <script type="text/javascript" src="js/searchPageView.js"></script>
+          <!--<script type="text/javascript" src="js/searchPageHeader.js"></script>-->
 </body>
 
 </html>

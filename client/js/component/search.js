@@ -22,7 +22,7 @@ var MentionList = React.createClass({
   }
 });
 
-var MentionBox = React.createClass({
+module.exports = React.createClass({
   loadCommentsFromServer: function() {
     $.ajax({
       url: this.props.url,
@@ -45,9 +45,3 @@ var MentionBox = React.createClass({
     return React.createElement(MentionList, {data:this.state.data});
   }
 });
-
-React.render(
-  React.createElement(MentionBox, {url: "http://localhost:9090/search?confidence=12&includeSnippet=true&limit=25&offset=0&q=lakers"}),
-  // React.createElement(MentionBox),
-  document.getElementById('searchResult')
-);

@@ -4,7 +4,7 @@ var AppConstant = require('../constant/appConstant'),
 $ = require('jquery'),
 React = require('react');
 
-var MentionBox = React.createClass({
+module.exports = React.createClass({
   /*loadCommentsFromServer: function() {
     $.ajax({
       url: this.props.url,
@@ -27,11 +27,7 @@ var MentionBox = React.createClass({
     return {data: []};
   },
   render: function() {
-    return React.DOM.input({id: 'ui-search-text',name: 'mentionList', type:'text', className:'blank', placeHolder:'Explore...', onKeyPress: this.keyEvent});
+    var child = React.DOM.a({className:'search-btn s-animate'});
+    return React.DOM.input({id: 'ui-search-text',name: 'mentionList', type:'text', className:'blank', placeholder:'Explore...', onKeyPress: this.keyEvent}, child);
   }
 });
-
-React.render(
-  React.createElement(HeaderSearchBox),
-  document.getElementById('headerFormSearch')
-);

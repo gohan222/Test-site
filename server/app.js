@@ -64,12 +64,22 @@ if (cluster.isMaster) {
   app.use(express.static('client'));
   // app.use('/css',express.static('client/css', staticOptions));
   // app.use('/image',express.static('client/image', staticOptions));
-  app.get('/js/searchPageView.js', browserify('./client/js/component/search.js'
+  /*app.get('/js/searchPageView.js', browserify('./client/js/component/search.js'
   ,{
     cache: true,
     precompile: true
   }));
-  app.use('/js', browserify('./client', {external: shared}));
+  app.get('/js/searchPageHeader.js', browserify('./client/js/component/header.js'
+  ,{
+    cache: true,
+    precompile: true
+  }));*/
+  app.get('/js/searchPageView.js', browserify('./client/js/view/searchPage.js'
+  ,{
+    cache: true,
+    precompile: true
+  }));
+  // app.use('/js', browserify('./client', {external: shared}));
   
   // middleware specific to this router
   app.use(function UrlLog(req, res, next) {
