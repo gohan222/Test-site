@@ -115,10 +115,7 @@
                 <div class="">
                   <div class="offleft">
                   </div>
-                  <div class="unmask">
-                    <!-- ngIf: showPopItem() -->
-                    <ul id="searchResult" class="results">
-                    </ul>
+                  <div id="searchResult" class="unmask">
                   </div>
                 </div>
 
