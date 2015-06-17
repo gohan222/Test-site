@@ -3,7 +3,8 @@
 var AppConstant = require('../constant/appConstant'),
 $ = require('jquery'),
 AppStore = require('../store/appStore'),
-React = require('react');
+// React = require('react'),
+React = require('react/addons');
 
 var Mention = React.createClass({
   getSnippetText: function(snippets){
@@ -36,7 +37,7 @@ var Mention = React.createClass({
 
     var holder = React.DOM.div({className: 'ui-au-holder'},backgroundImage, programNameContainer, mentionSnippet);
     var container = React.DOM.li({className:'ui-search-item'}, holder);
-
+  
     return container;
   }
 });
@@ -46,7 +47,11 @@ var MentionList = React.createClass({
     var mentionNodes = this.props.data.map(function (mention) {
       return React.createElement(Mention, {data:mention});
     });
-    return React.DOM.ul({className: 'results'}, mentionNodes);
+
+    var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+    var animationElement = React.createElement(ReactCSSTransitionGroup,{transitionName: 'ui-search-item', transitionAppear:true},mentionNodes);
+    console.log(animationElement);
+    return React.DOM.ul({className: 'results'}, animationElement);
   }
 });
 

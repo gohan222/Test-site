@@ -500,3 +500,31 @@ body.modal-open {overflow: hidden;}
 .results li.active .xtras_btn.collect {display: inline-block;}
 .mw { max-width: 1920px; margin: 0 auto; }
 .home-header .logged-in .logged_dd {left:-12px;}
+
+
+.ui-search-item-appear {
+  opacity: 0.01;
+  transition: opacity .3s ease-in;
+}
+
+.ui-search-item-appear.ui-search-item-appear-active {
+  opacity: 1;
+}
+
+.ui-search-item-enter {
+  opacity: 0.01;
+  transition: opacity .3s ease-in;
+}
+
+.ui-search-item-enter.ui-search-item-enter-active {
+  opacity: 1;
+}
+
+.ui-search-item-leave {
+  opacity: 1;
+  transition: opacity .3s ease-in;
+}
+
+.ui-search-item-leave.ui-search-item-leave-active {
+  opacity: 0.01;
+}
