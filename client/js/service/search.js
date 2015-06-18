@@ -9,6 +9,13 @@ module.exports = {
 				callback.apply(this,[data]);
 			}
 		});
+	},
+	getRelatedTopics : function(searchTerms, callback){
+		$.get('search/relatedTopics?q=' + searchTerms,function(data, status){
+			if(callback){
+				callback.apply(this,[data]);
+			}
+		});
 	}
 }
 

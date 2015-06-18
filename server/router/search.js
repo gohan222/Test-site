@@ -20,5 +20,19 @@ router.get('/', function(req, res) {
   }, res);
 });
 
+router.get('/relatedTopics', function(req, res) {
+
+  var options = {
+    searchTerm: urlParser.parse(req.url).query
+  };
+
+  service.getRelatedTopics(options, function(err, result, response) {
+    if (response) {
+      res.setHeader('Content-Type', 'application/json');
+      response.send(result);
+    }
+  }, res);
+});
+
 
 module.exports = router;

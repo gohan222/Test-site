@@ -97,6 +97,15 @@ var appAction = {
       actionType: AppConstant.ACTION_SEARCH_TERM_CHANGE,
       searchTerms:searchTerms
     });
+  },
+
+  getRelatedTopics:function(searchTerms){
+    AppService.getRelatedTopics(searchTerms,function(data){
+      AppDispatcher.dispatch({
+      actionType: AppConstant.ACTION_SEARCH_RELATED_TOPIC,
+      relatedTopics:data
+    });
+    });
   }
 
 };

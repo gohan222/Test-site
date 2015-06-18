@@ -57,8 +57,7 @@ if (cluster.isMaster) {
   app.get('/js/searchPageView.js', browserify('./client/js/view/searchPage.js'
   ,{
     cache: true,
-    precompile: true,
-    minify:true
+    precompile: true
   }));
   
   // middleware specific to this router
@@ -73,15 +72,7 @@ if (cluster.isMaster) {
 
   //app apis
   //should return data and status codes.
-  // app.use('/mention', require('./router/mention'));
-
-  //app apis
-  //should return data and status codes.
   app.use('/search', require('./router/search'));
-
-  //app apis
-  //should return data and status codes.
-  // app.use('/widget', require('./router/widget'));
 
   //app apis
   // should return data and status codes.

@@ -18,9 +18,12 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 var CHANGE_SEARCH_TERM_EVENT = 'change_keyword';
+var CHANGE_RELATED_TOPICS_EVENT = 'change_realted_topics';
 
 var _todos = {};
 var searchResults = [];
+var relatedTopics = [];
+var searchTerms = '';
 
 /**
  * Create a TODO item.
@@ -83,6 +86,14 @@ function updateSearchResults(results){
   searchResults = results;
 }
 
+function updateRelatedTopics(results){
+  relatedTopics = results;
+}
+
+function updateSearchTerms(results){
+  searchTerms = results;
+}
+
 var TodoStore = assign({}, EventEmitter.prototype, {
 
   /**
@@ -114,6 +125,10 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     this.emit(CHANGE_SEARCH_TERM_EVENT);
   },
 
+  emitChangeRelatedTopics: function() {
+    this.emit(CHANGE_RELATED_TOPICS_EVENT);
+  },
+
   /**
    * @param {function} callback
    */
@@ -125,6 +140,10 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     this.on(CHANGE_SEARCH_TERM_EVENT, callback);
   },
 
+  addChangeRelatedTopicsListener: function(callback) {
+    this.on(CHANGE_RELATED_TOPICS_EVENT, callback);
+  },
+
   /**
    * @param {function} callback
    */
@@ -134,12 +153,20 @@ var TodoStore = assign({}, EventEmitter.prototype, {
 
   removeChangeSearchTermListener: function(callback) {
     this.removeListener(CHANGE_SEARCH_TERM_EVENT, callback);
+  },
+
+  removeChangeRelatedTopicsListener: function(callback) {
+    this.removeListener(CHANGE_SEARCH_TERM_EVENT, callback);
   },  
 
   getSearchResults: function(){
     return searchResults.records;
   },
   
+  getSearchTerms: function(){
+    return searchTerms;
+  },
+
   getSearchResultsCount: function(){
     if (searchResults){
       return searchResults.totalRecords;
@@ -148,7 +175,13 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     }
   },
   
-
+  getRelatedTopics: function(){
+    if(!relatedTopics){
+      return [];
+    }
+    
+    return relatedTopics.records;
+  },
 
 });
 
@@ -208,9 +241,14 @@ AppDispatcher.register(function(action) {
       break;
 
     case TodoConstants.ACTION_SEARCH_TERM_CHANGE:
+      updateSearchTerms(action.searchTerms)
       TodoStore.emitChangeSearchTerm();
       break;
-
+    case TodoConstants.ACTION_SEARCH_RELATED_TOPIC:
+      updateRelatedTopics(action.relatedTopics);
+      TodoStore.emitChangeRelatedTopics();
+      break;
+      
     default:
       // no op
   }

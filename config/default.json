@@ -7,5 +7,6 @@
   "sfOAuthUrl": "https://login.salesforce.com/services/oauth2/authorize",
   "appNamespace":"Veritone",
   "tokenHeader":"x-veritone-connect-token",
-  "searchUrl":"https://core.veritone.com/search"
+  "searchUrl":"https://core.veritone.com/search",
+  "collectionUrl":"http://services.dev-puma.veritone.com/cn-collection-mgmt"
 }

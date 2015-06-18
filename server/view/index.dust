@@ -42,9 +42,10 @@
             <span id="veritone-noti-text"></span>
             <a href="javascript:;;" class="ring_close" onclick="app.util.hideNotification();"></a>
           </div>
-          <div class="contain">
+          <div id="relatedSearches" class="contain">
             <!-- ngIf: relatedTopics.records -->
-            <ul class="rel-search ">
+            <ul class="rel-search">
+              <li>Related Searches:</li>
               <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
             </ul>
             <!-- end ngIf: relatedTopics.records -->
@@ -99,20 +100,8 @@
             </div>
             <!-- end ngIf: searchStart -->
           </div>
-          <!--
-          <script type="text/javascript" src="js/constant/appConstant.js"></script>
-          <script type="text/javascript" src="js/constant/appConstant.js"></script>
-          <script type="text/javascript" src="js/action/appAction.js"></script>
-          <script type="text/javascript" src="js/store/appStore.js"></script>
-          <script type="text/javascript" src="js/dispatcher/appDispatcher.js"></script>
-          -->
-          <!--<script type="text/javascript" src="js/react/react.min.js"></script>
-          <script src="bower_components/jquery/dist/jquery.js"></script>-->
-          <!--<script type="text/javascript" src="js/core.js"></script>
-          <script type="text/javascript" src="js/component/search.js"></script>
-          <script type="text/javascript" src="js/component/header.js"></script>-->
           <script type="text/javascript" src="js/searchPageView.js"></script>
-          <!--<script type="text/javascript" src="js/searchPageHeader.js"></script>-->
+          
 </body>
 
 </html>
