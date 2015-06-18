@@ -88,6 +88,13 @@ var appAction = {
       searchResults:data
     });
     });
+  },
+
+  changeSearchTerm:function(searchTerms){
+    AppDispatcher.dispatch({
+      actionType: AppConstant.ACTION_SEARCH_TERM_CHANGE,
+      searchTerms:searchTerms
+    });
   }
 
 };

@@ -58,6 +58,13 @@
                 <div dockit="" class="">
                   <!-- ngIf: hasSearchResult -->
                   <span class="ui-has-search-result ">
+                    <span ng-show="srCount > 0" class="">
+                      <span class="f22 mr20">Clips</span>
+                      <b ng-bind="srCount" class="ng-binding">58140</b>
+                      <span class="c95 mr20">
+                        <span> </span> Results
+                      </span>
+                    </span>
                   </span>
                   <!-- end ngIf: hasSearchResult -->
                   <span filter-display="" class="ui-has-search-result">
@@ -122,7 +129,11 @@
               </div>
             </div>
             <div class="exp-col2 " id="ui-collection-search">
-              
+              <div class="page-title bb ">
+                <a href="javascript:;;" ng-click="openAllRelatedCollections()" class="goright f13" style="padding-top:10px;" ng-show="true">View All Related Collections</a>
+                <span class="f22 mr20">Collections</span>
+
+              </div>
             </div>
             <!-- end ngIf: searchStart -->
           </div>

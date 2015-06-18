@@ -15,6 +15,7 @@ var TodoConstants = require('../constant/appConstant');
 var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
+var CHANGE_SEARCH_TERM_EVENT = 'change_keyword';
 
 var _todos = {};
 var searchResults = [];
@@ -107,11 +108,19 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     this.emit(CHANGE_EVENT);
   },
 
+  emitChangeSearchTerm: function() {
+    this.emit(CHANGE_SEARCH_TERM_EVENT);
+  },
+
   /**
    * @param {function} callback
    */
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
+  },
+
+  addChangeSearchTermListener: function(callback) {
+    this.on(CHANGE_SEARCH_TERM_EVENT, callback);
   },
 
   /**
@@ -121,8 +130,16 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
+  removeChangeSearchTermListener: function(callback) {
+    this.removeListener(CHANGE_SEARCH_TERM_EVENT, callback);
+  },  
+
   getSearchResults: function(){
-    return searchResults;
+    return searchResults.records;
+  },
+
+  getSearchResultsCount: function(){
+    return searchResults.records;
   }
 
 
@@ -181,6 +198,10 @@ AppDispatcher.register(function(action) {
     case TodoConstants.ACTION_SEARCH_INIT:
       updateSearchResults(action.searchResults)
       TodoStore.emitChange();
+      break;
+
+    case TodoConstants.ACTION_SEARCH_TERM_CHANGE:
+      TodoStore.emitChangeSearchTerm();
       break;
 
     default:

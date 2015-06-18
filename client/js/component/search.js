@@ -44,12 +44,15 @@ var Mention = React.createClass({
 
 var MentionList = React.createClass({
   render: function() {
+    if(!this.props.data){
+      return React.DOM.ul({className: 'results'}, null);
+    }
+
     var mentionNodes = this.props.data.map(function (mention) {
       return React.createElement(Mention, {data:mention});
     });
 
-    var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-    var animationElement = React.createElement(ReactCSSTransitionGroup,{transitionName: 'ui-search-item', transitionAppear:true},mentionNodes);
+    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'ui-search-item', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
     console.log(animationElement);
     return React.DOM.ul({className: 'results'}, animationElement);
   }
@@ -57,14 +60,20 @@ var MentionList = React.createClass({
 
 module.exports = React.createClass({
   onChange: function() {
+    //first we remove the data before adding new list to animate the draw.
     this.setState({data: AppStore.getSearchResults()});
+  },
+  onSearchTermChange: function(){
+    this.setState({data: []});
   },
   componentDidMount: function() {
     this.setState({data: AppStore.getSearchResults()});
     AppStore.addChangeListener(this.onChange);
+    AppStore.addChangeSearchTermListener(this.onSearchTermChange);
   },
   componentWillUnmount: function() {
     AppStore.removeChangeListener(this.onChange);
+    AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
   },
   getInitialState: function() {
     return {data: []};

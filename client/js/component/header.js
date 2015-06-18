@@ -18,6 +18,7 @@ module.exports = React.createClass({
     //fire off search when enter is pressed
     if(charCode === 13){
       console.log(this.state.searchTerms);
+      AppAction.changeSearchTerm(this.state.searchTerms);
       AppAction.searchInit(this.state.searchTerms);
     }
   },
