@@ -9,6 +9,8 @@
  * appAction
  */
 
+ 'use strict';
+
 var AppDispatcher = require('../dispatcher/appDispatcher');
 var AppConstant = require('../constant/appConstant');
 var AppService = require('../service/search');

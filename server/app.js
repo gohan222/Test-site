@@ -57,7 +57,8 @@ if (cluster.isMaster) {
   app.get('/js/searchPageView.js', browserify('./client/js/view/searchPage.js'
   ,{
     cache: true,
-    precompile: true
+    precompile: true,
+    minify:true
   }));
   
   // middleware specific to this router

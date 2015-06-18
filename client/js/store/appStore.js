@@ -9,6 +9,8 @@
  * TodoStore
  */
 
+ 'use strict';
+
 var AppDispatcher = require('../dispatcher/appDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constant/appConstant');
@@ -137,10 +139,15 @@ var TodoStore = assign({}, EventEmitter.prototype, {
   getSearchResults: function(){
     return searchResults.records;
   },
-
+  
   getSearchResultsCount: function(){
-    return searchResults.records;
-  }
+    if (searchResults){
+      return searchResults.totalRecords;
+    }else{
+      return 0;
+    }
+  },
+  
 
 
 });
@@ -196,7 +203,7 @@ AppDispatcher.register(function(action) {
       break;
 
     case TodoConstants.ACTION_SEARCH_INIT:
-      updateSearchResults(action.searchResults)
+      updateSearchResults(action.searchResults);
       TodoStore.emitChange();
       break;
 

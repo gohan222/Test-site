@@ -71,13 +71,13 @@ module.exports = function(grunt) {
 			dev: {
 				options: {
 					script: 'server.js',
-          node_env: 'development'
+          nodeEnv: 'development'
 				}
 			},
 			prod: {
 				options: {
 					script: 'server.js',
-          node_env: 'production',
+          nodeEnv: 'production',
 				}
 			}
 		},

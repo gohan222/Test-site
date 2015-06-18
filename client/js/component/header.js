@@ -1,15 +1,11 @@
 'use strict';
 
-var AppConstant = require('../constant/appConstant'),
-$ = require('jquery'),
+var $ = require('jquery'),
 AppAction = require('../action/appAction'),
 React = require('react');
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return {searchTerms: ''};
-  },
-  setSearchTerms: function(event){
+  setSearchTerms: function(){
     this.setState({searchTerms: $('#ui-search-text').val()});
   },
 
@@ -23,7 +19,7 @@ module.exports = React.createClass({
     }
   },
   getInitialState: function() {
-    return {data: []};
+    return {data: [], searchTerms: ''};
   },
   render: function() {
     var searchTerm = this.state.searchTerms;

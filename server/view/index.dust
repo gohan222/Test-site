@@ -55,51 +55,18 @@
             <div class="exp-col1 ui-exp-coll min-height">
               <!-- ngInclude: filterTemplate -->
               <div class="page-title bb ">
-                <div dockit="" class="">
+                <div>
                   <!-- ngIf: hasSearchResult -->
-                  <span class="ui-has-search-result ">
-                    <span ng-show="srCount > 0" class="">
+                  <span id="resultCount" class="ui-has-search-result ">
+                    <span>
                       <span class="f22 mr20">Clips</span>
-                      <b ng-bind="srCount" class="ng-binding">58140</b>
-                      <span class="c95 mr20">
-                        <span> </span> Results
-                      </span>
+                      <b>0</b>
                     </span>
                   </span>
-                  <!-- end ngIf: hasSearchResult -->
-                  <span filter-display="" class="ui-has-search-result">
-                    <ul class="filter c95">
-                      <li class="ui-filter-label" style="display: none;">Filters</li>
-                      <li class="ui-prg-filter" style="display: none;">
-                        <div class="pill ng-binding">
-                          <a href="javascript:void(0)" class="ui-rem-prog hover e2e-pill-program"></a>
-                        </div>
-                      </li>
-                      <li class="ui-accuracy-filter" style="display: none;">
-                        <div class="pill ng-binding">
-                          Default Accuracy
-                          <a href="javascript:void(0)" class="ui-rem-accuracy hover e2e-pill-confidence"></a>
-                        </div>
-                      </li>
-                      <li class="ui-date-filter" style="display: none;">
-                        <div class="pill ng-binding">
-                          All Time
-                          <a href="javascript:void(0)" class="ui-rem-date hover e2e-pill-date"></a>
-                        </div>
-                      </li>
-                      <li class="ui-media-filter" style="display: none;">
-                        <div class="pill ng-binding">
-                          <a href="javascript:void(0)" class="ui-rem-media hover e2e-pill-media"></a>
-                        </div>
-                      </li>
-                    </ul>
-                  </span>
-
-                  <!-- ngIf: hasSearchResult -->
-                  <div class="adv-holder ">
+                  <div id="advancedFilter" class="adv-holder ">
                     <a href="javascript:;;" class="adv-search animate ui-explore-filter">
-      Advanced Search
-    </a>
+                      Advanced Search
+                    </a>
                     <div class="adv-dropdown sh-ani  hide">
                       <div class="filter-ftr">
                         <a href="javascript:;;" class="reset ui-clear-filter">Reset</a>
@@ -110,11 +77,6 @@
                   </div>
                   <!-- end ngIf: hasSearchResult -->
                 </div>
-                <span class="">
-                  <b class="hide ui-collection-result-title"></b>
-                </span>
-
-
               </div>
               <!-- ngIf: list.length > 0 -->
               <!-- ngInclude: mentionListTpl -->
