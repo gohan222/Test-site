@@ -64,7 +64,7 @@ module.exports = React.createClass({
   },
   onSearchTermChange: function(){
     this.setState({data: []});
-    AppAction.searchInit(this.state.searchTerms);
+    AppAction.searchInit(AppStore.getSearchTerms());
   },
   componentDidMount: function() {
     this.setState({data: AppStore.getSearchResults()});

@@ -5,11 +5,16 @@ AppAction = require('../action/appAction'),
 React = require('react');
 
 var RelatedTopic = React.createClass({
-  
+  onClick: function(event){
+    console.log(event);
+    var selectedText = event.currentTarget.innerText;
+    var searchTerms = AppStore.getSearchTerms();
+    AppAction.changeSearchTerm( searchTerms + ' ' + selectedText);
+  },
   render: function() {
     
     //add background image
-    var holder = React.DOM.a(null, this.props.data);
+    var holder = React.DOM.a({href:"javascript:;;", onClick:this.onClick}, this.props.data);
     var container = React.DOM.li(null, holder);
   
     return container;

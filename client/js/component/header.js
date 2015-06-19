@@ -2,13 +2,17 @@
 
 var $ = require('jquery'),
 AppAction = require('../action/appAction'),
+AppStore = require('../store/appStore'),
 React = require('react');
 
 module.exports = React.createClass({
-  setSearchTerms: function(){
+  setSearchTerms: function(event){
     this.setState({searchTerms: $('#ui-search-text').val()});
   },
-
+  onSearchTermChange: function(){
+    var searchTerms = AppStore.getSearchTerms();
+    this.setState({searchTerms: searchTerms});
+  },
   keyEvent: function(event) {
     var charCode = event.charCode;
     //fire off search when enter is pressed
@@ -16,6 +20,13 @@ module.exports = React.createClass({
       console.log(this.state.searchTerms);
       AppAction.changeSearchTerm(this.state.searchTerms);
     }
+  },
+  componentDidMount: function() {
+    this.setState({data: AppStore.getSearchResults()});
+    AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+  },
+  componentWillUnmount: function() {
+    AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
   },
   getInitialState: function() {
     return {data: [], searchTerms: ''};
