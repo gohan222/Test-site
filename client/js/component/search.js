@@ -4,6 +4,7 @@ var AppConstant = require('../constant/appConstant'),
 $ = require('jquery'),
 AppStore = require('../store/appStore'),
 AppAction = require('../action/appAction'),
+LazyLoadImg = require('../component/image'),
 React = require('react/addons');
 
 var Mention = React.createClass({
@@ -22,9 +23,10 @@ var Mention = React.createClass({
   render: function() {
     
     //add background image
-    var backgroundStyle = {backgroundImage:'url(' + this.props.data.programLiveImage + ')',
-                           backgroundSize: 'cover' }
-    var backgroundImage = React.DOM.div({className: 'prog-avtr', style:backgroundStyle});
+    // var backgroundStyle = {backgroundImage:'url(' + this.props.data.programLiveImage + ')',
+    //                        backgroundSize: 'cover' }
+    var backgroundImage = React.DOM.div({className: 'prog-avtr'},
+                          React.createElement(LazyLoadImg,{src: this.props.data.programLiveImage, className:'prog-avtr-style'}));
 
     //add porgram name
     var arrowIcon  = React.DOM.a({className: 'blue-play'});
