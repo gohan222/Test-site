@@ -34,5 +34,18 @@ router.get('/relatedTopics', function(req, res) {
   }, res);
 });
 
+router.get('/relatedCollections', function(req, res) {
+
+  var options = {
+    searchTerm: urlParser.parse(req.url).query
+  };
+
+  service.getRelatedCollections(options, function(err, result, response) {
+    if (response) {
+      res.setHeader('Content-Type', 'application/json');
+      response.send(result);
+    }
+  }, res);
+});
 
 module.exports = router;

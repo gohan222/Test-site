@@ -106,6 +106,15 @@ var appAction = {
       relatedTopics:data
     });
     });
+  },
+
+  getRelatedCollections:function(searchTerms){
+    AppService.getRelatedCollections(searchTerms,function(data){
+      AppDispatcher.dispatch({
+      actionType: AppConstant.ACTION_SEARCH_RELATED_COLLECTION,
+      relatedCollections:data
+    });
+    });
   }
 
 };

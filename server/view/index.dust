@@ -97,6 +97,9 @@
                 <span class="f22 mr20">Collections</span>
 
               </div>
+              <div id="relatedCollections">
+                
+              </div>
             </div>
             <!-- end ngIf: searchStart -->
           </div>

@@ -19,10 +19,12 @@ var assign = require('object-assign');
 var CHANGE_EVENT = 'change';
 var CHANGE_SEARCH_TERM_EVENT = 'change_keyword';
 var CHANGE_RELATED_TOPICS_EVENT = 'change_realted_topics';
+var CHANGE_RELATED_COLLECTIONS_EVENT = 'change_realted_collections';
 
 var _todos = {};
 var searchResults = [];
 var relatedTopics = [];
+var relatedCollections = [];
 var searchTerms = '';
 
 /**
@@ -90,6 +92,10 @@ function updateRelatedTopics(results){
   relatedTopics = results;
 }
 
+function updateRelatedCollections(results){
+  relatedCollections = results;
+}
+
 function updateSearchTerms(results){
   searchTerms = results;
 }
@@ -129,6 +135,10 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     this.emit(CHANGE_RELATED_TOPICS_EVENT);
   },
 
+  emitChangeRelatedCollections: function() {
+    this.emit(CHANGE_RELATED_COLLECTIONS_EVENT);
+  },
+
   /**
    * @param {function} callback
    */
@@ -144,6 +154,10 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     this.on(CHANGE_RELATED_TOPICS_EVENT, callback);
   },
 
+  addChangeRelatedCollectionsListener: function(callback) {
+    this.on(CHANGE_RELATED_COLLECTIONS_EVENT, callback);
+  },
+
   /**
    * @param {function} callback
    */
@@ -156,8 +170,12 @@ var TodoStore = assign({}, EventEmitter.prototype, {
   },
 
   removeChangeRelatedTopicsListener: function(callback) {
-    this.removeListener(CHANGE_SEARCH_TERM_EVENT, callback);
+    this.removeListener(CHANGE_RELATED_TOPICS_EVENT, callback);
   },  
+
+  removeChangeRelatedCollectionsListener: function(callback) {
+    this.removeListener(CHANGE_RELATED_COLLECTIONS_EVENT, callback);
+  },
 
   getSearchResults: function(){
     return searchResults.records;
@@ -181,6 +199,14 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     }
     
     return relatedTopics.records;
+  },
+
+  getRelatedCollections: function(){
+    if(!relatedCollections){
+      return [];
+    }
+    
+    return relatedCollections.records;
   },
 
 });
@@ -248,7 +274,10 @@ AppDispatcher.register(function(action) {
       updateRelatedTopics(action.relatedTopics);
       TodoStore.emitChangeRelatedTopics();
       break;
-      
+    case TodoConstants.ACTION_SEARCH_RELATED_COLLECTION:
+      updateRelatedCollections(action.relatedCollections);
+      TodoStore.emitChangeRelatedCollections();
+      break;
     default:
       // no op
   }

@@ -16,6 +16,13 @@ module.exports = {
 				callback.apply(this,[data]);
 			}
 		});
+	},
+	getRelatedCollections : function(searchTerms, callback){
+		$.get('search/relatedCollections?q=' + searchTerms,function(data, status){
+			if(callback){
+				callback.apply(this,[data]);
+			}
+		});
 	}
 }
 

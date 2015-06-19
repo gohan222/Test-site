@@ -4,6 +4,7 @@ var SearchBody = require('../component/search'),
 SearchHeader = require('../component/header'),
 FilterHeader = require('../component/filter'),
 RelatedTopicsHeader = require('../component/relatedTopics'),
+RelatedCollectionsHeader = require('../component/relatedCollections'),
 React = require('react');
 
 
@@ -15,6 +16,11 @@ React.render(
 React.render(
   React.createElement(RelatedTopicsHeader),
   document.getElementById('relatedSearches')
+);
+
+React.render(
+  React.createElement(RelatedCollectionsHeader),
+  document.getElementById('relatedCollections')
 );
 
 React.render(
