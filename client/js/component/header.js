@@ -15,7 +15,6 @@ module.exports = React.createClass({
     if(charCode === 13){
       console.log(this.state.searchTerms);
       AppAction.changeSearchTerm(this.state.searchTerms);
-      AppAction.searchInit(this.state.searchTerms);
     }
   },
   getInitialState: function() {

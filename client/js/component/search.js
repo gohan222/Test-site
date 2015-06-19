@@ -3,7 +3,7 @@
 var AppConstant = require('../constant/appConstant'),
 $ = require('jquery'),
 AppStore = require('../store/appStore'),
-// React = require('react'),
+AppAction = require('../action/appAction'),
 React = require('react/addons');
 
 var Mention = React.createClass({
@@ -64,6 +64,7 @@ module.exports = React.createClass({
   },
   onSearchTermChange: function(){
     this.setState({data: []});
+    AppAction.searchInit(this.state.searchTerms);
   },
   componentDidMount: function() {
     this.setState({data: AppStore.getSearchResults()});
