@@ -2,6 +2,7 @@
 
 var AppStore = require('../store/appStore'),
 AppAction = require('../action/appAction'),
+LazyLoadImg = require('../component/image'),
 React = require('react');
 
 var RelatedCollection = React.createClass({
@@ -9,9 +10,10 @@ var RelatedCollection = React.createClass({
   render: function() {
     
     //add background image
-    var backgroundStyle = {backgroundImage:'url(' + this.props.data.collectionImage + ')',
-                           backgroundSize: 'cover' }
-    var backgroundImage = React.DOM.a(null, React.DOM.div({className: 'coll-cover', style:backgroundStyle}));
+    // var backgroundStyle = {backgroundImage:'url(' + this.props.data.collectionImage + ')',
+    //                        backgroundSize: 'cover' }
+    // var backgroundImage = React.DOM.a(null, React.DOM.div({className: 'coll-cover', style:backgroundStyle}));
+    var backgroundImage = React.DOM.div({className: 'coll-cover'}, React.createElement(LazyLoadImg,{src: this.props.data.collectionImage, className:'coll-cover-style'}));
 
     //collection name
     var collectionTextName = React.DOM.a(null,this.props.data.collectionName);

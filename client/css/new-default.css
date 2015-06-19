@@ -312,7 +312,7 @@ a:hover { }
 
 	/*Collections*/
 	.coll-prv { width: 425px; padding: 0 0 15px; border-bottom: 1px #e5e5e5 solid; margin: 25px 15px 0px 25px; display: inline-block; vertical-align: top; }
-		.coll-cover { height: 260px; /*margin-bottom: 15px;*/ }
+		.coll-cover { height: 260px; overflow-y:hidden;  /*margin-bottom: 15px;*/ }
 		.coll-prv p { line-height: 24px; font-size: 14px; color: #333; margin-bottom: 10px;}
 		.avtr-60px { width:60px; height: 60px; border-radius: 100%; display: inline-block; vertical-align: middle; background-color: #f1f1f1 !important; margin-right: 15px; }
 		.avtr-title { display: inline-block; max-width: 300px; vertical-align: middle;}
@@ -678,4 +678,16 @@ body.modal-open {overflow: hidden;}
 
 .coll-prv-leave.coll-prv-leave-active {
   opacity: 0.01;
+}
+
+.image { 
+	opacity: 0;  
+}
+.image-loaded { 
+	opacity: 1;
+	transition: opacity .2s ease-in; 
+}
+
+.coll-cover-style{
+	width:100%;
 }
