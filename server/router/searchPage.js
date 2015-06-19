@@ -13,7 +13,7 @@ router.get('/error', function(req, res){
   res.render('error');
 });
 
-router.get('/index', function(req, res){
+router.get('/', function(req, res){
   //set common security headers.
   res.render('index');
 });
