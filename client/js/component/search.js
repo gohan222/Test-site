@@ -53,7 +53,6 @@ var MentionList = React.createClass({
     });
 
     var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'ui-search-item', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
-    console.log(animationElement);
     return React.DOM.ul({className: 'results'}, animationElement);
   }
 });

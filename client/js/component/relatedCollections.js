@@ -77,7 +77,7 @@ module.exports = React.createClass({
     var relatedCollectionsNodes = subset.map(function (relatedCollection) {
       return React.createElement(RelatedCollection, {data:relatedCollection});
     });
-
-    return React.DOM.div(null, relatedCollectionsNodes);
+    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'coll-prv', transitionAppear:true, transitionLeave:true, transitionEnter: true},relatedCollectionsNodes);
+    return React.DOM.div(null, animationElement);
   }
 });

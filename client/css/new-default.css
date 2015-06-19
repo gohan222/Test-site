@@ -651,3 +651,31 @@ body.modal-open {overflow: hidden;}
 .ui-search-item-leave.ui-search-item-leave-active {
   opacity: 0.01;
 }
+
+
+.coll-prv-appear {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.coll-prv-appear.coll-prv-appear-active {
+  opacity: 1;
+}
+
+.coll-prv-enter {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.coll-prv-enter.coll-prv-enter-active {
+  opacity: 1;
+}
+
+.coll-prv-leave {
+  opacity: 1;
+  transition: opacity .2s ease-in;
+}
+
+.coll-prv-leave.coll-prv-leave-active {
+  opacity: 0.01;
+}
