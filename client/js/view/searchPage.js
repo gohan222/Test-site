@@ -10,10 +10,10 @@ React = require('react');
 
 React.render(
   React.createElement(SearchHeader),
-  document.getElementById('headerFormSearch')
+  document.getElementById('app-header')
 );
 
-React.render(
+/*React.render(
   React.createElement(RelatedTopicsHeader),
   document.getElementById('relatedSearches')
 );
@@ -31,4 +31,4 @@ React.render(
 React.render(
   React.createElement(SearchBody),
   document.getElementById('searchResult')
-);
+);*/

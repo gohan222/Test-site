@@ -10,13 +10,17 @@
   <link rel="stylesheet" href="css/new-default.css">
   <link rel="stylesheet" href="css/default.css">
   <link rel="stylesheet" href="css/ext-page.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/transition.css">
 </head>
 
 <body>
-  <div id="container">
+  <div>
     <!--START OF HEADER-->
-    <div>
-      <div class="fixed-header animate active">
+    <div id="app-header">
+      {generateHeader}
+      <!--<div class="fixed-header animate active">
         <div class="header-pane">
           <div class="logo">
             <a href="/"></a>
@@ -31,7 +35,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
     <!--END OF HEADER-->
     <div class="">

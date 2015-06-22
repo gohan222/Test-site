@@ -3,7 +3,8 @@ var express = require('express'),
 router = express.Router(),
 uuid = require('node-uuid'),
 config = require('../config'),
-logger = require('../logger/logger');
+logger = require('../logger/logger'),
+headerShare = require('../templates/header');
 
 router.get('/error', function(req, res){
   //set common security headers.
@@ -15,12 +16,7 @@ router.get('/error', function(req, res){
 
 router.get('/', function(req, res){
   //set common security headers.
-  res.render('index');
+  res.render('index', headerShare);
 });
-
-// router.get('/widget', function(req, res){
-//   //set common security headers.
-//   res.render('widget');
-// });
 
 module.exports = router;

@@ -162,7 +162,7 @@ a:hover { }
 	.social.link { background-position: -120px -340px;}
 
 /*Explore Page Styles*/
-.content-wrap { min-height: calc(100vh - 60px); position: relative; padding: 60px 0 0 0; font-size: 16px; min-width: 1280px; /*max-width: 1920px;*/ margin: 0 auto; }
+.content-wrap { min-height: calc(100vh - 60px); position: relative; padding: 0 0 0 0; font-size: 16px; min-width: 1280px; /*max-width: 1920px;*/ margin: 0 auto; }
 	.blue-bar { background: #f2f8fc; border-bottom: 1px #e7e7e7 solid; height: 60px;}
 	.contain { min-width: 1024px; /*max-width: 1280px; padding: 0 20px;*/ overflow: hidden; }
 	.rel-search { margin-left: 25px;}
@@ -678,14 +678,6 @@ body.modal-open {overflow: hidden;}
 
 .coll-prv-leave.coll-prv-leave-active {
   opacity: 0.01;
-}
-
-.image { 
-	opacity: 0;  
-}
-.image-loaded { 
-	opacity: 1;
-	transition: opacity .2s ease-in; 
 }
 
 .coll-cover-style{
