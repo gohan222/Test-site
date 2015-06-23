@@ -29,79 +29,8 @@
   <!--END OF HAMBURGER-->
   <div id="app-content">
     {generateSearchContent}
-    <div>
-    <div class="">
-      <div class="content-wrap ">
-        <!--<div class="blue-bar ">
-          <div id="veritone-noti" class="confirm make-alert favorite-confirm">
-            <span id="veritone-noti-text"></span>
-            <a href="javascript:;;" class="ring_close" onclick="app.util.hideNotification();"></a>
-          </div>
-          <div id="relatedSearches" class="contain">
-            <ul class="rel-search">
-              <li>Related Searches:</li>
-            </ul>
-          </div>
-        </div>-->
-        <div class="contain min-height active">
-          <div class="min-height ">
-            <div class="exp-col1 ui-exp-coll min-height">
-              <!-- ngInclude: filterTemplate -->
-              <div class="page-title bb ">
-                <div>
-                  <!-- ngIf: hasSearchResult -->
-                  <span id="resultCount" class="ui-has-search-result ">
-                    <span>
-                      <span class="f22 mr20">Clips</span>
-                      <b>0</b>
-                    </span>
-                  </span>
-                  <div id="advancedFilter" class="adv-holder ">
-                    <a href="javascript:;;" class="adv-search animate ui-explore-filter">
-                      Advanced Search
-                    </a>
-                    <div class="adv-dropdown sh-ani  hide">
-                      <div class="filter-ftr">
-                        <a href="javascript:;;" class="reset ui-clear-filter">Reset</a>
-                        <a href="javascript:;;" class="primary ml20  s-animate small wide e2e-apply-button">Apply</a>
-                      </div>
-                    </div>
-
-                  </div>
-                  <!-- end ngIf: hasSearchResult -->
-                </div>
-              </div>
-              <!-- ngIf: list.length > 0 -->
-              <!-- ngInclude: mentionListTpl -->
-              <div class="">
-                <div class="">
-                  <div class="offleft">
-                  </div>
-                  <div id="searchResult" class="unmask">
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            <div class="exp-col2 " id="ui-collection-search">
-              <div class="page-title bb ">
-                <a href="javascript:;;" ng-click="openAllRelatedCollections()" class="goright f13" style="padding-top:10px;" ng-show="true">View All Related Collections</a>
-                <span class="f22 mr20">Collections</span>
-
-              </div>
-              <div id="relatedCollections">
-                
-              </div>
-            </div>
-            <!-- end ngIf: searchStart -->
-          </div>
-  </div>
-  </div>
-  </div>
-  </div>
   </div>
   <script type="text/javascript" src="js/searchPageView.js"></script>
-          
 </body>
 
 </html>

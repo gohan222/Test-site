@@ -58,7 +58,7 @@ var MiddleContainer = React.createClass({
       placeholder:'Explore...',
       onKeyPress:this.keyEvent, 
       onChange: this.setSearchTerms, 
-      value: this.state.searchTerm});
+      value: this.state.searchTerms});
     //search container
     var container = React.DOM.div({className:'header-search-container'}, input, button);
     return React.DOM.div({className:'header-middle-section'}, container);
