@@ -352,8 +352,8 @@ input[type=submit] { cursor: pointer;}
 .hover:hover { opacity: 1;}
 .goleft { float: left;} .goright { float: right;}
 .clear:after { display: block; height: 1px; content: ""; clear: both; margin-bottom: -1px;}
-.animate {-webkit-transition: all 0.5s ease-out; -moz-transition: all 0.5s ease-out; transition: all 0.5s ease-out;}
-.s-animate {-webkit-transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
+/*.animate {-webkit-transition: all 0.5s ease-out; -moz-transition: all 0.5s ease-out; transition: all 0.5s ease-out;}
+.s-animate {-webkit-transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}*/
 .caps { text-transform: uppercase;}
 
 .f12 { font-size: 12px;} .f14 { font-size: 14px;} .f16 { font-size: 16px;} .f18 { font-size: 18px;} .f21 { font-size: 21px; line-height: 12px;}

@@ -35,8 +35,18 @@ var MiddleContainer = React.createClass({
     //fire off search when enter is pressed
     if(charCode === 13){
       console.log(this.state.searchTerms);
-      AppAction.changeSearchTerm(this.state.searchTerms);
+      this.submitSearchTerm(this.state.searchTerms);
     }
+  },
+  submitButtonClick: function(event){
+    this.submitSearchTerm(this.state.searchTerms);
+  },
+  submitSearchTerm: function(searchTerms){
+    if(!searchTerms){
+      return;
+    }
+
+    AppAction.changeSearchTerm(searchTerms);
   },
   componentDidMount: function() {
     this.setState({data: AppStore.getSearchResults()});
@@ -50,7 +60,7 @@ var MiddleContainer = React.createClass({
   },
   render:function(){
     //search button
-    var button = React.DOM.div({className:'header-button-search blue-btn clickable'}, 'Search');
+    var button = React.DOM.div({className:'header-button-search blue-btn clickable', onClick: this.submitButtonClick}, 'Search');
     //search input
     var input = React.DOM.input(
       {className:'header-input-search', 

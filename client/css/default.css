@@ -430,8 +430,8 @@ input[type=radio], input[type=checkbox] { vertical-align:top; margin:0 10px 0 0;
 :disabled { opacity: 0.4; background: #f1f1f1; }
 .hide { display:none;}
 .invisible {visibility:hidden;}
-.animate {-webkit-transition: all 0.5s ease-out; -moz-transition: all 0.5s ease-out; transition: all 0.5s ease-out;}
-.s_animate {-webkit-transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
+/*.animate {-webkit-transition: all 0.5s ease-out; -moz-transition: all 0.5s ease-out; transition: all 0.5s ease-out;}
+.s_animate {-webkit-transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}*/
 /*New Explore styles*/
 
 .search_head { background: #fafafa; border-bottom: 1px #e6e6e6 solid; padding: 25px 30px; margin:0 -30px; min-width:1280px; min-height:71px; }

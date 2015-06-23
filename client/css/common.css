@@ -3,3 +3,12 @@
 .clickable{
 	cursor:pointer;
 }
+
+.content-container{
+	background-color: #ffffff;
+	height: 100%;
+}
+
+.content-container-show-ham{
+	margin-left: 290px;
+}

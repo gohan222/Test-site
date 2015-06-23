@@ -15,20 +15,24 @@
   <link rel="stylesheet" href="css/transition.css">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/button.css">
+  <link rel="stylesheet" href="css/hamburger.css">
 </head>
 
 <body>
-  <!--START OF HEADER-->
-  <div id="app-header">
-    {generateHeader}
-  </div>
-  <!--END OF HEADER-->
   <!--START OF HAMBURGER-->
-  <div id="app-hamburger">
+  <div id="app-hamburger" class="hamburger-container">
+    {generateHamburger}
   </div>
   <!--END OF HAMBURGER-->
-  <div id="app-content">
-    {generateSearchContent}
+  <div class="content-container animate">
+    <!--START OF HEADER-->
+    <div id="app-header">
+      {generateHeader}
+    </div>
+    <!--END OF HEADER-->
+    <div id="app-content">
+      {generateSearchContent}
+    </div>
   </div>
   <script type="text/javascript" src="js/searchPageView.js"></script>
 </body>
