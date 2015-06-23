@@ -29,6 +29,6 @@ module.exports = React.createClass({
     var countText = React.DOM.b(null, recordCount);
     var container = React.DOM.span(null, clipsText,countText);
     
-    return container;
+    return React.DOM.div({className:'page-title bb'}, container);
   }
 });

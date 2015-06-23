@@ -55,7 +55,8 @@ module.exports = React.createClass({
       return React.createElement(RelatedTopic, {data:relatedTopic});
     });
 
-    var container = React.DOM.ul({className:'rel-search'}, React.DOM.li(null, 'Related Searches:'), relatedTopicsNodes);
+    var listContainer = React.DOM.ul({className:'rel-search'}, React.DOM.li(null, 'Related Searches:'), relatedTopicsNodes);
+    var container = React.DOM.div({className:'blue-bar'}, listContainer);
     
     return container;
   }

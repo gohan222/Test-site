@@ -1,10 +1,11 @@
 'use strict';
 var express = require('express'),
 router = express.Router(),
-uuid = require('node-uuid'),
 config = require('../config'),
+merge = require('merge'),
 logger = require('../logger/logger'),
-headerShare = require('../templates/header');
+headerShare = require('../templates/header'),
+contentShare = require('../templates/content');
 
 router.get('/error', function(req, res){
   //set common security headers.
@@ -16,7 +17,7 @@ router.get('/error', function(req, res){
 
 router.get('/', function(req, res){
   //set common security headers.
-  res.render('index', headerShare);
+  res.render('index', merge(headerShare, contentShare));
 });
 
 module.exports = router;

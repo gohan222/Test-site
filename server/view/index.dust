@@ -18,45 +18,31 @@
 </head>
 
 <body>
-  <div>
-    <!--START OF HEADER-->
-    <div id="app-header">
-      {generateHeader}
-      <!--<div class="fixed-header animate active">
-        <div class="header-pane">
-          <div class="logo">
-            <a href="/"></a>
-          </div>
-          <div id="headerFormSearch" class="searchbox">
-            <input name="searchTerm" type="text" class="blank" placeholder="Explore..." id="ui-search-text">
-            <a href="" class="search-btn s-animate"></a>
-          </div>
-          <div class="site-navi">
-            <div class="settings">
-              <a href="javascript:void(0)" type="register">Join Veritone</a><a href="javascript:void(0)" type="login" style="margin-left:45px;">Log In</a>
-            </div>
-          </div>
-        </div>
-      </div>-->
-    </div>
-    <!--END OF HEADER-->
+  <!--START OF HEADER-->
+  <div id="app-header">
+    {generateHeader}
+  </div>
+  <!--END OF HEADER-->
+  <!--START OF HAMBURGER-->
+  <div id="app-hamburger">
+  </div>
+  <!--END OF HAMBURGER-->
+  <div id="app-content">
+    {generateSearchContent}
+    <div>
     <div class="">
       <div class="content-wrap ">
-        <!-- ngIf: searchStart && relatedTopics.records -->
-        <div class="blue-bar ">
+        <!--<div class="blue-bar ">
           <div id="veritone-noti" class="confirm make-alert favorite-confirm">
             <span id="veritone-noti-text"></span>
             <a href="javascript:;;" class="ring_close" onclick="app.util.hideNotification();"></a>
           </div>
           <div id="relatedSearches" class="contain">
-            <!-- ngIf: relatedTopics.records -->
             <ul class="rel-search">
               <li>Related Searches:</li>
-              <!-- end ngRepeat: topic in trimmedRelatedTopics() -->
             </ul>
-            <!-- end ngIf: relatedTopics.records -->
           </div>
-        </div>
+        </div>-->
         <div class="contain min-height active">
           <div class="min-height ">
             <div class="exp-col1 ui-exp-coll min-height">
@@ -109,7 +95,12 @@
             </div>
             <!-- end ngIf: searchStart -->
           </div>
-          <script type="text/javascript" src="js/searchPageView.js"></script>
+  </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <script type="text/javascript" src="js/searchPageView.js"></script>
           
 </body>
 
