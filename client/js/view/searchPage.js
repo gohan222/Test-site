@@ -13,7 +13,7 @@ React.render(
   document.getElementById('app-header')
 );
 
-/*React.render(
+React.render(
   React.createElement(RelatedTopicsHeader),
   document.getElementById('relatedSearches')
 );
@@ -31,4 +31,4 @@ React.render(
 React.render(
   React.createElement(SearchBody),
   document.getElementById('searchResult')
-);*/
+);

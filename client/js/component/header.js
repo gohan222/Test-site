@@ -23,11 +23,42 @@ var LeftContainer = React.createClass({
 * Middle Container
 ****************************/
 var MiddleContainer = React.createClass({
+  setSearchTerms: function(event){
+    this.setState({searchTerms: event.target.value});
+  },
+  onSearchTermChange: function(){
+    var searchTerms = AppStore.getSearchTerms();
+    this.setState({searchTerms: searchTerms});
+  },
+  keyEvent: function(event) {
+    var charCode = event.charCode;
+    //fire off search when enter is pressed
+    if(charCode === 13){
+      console.log(this.state.searchTerms);
+      AppAction.changeSearchTerm(this.state.searchTerms);
+    }
+  },
+  componentDidMount: function() {
+    this.setState({data: AppStore.getSearchResults()});
+    AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+  },
+  componentWillUnmount: function() {
+    AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
+  },
+  getInitialState: function() {
+    return {data: [], searchTerms: ''};
+  },
   render:function(){
     //search button
     var button = React.DOM.div({className:'header-button-search blue-btn clickable'}, 'Search');
     //search input
-    var input = React.DOM.input({className:'header-input-search', type:'text', placeholder:'Explore...'});
+    var input = React.DOM.input(
+      {className:'header-input-search', 
+      type:'text', 
+      placeholder:'Explore...',
+      onKeyPress:this.keyEvent, 
+      onChange: this.setSearchTerms, 
+      value: this.state.searchTerm});
     //search container
     var container = React.DOM.div({className:'header-search-container'}, input, button);
     return React.DOM.div({className:'header-middle-section'}, container);
