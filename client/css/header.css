@@ -78,7 +78,8 @@
 
 .header-input-search{
 	outline: none;
-  	border-style: none;
+  	border-style: solid;
+  	border-color: #e6e6e6;
   	width: calc(100% - 100px);
  	height: 38px;
   	box-shadow: inset 0px 0px 0px;
