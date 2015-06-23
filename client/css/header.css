@@ -1,8 +1,5 @@
-.header-icon-size{
+.header-icon{
 	font-size: 20px;
-}
-
-.header-icon-hamburger{
 	top: 25px;
 }
 
@@ -40,4 +37,51 @@
 	position: absolute;
 	right:0;
 	padding-right: 30px;
+}
+
+.header-avatar-container{
+	width:30px;
+	height:30px;
+	border-radius: 100%;
+	overflow: hidden;
+	position: absolute;;
+	right:30px;
+	top: 21px;
+}
+
+.header-avatar-container img{
+	height:100%;
+	clip-path: circle(15px at 15px 15px);
+	-webkit-clip-path: circle(15px at 15px 15px);
+}
+
+.header-app-switcher{
+	position: absolute;
+	right: 92px;
+}
+
+.header-search-container{
+	padding: 15px 0px 0px 16px;
+}
+
+.header-search-container input[type="text"]{
+	border-radius:0px;
+	box-shadow: inset 0px 0px 0px;
+}
+
+.header-button-search.blue-btn{
+	width: 95px;
+  	height: 38px;
+  	line-height: 38px;
+  	text-align: center;
+}
+
+.header-input-search{
+	outline: none;
+  	border-style: none;
+  	width: calc(100% - 100px);
+ 	height: 38px;
+  	box-shadow: inset 0px 0px 0px;
+  	vertical-align: top;
+  	font-size: 14px;
 }

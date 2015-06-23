@@ -12,9 +12,9 @@ React = require('react');
 var LeftContainer = React.createClass({
   render:function(){
     //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-hamburger header-icon-size header-icon-hamburger'});
+    var icon = React.DOM.span({className:'icon-icon-hamburger header-icon clickable'});
     //logo
-    var img = React.createElement(Img,{src: 'image/broadcaster-header-assets/broadcaster-logo.png', className:'header-logo'});
+    var img = React.createElement(Img,{src: 'image/broadcaster-header-assets/broadcaster-logo.png', className:'header-logo clickable'});
     return React.DOM.div({className:'header-left-section'}, icon, img);
   }
 });
@@ -24,7 +24,13 @@ var LeftContainer = React.createClass({
 ****************************/
 var MiddleContainer = React.createClass({
   render:function(){
-    return React.DOM.div({className:'header-middle-section'});
+    //search button
+    var button = React.DOM.div({className:'header-button-search blue-btn clickable'}, 'Search');
+    //search input
+    var input = React.DOM.input({className:'header-input-search', type:'text', placeholder:'Explore...'});
+    //search container
+    var container = React.DOM.div({className:'header-search-container'}, input, button);
+    return React.DOM.div({className:'header-middle-section'}, container);
   }
 });
 
@@ -33,7 +39,12 @@ var MiddleContainer = React.createClass({
 ****************************/
 var RightContainer = React.createClass({
   render:function(){
-    return React.DOM.div({className:'header-right-section'});
+    //hambergher icon
+    var icon = React.DOM.span({className:'icon-icon-appswitcher header-icon header-app-switcher clickable'});
+    //logo
+    var img = React.createElement(Img, {src: 'https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg', className:'clickable'});
+    var imgContainer = React.DOM.div({className:'header-avatar-container'}, img)
+    return React.DOM.div({className:'header-right-section'}, icon, imgContainer);
   }
 });
 
