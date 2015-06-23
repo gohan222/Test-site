@@ -5,6 +5,8 @@ SearchHeader = require('../component/header'),
 FilterHeader = require('../component/filter'),
 RelatedTopicsHeader = require('../component/relatedTopics'),
 RelatedCollectionsHeader = require('../component/relatedCollections'),
+AppStore = require('../store/appStore'),
+$ = require('jquery'),
 React = require('react');
 
 
@@ -13,22 +15,11 @@ React.render(
   document.getElementById('app-header')
 );
 
-/*React.render(
-  React.createElement(RelatedTopicsHeader),
-  document.getElementById('relatedSearches')
-);
-
-React.render(
-  React.createElement(RelatedCollectionsHeader),
-  document.getElementById('relatedCollections')
-);
-
-React.render(
-  React.createElement(FilterHeader),
-  document.getElementById('resultCount')
-);
-*/
 React.render(
   React.createElement(SearchBody),
   document.getElementById('app-content')
 );
+
+AppStore.addToggleHamburgerListener(function(){
+  $('.content-container').toggleClass('content-container-show-hamburger');
+});

@@ -20,6 +20,7 @@ var CHANGE_EVENT = 'change';
 var CHANGE_SEARCH_TERM_EVENT = 'change_keyword';
 var CHANGE_RELATED_TOPICS_EVENT = 'change_realted_topics';
 var CHANGE_RELATED_COLLECTIONS_EVENT = 'change_realted_collections';
+var TOGGLE_HAMBURGER_EVENT = 'toggle_hamburger_event';
 
 var searchResults = [];
 var relatedTopics = [];
@@ -43,7 +44,7 @@ function updateSearchTerms(results){
   searchTerms = results;
 }
 
-var TodoStore = assign({}, EventEmitter.prototype, {
+var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
@@ -59,6 +60,10 @@ var TodoStore = assign({}, EventEmitter.prototype, {
 
   emitChangeRelatedCollections: function() {
     this.emit(CHANGE_RELATED_COLLECTIONS_EVENT);
+  },
+
+  emitToggleHamburger: function() {
+    this.emit(TOGGLE_HAMBURGER_EVENT);
   },
 
   /**
@@ -80,6 +85,10 @@ var TodoStore = assign({}, EventEmitter.prototype, {
     this.on(CHANGE_RELATED_COLLECTIONS_EVENT, callback);
   },
 
+  addToggleHamburgerListener: function(callback) {
+    this.on(TOGGLE_HAMBURGER_EVENT, callback);
+  },
+
   /**
    * @param {function} callback
    */
@@ -97,6 +106,10 @@ var TodoStore = assign({}, EventEmitter.prototype, {
 
   removeChangeRelatedCollectionsListener: function(callback) {
     this.removeListener(CHANGE_RELATED_COLLECTIONS_EVENT, callback);
+  },
+
+  removeToggleHamburgerListener: function(callback) {
+    this.removeListener(TOGGLE_HAMBURGER_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -138,27 +151,30 @@ AppDispatcher.register(function(action) {
   var text;
 
   switch(action.actionType) {
+    case Constants.ACTION_TOGGLE_HAMBURGER:
+      AppStore.emitToggleHamburger();
+      break;    
 
     case Constants.ACTION_SEARCH_INIT:
       updateSearchResults(action.searchResults);
-      TodoStore.emitChange();
+      AppStore.emitChange();
       break;
 
     case Constants.ACTION_SEARCH_TERM_CHANGE:
       updateSearchTerms(action.searchTerms)
-      TodoStore.emitChangeSearchTerm();
+      AppStore.emitChangeSearchTerm();
       break;
     case Constants.ACTION_SEARCH_RELATED_TOPIC:
       updateRelatedTopics(action.relatedTopics);
-      TodoStore.emitChangeRelatedTopics();
+      AppStore.emitChangeRelatedTopics();
       break;
     case Constants.ACTION_SEARCH_RELATED_COLLECTION:
       updateRelatedCollections(action.relatedCollections);
-      TodoStore.emitChangeRelatedCollections();
+      AppStore.emitChangeRelatedCollections();
       break;
     default:
       // no op
   }
 });
 
-module.exports = TodoStore;
+module.exports = AppStore;

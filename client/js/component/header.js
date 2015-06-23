@@ -10,9 +10,13 @@ React = require('react');
 * Left Container
 ****************************/
 var LeftContainer = React.createClass({
+  toggleHamburger: function(event){
+    AppAction.toggleHamburger();
+  },
   render:function(){
     //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-hamburger icon-prop animation header-icon clickable'});
+    var icon = React.DOM.span({className:'icon-icon-hamburger icon-prop animation header-icon clickable',
+                onClick: this.toggleHamburger});
     //logo
     var img = React.createElement(Img,{src: 'image/broadcaster-header-assets/broadcaster-logo.png', className:'header-logo clickable'});
     return React.DOM.div({className:'header-left-section'}, icon, img);

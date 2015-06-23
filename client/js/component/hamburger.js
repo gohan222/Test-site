@@ -5,23 +5,16 @@ React = require('react');
 
 module.exports = React.createClass({
   onChange: function() {
-    //first we remove the data before adding new list to animate the draw.
-    this.setState({recordCount: AppStore.getSearchResultsCount()});
-  },
-  onSearchTermChange: function(){
-    this.setState({recordCount: 0});
+    this.setState({show: !this.state.show});
   },
   componentDidMount: function() {
-    this.setState({data: AppStore.getSearchResultsCount()});
-    AppStore.addChangeListener(this.onChange);
-    AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+    AppStore.addToggleHamburgerListener(this.onChange);
   },
   componentWillUnmount: function() {
-    AppStore.removeChangeListener(this.onChange);
-    AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
+    AppStore.removeToggleHamburgerListener(this.onChange);
   },
   getInitialState: function() {
-    return {recordCount: 0};
+    return {show: false};
   },
   render: function() {
     var recordCount = this.state.recordCount;

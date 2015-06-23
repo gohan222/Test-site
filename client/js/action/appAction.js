@@ -16,6 +16,11 @@ var AppConstant = require('../constant/appConstant');
 var AppService = require('../service/search');
 
 var appAction = {
+  toggleHamburger:function(){
+    AppDispatcher.dispatch({
+      actionType: AppConstant.ACTION_TOGGLE_HAMBURGER
+    });
+  },
 
   searchInit:function(searchTerms){
     AppService.getSearch(searchTerms,function(data){
