@@ -1,7 +1,21 @@
+@charset "utf-8";
+
 .image { 
 	opacity: 0;  
 }
 .image-loaded { 
 	opacity: 1;
 	transition: opacity .2s ease-in; 
+}
+
+.icon-prop{
+	opacity: .6;
+}
+
+.icon-prop:hover{
+	opacity: 1;
+}
+
+.animation{
+	transition: all .2s;
 }

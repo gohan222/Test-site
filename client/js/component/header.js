@@ -12,7 +12,7 @@ React = require('react');
 var LeftContainer = React.createClass({
   render:function(){
     //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-hamburger header-icon clickable'});
+    var icon = React.DOM.span({className:'icon-icon-hamburger icon-prop animation header-icon clickable'});
     //logo
     var img = React.createElement(Img,{src: 'image/broadcaster-header-assets/broadcaster-logo.png', className:'header-logo clickable'});
     return React.DOM.div({className:'header-left-section'}, icon, img);
@@ -71,7 +71,7 @@ var MiddleContainer = React.createClass({
 var RightContainer = React.createClass({
   render:function(){
     //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-appswitcher header-icon header-app-switcher clickable'});
+    var icon = React.DOM.span({className:'icon-icon-appswitcher icon-prop animation header-icon header-app-switcher clickable'});
     //logo
     var img = React.createElement(Img, {src: 'https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg', className:'clickable'});
     var imgContainer = React.DOM.div({className:'header-avatar-container'}, img)
@@ -91,36 +91,3 @@ module.exports = React.createClass({
     return React.DOM.div({className: 'header-container'}, left,middle,right)
   }
 });
-
-/*module.exports = React.createClass({
-  setSearchTerms: function(event){
-    this.setState({searchTerms: $('#ui-search-text').val()});
-  },
-  onSearchTermChange: function(){
-    var searchTerms = AppStore.getSearchTerms();
-    this.setState({searchTerms: searchTerms});
-  },
-  keyEvent: function(event) {
-    var charCode = event.charCode;
-    //fire off search when enter is pressed
-    if(charCode === 13){
-      console.log(this.state.searchTerms);
-      AppAction.changeSearchTerm(this.state.searchTerms);
-    }
-  },
-  componentDidMount: function() {
-    this.setState({data: AppStore.getSearchResults()});
-    AppStore.addChangeSearchTermListener(this.onSearchTermChange);
-  },
-  componentWillUnmount: function() {
-    AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
-  },
-  getInitialState: function() {
-    return {data: [], searchTerms: ''};
-  },
-  render: function() {
-    var searchTerm = this.state.searchTerms;
-    var child = React.DOM.a({className:'search-btn s-animate'});
-    return React.DOM.input({id: 'ui-search-text',name: 'mentionList', type:'text', className:'blank', placeholder:'Explore...', onKeyPress:this.keyEvent, onChange: this.setSearchTerms, value:searchTerm}, child);
-  }
-});*/
