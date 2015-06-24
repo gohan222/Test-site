@@ -1,11 +1,11 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('../fonts/icomoon.eot?k1gq4w');
-	src:url('../fonts/icomoon.eot?#iefixk1gq4w') format('embedded-opentype'),
-		url('../fonts/icomoon.woff2?k1gq4w') format('woff2'),
-		url('../fonts/icomoon.ttf?k1gq4w') format('truetype'),
-		url('../fonts/icomoon.woff?k1gq4w') format('woff'),
-		url('../fonts/icomoon.svg?k1gq4w#icomoon') format('svg');
+	src:url('fonts/icomoon.eot?qnbcpg');
+	src:url('fonts/icomoon.eot?#iefixqnbcpg') format('embedded-opentype'),
+		url('fonts/icomoon.woff2?qnbcpg') format('woff2'),
+		url('fonts/icomoon.ttf?qnbcpg') format('truetype'),
+		url('fonts/icomoon.woff?qnbcpg') format('woff'),
+		url('fonts/icomoon.svg?qnbcpg#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -24,6 +24,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-search:before {
+	content: "\e604";
+}
 .icon-female_symbol:before {
 	content: "\e602";
 }
@@ -72,11 +75,8 @@
 .icon-plus:before {
 	content: "\62";
 }
-.icon-search:before {
-	content: "\6a";
-}
 .icon-search2:before {
-	content: "\73";
+	content: "\6a";
 }
 .icon-facebook:before {
 	content: "\66";

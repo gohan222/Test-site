@@ -54,7 +54,8 @@ if (cluster.isMaster) {
 
   //apply static location
   app.use(express.static('client'));
-  app.get('/js/searchPageView.js', browserify('./client/js/view/searchPage.js'));
+  app.get('/js/broadcasterApp.js', browserify('./client/js/view/broadcasterPage.js'));
+  app.get('/js/consumerApp.js', browserify('./client/js/view/consumerPage.js'));
   
   // middleware specific to this router
   app.use(function UrlLog(req, res, next) {

@@ -14,12 +14,9 @@ var LeftContainer = React.createClass({
     AppAction.toggleHamburger();
   },
   render:function(){
-    //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-hamburger icon-prop animation header-icon clickable',
-                onClick: this.toggleHamburger});
     //logo
-    var img = React.createElement(Img,{src: 'image/broadcaster-header-assets/broadcaster-logo.png', className:'header-logo clickable'});
-    return React.DOM.div({className:'header-left-section'}, icon, img);
+    var img = React.createElement(Img,{src: 'image/consumer-headers-assets/logosearch-button.png', className:'header-consumer-logo clickable'});
+    return React.DOM.div({className:'header-consumer-left-section'}, img);
   }
 });
 
@@ -64,8 +61,8 @@ var MiddleContainer = React.createClass({
   },
   render:function(){
     //search button
-    var button = React.DOM.div({className:'header-button-search clickable', onClick: this.submitButtonClick},
-        React.DOM.span({className:'icon-search icon-prop animation header-icon'})) ;
+    var button = React.DOM.div({className:'header-consumer-button-search animate clickable', onClick: this.submitButtonClick},
+        React.DOM.span({className:'icon-search icon-prop header-consumer-icon'})) ;
     //search input
     var input = React.DOM.input(
       {type:'text', 
@@ -74,8 +71,8 @@ var MiddleContainer = React.createClass({
       onChange: this.setSearchTerms, 
       value: this.state.searchTerms});
     //search container
-    var container = React.DOM.div({className:'header-search-container header-input-search'}, input, button);
-    return React.DOM.div({className:'header-middle-section'}, container);
+    var container = React.DOM.div({className:'header-consumer-search-container header-consumer-input-search'}, input, button);
+    return React.DOM.div({className:'header-consumer-middle-section'}, container);
   }
 });
 
@@ -84,12 +81,30 @@ var MiddleContainer = React.createClass({
 ****************************/
 var RightContainer = React.createClass({
   render:function(){
+    
+    //menu items
+    var product = React.DOM.div({className:'header-consumer-menu-item icon-prop animate clickable'},
+      React.DOM.span(null, 'Products'),
+      React.DOM.i({className:'fa fa-sort-desc'}));
+    var developer = React.DOM.div({className:'header-consumer-menu-item icon-prop animate clickable'},
+      React.DOM.span(null, 'Developer'),
+      React.DOM.i({className:'fa fa-sort-desc'}));
+    var about = React.DOM.div({className:'header-consumer-menu-item icon-prop animate clickable'},
+      React.DOM.span(null, 'About'),
+      React.DOM.i({className:'fa fa-sort-desc'}));
+
     //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-appswitcher icon-prop animation header-icon header-app-switcher clickable'});
+    var icon = React.DOM.span({className:'icon-icon-appswitcher icon-prop animation header-consumer-icon header-consumer-app-switcher clickable'});
     //logo
     var img = React.createElement(Img, {src: 'https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg', className:'clickable'});
-    var imgContainer = React.DOM.div({className:'header-avatar-container'}, img)
-    return React.DOM.div({className:'header-right-section'}, icon, imgContainer);
+    var imgContainer = React.DOM.div({className:'header-consumer-avatar-container'}, img)
+    return React.DOM.div({className:'header-consumer-right-section'}, 
+          product,
+          developer,
+          about,
+          icon, 
+          imgContainer
+          );
   }
 });
 
@@ -98,10 +113,10 @@ var RightContainer = React.createClass({
 ****************************/
 module.exports = React.createClass({
   render: function() {
-    var left = React.createElement(LeftContainer,{className:'header-left-section'}),
-    right = React.createElement(RightContainer,{className:'header-right-section'}),
+    var left = React.createElement(LeftContainer,{className:'header-consumer-left-section'}),
+    right = React.createElement(RightContainer,{className:'header-consumer-right-section'}),
     middle = React.createElement(MiddleContainer);
     
-    return React.DOM.div({className: 'header-container'}, left,middle,right)
+    return React.DOM.div({className: 'header-consumer-container'}, left,middle,right)
   }
 });
