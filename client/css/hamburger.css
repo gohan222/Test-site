@@ -6,4 +6,54 @@
   	width: 290px;
   	height:100%;
   	background-color: #333333;
+  	background: linear-gradient(to right, #333333 92%, #313131, #212121, #000000);
+  	background: -webkit-linear-gradient(left, #333333 92%, #313131, #212121, #000000); /* For Safari 5.1 to 6.0 */
+  	background: -o-linear-gradient(right, #333333 92%, #313131, #212121, #000000); /* For Opera 11.1 to 12.0 */
+ 	background: -moz-linear-gradient(right, #333333 92%, #313131, #212121, #000000); /* For Firefox 3.6 to 15 */
+  	
+}
+
+.hamburger-container{
+	height: 100%;
+}
+
+.hamburger-list{
+	overflow: auto;
+  	position: absolute;
+  	width: 100%;
+  	bottom: 190px;
+  	top:0px;
+}
+
+.hamburger-item{
+	height:50px;
+	padding-left: 30px;
+	border-bottom: solid #222222 1px;
+	border-top: solid #444444 1px;
+}
+
+.hamburger-item:hover{
+	background-color: #222222;
+}
+
+.hamburger-item span{
+	color: #ffffff;
+	font-size: 16px;
+	line-height: 50px;
+}
+
+.hamburger-item-logo{
+	left: 25px;
+  	right: 25px;
+	height:190px;
+	border-top: solid #575757 1px;
+	bottom: 0px;
+  	position: absolute;
+  	color: #707070;
+  	font-size: 12px;
+  	text-align: center;
+}
+
+.hamburger-item-logo img{
+	margin: 30px 0px 30px 0px;
 }

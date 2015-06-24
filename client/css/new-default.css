@@ -241,7 +241,7 @@ a:hover { }
 			.combo-menu a:last-child { border-color: transparent;}
 			.combo-menu a:hover { background: #f1f1f1;}
 
-	.exp-col1 { min-height:300px; display: inline-block; vertical-align: top;  width: calc(100% - 471px); border-right: 1px #e5e5e5 solid; min-width: 810px;}
+	.exp-col1 { min-height:300px; display: inline-block; vertical-align: top;  width: calc(100% - 471px); border-right: 1px #e5e5e5 solid;}
 	.exp-col2 { min-height:300px; display: inline-block; vertical-align: top;   width: 450px;  border-left: 1px #e5e5e5 solid; margin-left: -1px;  }
 	.exp-col2 .page-title { margin-right: -20px;}
 	.exp-col2 .cntr_cr { width: auto; margin-left: 20px;}

@@ -5,6 +5,7 @@ SearchHeader = require('../component/header'),
 FilterHeader = require('../component/filter'),
 RelatedTopicsHeader = require('../component/relatedTopics'),
 RelatedCollectionsHeader = require('../component/relatedCollections'),
+Hamburger = require('../component/hamburger'),
 AppStore = require('../store/appStore'),
 $ = require('jquery'),
 React = require('react');
@@ -18,6 +19,11 @@ React.render(
 React.render(
   React.createElement(SearchBody),
   document.getElementById('app-content')
+);
+
+React.render(
+  React.createElement(Hamburger),
+  document.getElementById('app-hamburger')
 );
 
 AppStore.addToggleHamburgerListener(function(){

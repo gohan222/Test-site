@@ -6,8 +6,8 @@ body {}
 
 .hover {opacity: 0.5}
 .hover:hover { opacity: 1;}
-.animate {-webkit-transition: all 0.5s ease-out; -moz-transition: all 0.5s ease-out; transition: all 0.5s ease-out;}
-.s-animate {-webkit-transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}
+/*.animate {-webkit-transition: all 0.5s ease-out; -moz-transition: all 0.5s ease-out; transition: all 0.5s ease-out;}
+.s-animate {-webkit-transition: all 0.3s ease-out; -moz-transition: all 0.3s ease-out; transition: all 0.3s ease-out;}*/
 
 /*AUDIO PLAYER*/
 	/*.inlay-audio { width: 100%; }
