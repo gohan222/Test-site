@@ -80,6 +80,9 @@ var MiddleContainer = React.createClass({
 * Right Container
 ****************************/
 var RightContainer = React.createClass({
+  getInitialState: function() {
+    return {user: null};
+  },
   render:function(){
     
     //menu items
@@ -93,11 +96,22 @@ var RightContainer = React.createClass({
       React.DOM.span(null, 'About'),
       React.DOM.i({className:'fa fa-sort-desc'}));
 
-    //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-appswitcher icon-prop animation header-consumer-icon header-consumer-app-switcher clickable'});
-    //logo
-    var img = React.createElement(Img, {src: 'https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg', className:'clickable'});
-    var imgContainer = React.DOM.div({className:'header-consumer-avatar-container'}, img)
+    var icon, img, imgContainer;
+    
+    if(this.state.user){
+      //app switcher icon
+      icon = React.DOM.span({className:'icon-icon-appswitcher icon-prop animation header-consumer-icon header-consumer-app-switcher clickable'});
+      //logo
+      img = React.createElement(Img, {src: 'https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg', className:'clickable'});
+      imgContainer = React.DOM.div({className:'header-consumer-avatar-container'}, img);
+    }else{
+      //logged out
+      icon = React.DOM.div({className:'header-consumer-button-signup blue-btn clickable'},
+        React.DOM.span(null,'Sign Up'));
+      imgContainer = React.DOM.div({className:'header-consumer-menu-item icon-prop animate clickable'},
+        React.DOM.span(null, 'Login'));
+    }
+    
     return React.DOM.div({className:'header-consumer-right-section'}, 
           product,
           developer,

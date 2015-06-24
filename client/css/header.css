@@ -18,7 +18,7 @@
 }
 
 .header-left-section{
-	padding-left: 30px;
+	padding-left: 20px;
 	width: 272px;
 	height:100%;
 	left:0px;
@@ -38,7 +38,7 @@
 	height:100%;
 	position: absolute;
 	right:0;
-	padding-right: 30px;
+	padding-right: 20px;
 }
 
 .header-avatar-container{

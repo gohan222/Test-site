@@ -17,7 +17,7 @@
 }
 
 .header-consumer-left-section{
-	padding-left: 30px;
+	padding-left: 20px;
 	width: 150px;
 	height:100%;
 	left:0px;
@@ -37,17 +37,22 @@
 	height:100%;
 	position: absolute;
 	right:0;
-	padding-right: 30px;
+	padding-right: 20px;
 }
 
 .header-consumer-menu-item{
-	top: 26px;
+	top: 18px;
   	display: inline-block;
   	margin-right: 25px;
 }
 
 .header-consumer-menu-item:first-child{
 	margin-left: 50px;
+}
+
+.header-consumer-menu-item:last-child{
+	margin-right: 0px;
+	margin-left: 25px;
 }
 
 .header-consumer-menu-item i{
@@ -93,6 +98,20 @@
 	width: 50px;
   	height: 100%;
   	display: inline-block;
+}
+
+.header-consumer-button-signup{
+	border-radius: 3px;
+  	top: 18px;
+  	width: 73px;
+  	height: 32px;
+}
+
+.header-consumer-button-signup span{
+	display: inline-block;
+	line-height: 32px;
+	width: 73px;
+	text-align: center;
 }
 
 .header-consumer-button-search:hover{
