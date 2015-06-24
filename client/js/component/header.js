@@ -64,17 +64,17 @@ var MiddleContainer = React.createClass({
   },
   render:function(){
     //search button
-    var button = React.DOM.div({className:'header-button-search blue-btn clickable', onClick: this.submitButtonClick}, 'Search');
+    var button = React.DOM.div({className:'header-button-search clickable', onClick: this.submitButtonClick},
+        React.DOM.span({className:'icon-search2 icon-prop animation header-icon'})) ;
     //search input
     var input = React.DOM.input(
-      {className:'header-input-search', 
-      type:'text', 
+      {type:'text', 
       placeholder:'Explore...',
       onKeyPress:this.keyEvent, 
       onChange: this.setSearchTerms, 
       value: this.state.searchTerms});
     //search container
-    var container = React.DOM.div({className:'header-search-container'}, input, button);
+    var container = React.DOM.div({className:'header-search-container header-input-search'}, input, button);
     return React.DOM.div({className:'header-middle-section'}, container);
   }
 });
