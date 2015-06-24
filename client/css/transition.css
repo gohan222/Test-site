@@ -9,11 +9,11 @@
 }
 
 .icon-prop{
-	opacity: .6;
+	color: #3e5063;
 }
 
 .icon-prop:hover{
-	opacity: 1;
+	color: #61bae3;
 }
 
 .animation{
