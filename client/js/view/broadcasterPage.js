@@ -1,18 +1,16 @@
 'use strict';
 
 var SearchBody = require('../component/search'),
-SearchHeader = require('../component/header'),
-FilterHeader = require('../component/filter'),
-RelatedTopicsHeader = require('../component/relatedTopics'),
-RelatedCollectionsHeader = require('../component/relatedCollections'),
+Header = require('../component/masterHeader'),
 Hamburger = require('../component/hamburger'),
 AppStore = require('../store/appStore'),
+AppConstant = require('../constant/appConstant'),
 $ = require('jquery'),
 React = require('react');
 
 
 React.render(
-  React.createElement(SearchHeader),
+  React.createElement(Header,{app:AppConstant.APP_BROADCASTER}),
   document.getElementById('app-header')
 );
 

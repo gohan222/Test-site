@@ -1,16 +1,16 @@
 var React = require('react'),
 Hamburger = require('../../client/js/component/hamburger'),
-Header = require('../../client/js/component/header'),
-ConsumerHeader = require('../../client/js/component/consumerHeader');
+AppConstant = require('../../client/js/constant/appConstant'),
+Header = require('../../client/js/component/masterHeader');
 
 module.exports = {
 	generateHeader: function(chunk, context, bodies, params){
-		return chunk.write(React.renderToStaticMarkup(React.createElement(Header)));
+		return chunk.write(React.renderToStaticMarkup(React.createElement(Header,{app:AppConstant.APP_BROADCASTER})));
 	},
 	generateHamburger: function(chunk, context, bodies, params){
 		return chunk.write(React.renderToStaticMarkup(React.createElement(Hamburger)));
 	},
 	generateConsumerHeader: function(chunk, context, bodies, params){
-		return chunk.write(React.renderToStaticMarkup(React.createElement(ConsumerHeader)));
+		return chunk.write(React.renderToStaticMarkup(React.createElement(Header,{app:AppConstant.APP_CONSUMER})));
 	},
 };
