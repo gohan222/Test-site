@@ -1,7 +1,6 @@
 'use strict';
 
-var $ = require('jquery'),
-AppAction = require('../action/appAction'),
+var AppAction = require('../action/appAction'),
 AppStore = require('../store/appStore'),
 Img = require('../component/image'),
 React = require('react');

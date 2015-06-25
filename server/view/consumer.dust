@@ -30,7 +30,7 @@
       {generateSearchContent}
     </div>
   </div>
-  <script type="text/javascript" src="js/consumerApp.js"></script>
+  <script type="text/javascript" src="dist/{hash}/consumer.{hash}.js"></script>
 </body>
 
 </html>

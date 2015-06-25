@@ -1,5 +1,4 @@
-var AppConstant = require('../constant/appConstant'),
-AppStore = require('../store/appStore'),
+var AppStore = require('../store/appStore'),
 AppAction = require('../action/appAction'),
 LazyLoadImg = require('../component/image'),
 React = require('react/addons');

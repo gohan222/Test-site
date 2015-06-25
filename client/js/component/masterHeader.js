@@ -1,7 +1,6 @@
 'use strict';
 
-var SearchBody = require('../component/search'),
-BroadcasterHeader = require('../component/header'),
+var BroadcasterHeader = require('../component/header'),
 ConsumerHeader = require('../component/consumerHeader'),
 AppConstant = require('../constant/appConstant'),
 React = require('react');
