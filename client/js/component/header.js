@@ -14,8 +14,8 @@ var LeftContainer = React.createClass({
   },
   render:function(){
     //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-hamburger icon-prop animation header-icon clickable',
-                onClick: this.toggleHamburger});
+    var icon = React.DOM.span({className:'icon-prop animation header-icon clickable',
+                onClick: this.toggleHamburger}, 'k');
     //logo
     var img = React.createElement(Img,{src: 'image/broadcaster-header-assets/broadcaster-logo.png', className:'header-logo clickable'});
     return React.DOM.div({className:'header-left-section'}, icon, img);
@@ -84,7 +84,7 @@ var MiddleContainer = React.createClass({
 var RightContainer = React.createClass({
   render:function(){
     //hambergher icon
-    var icon = React.DOM.span({className:'icon-icon-appswitcher icon-prop animation header-icon header-app-switcher clickable'});
+    var icon = React.DOM.span({className:'icon-prop animation header-icon header-app-switcher clickable'}, '0');
     //logo
     var img = React.createElement(Img, {src: 'https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg', className:'clickable'});
     var imgContainer = React.DOM.div({className:'header-avatar-container'}, img)
