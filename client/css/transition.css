@@ -1,0 +1,23 @@
+@charset "utf-8";
+
+.image { 
+	opacity: 0;  
+}
+.image-loaded { 
+	opacity: 1;
+	transition: opacity .2s ease-in; 
+}
+
+.icon-prop{
+	color: #3e5063;
+}
+
+.icon-prop:hover{
+	color: #61bae3;
+}
+
+.animation{
+	-webkit-transition: all 0.2s; 
+	-moz-transition: all 0.2s; 
+	transition: all 0.2s;
+}

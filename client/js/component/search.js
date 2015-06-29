@@ -1,86 +1,29 @@
 'use strict';
 
-var AppConstant = require('../constant/appConstant'),
-$ = require('jquery'),
-AppStore = require('../store/appStore'),
-AppAction = require('../action/appAction'),
-LazyLoadImg = require('../component/image'),
-React = require('react/addons');
+var React = require('react'),
+Filter = require('../component/filter'),
+RelatedTopics = require('../component/relatedTopics'),
+RelatedCollections = require('../component/relatedCollections'),
+MentionList = require('../component/consumerMentionList');
 
-var Mention = React.createClass({
-  getSnippetText: function(snippets){
-    var text = '';
-    if (!snippets){
-      return text;
-    }
-
-    for (var i = 0; i < snippets.length; i++) {
-      text += snippets[i].text;
-    };
-
-    return text;
-  },
-  render: function() {
-    
-    //add background image
-    // var backgroundStyle = {backgroundImage:'url(' + this.props.data.programLiveImage + ')',
-    //                        backgroundSize: 'cover' }
-    var backgroundImage = React.DOM.div({className: 'prog-avtr'},
-                          React.createElement(LazyLoadImg,{src: this.props.data.programLiveImage, className:'prog-avtr-style'}));
-
-    //add porgram name
-    var arrowIcon  = React.DOM.a({className: 'blue-play'});
-    var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,this.props.data.programName));
-    var airDate = React.DOM.i({className: 'mention-air-date'}, 'Air date: ' + this.props.data.mediaStartTime);
-    var programNameContainer = React.DOM.div({className: 'prog-title'},arrowIcon, programName,airDate);
-
-    //add mention snippet
-    var mentionSnippet = React.DOM.p({className: 'mention-snippet-text'}, React.DOM.span({className:'cur-point ui-snip-text'}, this.getSnippetText(this.props.data.mentionSnippet)));
-
-    var holder = React.DOM.div({className: 'ui-au-holder'},backgroundImage, programNameContainer, mentionSnippet);
-    var container = React.DOM.li({className:'ui-search-item'}, holder);
-  
-    return container;
-  }
-});
-
-var MentionList = React.createClass({
-  render: function() {
-    if(!this.props.data){
-      return React.DOM.ul({className: 'results'}, null);
-    }
-
-    var mentionNodes = this.props.data.map(function (mention) {
-      return React.createElement(Mention, {data:mention});
-    });
-
-    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'ui-search-item', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
-    return React.DOM.ul({className: 'results'}, animationElement);
+var CollectionHeader = React.createClass({
+  render: function(){
+    return React.DOM.div({className:'page-title bb'},
+        React.DOM.a({className:'goright f13'}, 'View All Related Collections'),
+        React.DOM.span({className:'f22 mr20', style:{paddingTop:'10px'}}, 'Collections')
+        );
   }
 });
 
 module.exports = React.createClass({
-  onChange: function() {
-    //first we remove the data before adding new list to animate the draw.
-    this.setState({data: AppStore.getSearchResults()});
-  },
-  onSearchTermChange: function(){
-    this.setState({data: []});
-    AppAction.searchInit(AppStore.getSearchTerms());
-  },
-  componentDidMount: function() {
-    this.setState({data: AppStore.getSearchResults()});
-    AppStore.addChangeListener(this.onChange);
-    AppStore.addChangeSearchTermListener(this.onSearchTermChange);
-  },
-  componentWillUnmount: function() {
-    AppStore.removeChangeListener(this.onChange);
-    AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
-  },
-  getInitialState: function() {
-    return {data: []};
-  },
   render: function() {
-    return React.createElement(MentionList, {data:this.state.data});
+    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter), React.createElement(MentionList));
+    var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
+    var columnView = React.DOM.div({className:''},leftView,rightView);
+
+    return React.DOM.div({className:'contain min-height active'},
+      React.createElement(RelatedTopics), 
+      columnView
+      );
   }
 });

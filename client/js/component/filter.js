@@ -27,8 +27,10 @@ module.exports = React.createClass({
     var recordCount = this.state.recordCount;
     var clipsText = React.DOM.span({className: 'f22 mr20'}, 'Clips');
     var countText = React.DOM.b(null, recordCount);
-    var container = React.DOM.span(null, clipsText,countText);
+    var advFilter = React.DOM.div({className:'adv-holder'},
+      React.DOM.a({className:'adv-search animate ui-explore-filter'}, 'Advanced Search'));
+    var container = React.DOM.span(null, clipsText,countText, advFilter);
     
-    return container;
+    return React.DOM.div({className:'page-title bb'}, container);
   }
 });

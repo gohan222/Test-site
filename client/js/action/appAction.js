@@ -16,70 +16,9 @@ var AppConstant = require('../constant/appConstant');
 var AppService = require('../service/search');
 
 var appAction = {
-
-  /**
-   * @param  {string} text
-   */
-  create: function(text) {
+  toggleHamburger:function(){
     AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_CREATE,
-      text: text
-    });
-  },
-
-  /**
-   * @param  {string} id The ID of the ToDo item
-   * @param  {string} text
-   */
-  updateText: function(id, text) {
-    AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_UPDATE_TEXT,
-      id: id,
-      text: text
-    });
-  },
-
-  /**
-   * Toggle whether a single ToDo is complete
-   * @param  {object} todo
-   */
-  toggleComplete: function(todo) {
-    var id = todo.id;
-    var actionType = todo.complete ?
-        AppConstant.ACTION_UNDO_COMPLETE :
-        AppConstant.ACTION_COMPLETE;
-
-    AppDispatcher.dispatch({
-      actionType: actionType,
-      id: id
-    });
-  },
-
-  /**
-   * Mark all ToDos as complete
-   */
-  toggleCompleteAll: function() {
-    AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_TOGGLE_COMPLETE_ALL
-    });
-  },
-
-  /**
-   * @param  {string} id
-   */
-  destroy: function(id) {
-    AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_DESTROY,
-      id: id
-    });
-  },
-
-  /**
-   * Delete all the completed ToDos
-   */
-  destroyCompleted: function() {
-    AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_DESTROY_COMPLETED
+      actionType: AppConstant.ACTION_TOGGLE_HAMBURGER
     });
   },
 

@@ -44,7 +44,7 @@ a { text-decoration:none;}
 ::-moz-placeholder { font-style:italic; opacity:0.5}
 .inblock { display:inline-block;} .goright { float:right;}
 .clear:after { content:""; display:block; height:1px; clear:both; margin-bottom:-1px;}
-input[type="text"], input[type="password"], textarea, select { border:1px #ccc solid; background-color:#fff; border-radius:5px; padding:5px; resize:none; font-family:inherit; box-shadow:0 1px 2px rgba(0,0,0,0.1) inset;}
+/*input[type="text"], input[type="password"], textarea, select { border:1px #ccc solid; background-color:#fff; border-radius:5px; padding:5px; resize:none; font-family:inherit; box-shadow:0 1px 2px rgba(0,0,0,0.1) inset;}*/
 input[type=radio], input[type=checkbox] { vertical-align:top; margin:0 10px 0 0; width:auto !important;}
 
 .search_clr { background:url(../images/icon_close2.png) no-repeat center; top:-1px; right:50px; position:absolute; display:inline-block; width:40px; height:40px; cursor:pointer; opacity:0.2; }
@@ -436,7 +436,7 @@ table.c_table .mt { display:inline-block; margin:0 5px;}
 .contri_slide ul.contri_people li:hover .tname { display:none; }
 .contri_slide ul.contri_people li .owner:hover .tname { top:-24px; left:-6px; display:block;}
 
-input:hover, input[type="text"].search:hover, .filter_option .date_dropdown:hover, select:hover, textarea:hover, .faketxt:hover{ border:1px #b8b8b8 solid;}
+/*input:hover, input[type="text"].search:hover, .filter_option .date_dropdown:hover, select:hover, textarea:hover, .faketxt:hover{ border:1px #b8b8b8 solid;}*/
 .url input:hover, input.none:hover, button:hover, .try_btn:hover { border:none;}
 
 /*No collection pop*/
@@ -671,8 +671,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 }
 
 .tiny { position: absolute; top: 15px; right: 15px; background: url("../images/tiny_icon.png") no-repeat center left; padding-left: 20px;}
-.tiny input[type="text"] {width: 140px; padding: 6px !important; vertical-align: middle; }
-.share_pop input[type="text"] { padding: 9px;}
+/*.tiny input[type="text"] {width: 140px; padding: 6px !important; vertical-align: middle; }*/
+/*.share_pop input[type="text"] { padding: 9px;}*/
 .tiny_img {width: 85px; height: 45px;}
 .tiny_cluster { display: inline-block; border: 1px #b8c3c9 solid; border-radius: 3px; overflow: hidden;}
 .tiny_cluster a { display: inline-block; padding: 6px 10px; border-right: 1px solid #b8c3c9; color: #424c57;

@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+.clickable{
+	cursor:pointer;
+}
+
+.content-container{
+	background-color: #ffffff;
+	height: 100%;
+	overflow-y:auto;
+}
+
+.content-container-show-hamburger{
+	margin-left: 290px;
+}
