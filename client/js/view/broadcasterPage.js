@@ -1,5 +1,21 @@
 'use strict';
 
+//set css requirements
+require('../../css/bootstrap.min.css');
+require('../../css/button.css');
+require('../../css/common.css');
+require('../../css/consumer.css');
+require('../../css/consumerHeader.css');
+require('../../css/default.css');
+require('../../css/ext-page.css');
+require('../../css/font-awesome.min.css');
+require('../../css/hamburger.css');
+require('../../css/header.css');
+require('../../css/new-default.css');
+require('../../css/override_consumer.css');
+require('../../css/style.css');
+require('../../css/transition.css');
+
 var SearchBody = require('../component/search'),
 Header = require('../component/masterHeader'),
 Hamburger = require('../component/hamburger'),

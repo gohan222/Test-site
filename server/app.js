@@ -18,9 +18,9 @@ if (workers <= 0) {
 
 if (cluster.isMaster) {
 
-    logger.debug('environment: ' + process.env.NODE_ENV);
-    logger.debug('port: ' + config.port);
-    logger.debug('start cluster with %s workers', workers);
+    logger.info('environment: ' + process.env.NODE_ENV);
+    logger.info('port: ' + config.port);
+    logger.info('start cluster with %s workers', workers);
 
     for (var i = 0; i < workers; ++i) {
         var worker = cluster.fork().process;
@@ -28,7 +28,7 @@ if (cluster.isMaster) {
     }
 
     cluster.on('exit', function(worker) {
-        logger.debug('worker %s died. restart...', worker.process.pid);
+        logger.info('worker %s died. restart...', worker.process.pid);
         cluster.fork();
     });
 
@@ -38,21 +38,42 @@ if (cluster.isMaster) {
         cons = require('consolidate'),
         bodyParser = require('body-parser'),
         app = express(),
+        ExtractTextPlugin = require("extract-text-webpack-plugin"),
         compilerSettings = {
             entry: {
                 consumer: './client/js/view/consumerPage.js',
                 broadcaster: './client/js/view/broadcasterPage.js'
             },
             output: {
-                path: './client/dist/[hash]',
+                path: './client/dist',
                 filename: '[name].[hash].js'
-            }
+            },
+            module: {
+                loaders: [{
+                        test: /\.css$/,
+                        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+                    }, {
+                        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                        loader: "url-loader?limit=10000&minetype=application/font-woff"
+                    }, {
+                        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                        loader: "file-loader"
+                    }]
+                    /*loaders: [{
+                        test: /\.css$/i,
+                        loader: "css"
+                    }, {
+                        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
+                        loader: "file"
+                    }]*/
+            },
+            plugins: [new ExtractTextPlugin('[name].[hash].css')]
         };
 
-    if(process.env.NODE_ENV === 'production'){
-      compilerSettings.plugins = [new webpack.optimize.UglifyJsPlugin()];
+    if (process.env.NODE_ENV === 'production') {
+        compilerSettings.plugins.push(new webpack.optimize.UglifyJsPlugin());
     }
-    
+
     // returns a Compiler instance
     var compiler = webpack(compilerSettings);
 
@@ -92,9 +113,18 @@ if (cluster.isMaster) {
     };
 
     compiler.run(function(err, stats) {
+        // var css = require('./../client/css/button.css');
+        // var css = require('./../client/css/style.css');
+        // console.log('css loader');
+        // console.log(css);
+        logger.info('version: ' + stats.hash);
         config.hash = stats.hash;
-        console.log(config.hash);
-        startServer();
+        if (!err) {
+            startServer();
+        } else {
+            console.log(err);
+        }
+
     });
 }
 

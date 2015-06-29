@@ -445,7 +445,7 @@ input.cal_input:focus {border-color: #0063c5;}
 
 .ui-datepicker { /*z-index:12 !important;*/ border: 1px solid rgb(204, 204, 204); padding: 5px 5px 0; min-width: 200px; margin-top: -1px;}
 .animate {-webkit-transition: all 0.5s ease-out; -moz-transition: all 0.5s ease-out; transition: all 0.5s ease-out;}
-.custom_calender{ heig ht: 274px;}
+.custom_calender{ height: 274px;}
 .cal_show .ui-datepicker { padding:0; margin-top:0; }
 
 .ui-datepicker-month{min-height: 15px; height: 22px; padding:2px 5px; width:60px !important; font-size:12px !important; line-height:normal; margin:0 !important;  }

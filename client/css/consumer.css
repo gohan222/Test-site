@@ -836,7 +836,7 @@ label.radio.active:after {background-position:0 -16px; }
   display: flex;*/
 }
 
-.all_list .ccard{ opac ity: 0.7; padding: 15px 10px; cursor: pointer; margin-bottom: 10px;
+.all_list .ccard{ opacity: 0.7; padding: 15px 10px; cursor: pointer; margin-bottom: 10px;
 -webkit-transform: scale(1, 1); -moz-transform: scale(1, 1); -ms-transform: scale(1, 1);
 /*-webkit-transition-duration: 500ms;
 -webkit-transition-timing-function: ease-out;
