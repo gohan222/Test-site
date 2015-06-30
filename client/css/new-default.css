@@ -173,7 +173,7 @@ a:hover { }
 	.pill a { position: absolute; top: 0; right: 0; width: 30px; height: 30px; background: url("/imageshome/sprite.png") -235px -97px;  }
 	.options_tt .form li .field .pill { padding: 0 10px;}
 	.adv-holder { float: right; display: inline-block; margin:5px 15px 0 0;  }
-	.adv-search {  font-size: 12px; color: #949494; cursor: pointer; z-index: 3;   }
+	.adv-search {  font-size: 12px; color: #949494; cursor: pointer;   }
 	.adv-search:after { border: 2px #949494 solid; border-color: #949494; content: ""; position: absolute; width: 5px; height: 5px; top: 2px; right: -15px; border-width: 2px 2px 0 0; -ms-transform: rotate(135deg);  -webkit-transform: rotate(135deg);  transform: rotate(135deg);
 		-webkit-transition: all 0.5s ease-out; -moz-transition: all 0.5s ease-out; transition: all 0.5s ease-out; }
 	.adv-search.active:after { -ms-transform: rotate(-45deg);  -webkit-transform: rotate(-45deg);  transform: rotate(-45deg); top: 5px; }

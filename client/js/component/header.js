@@ -17,7 +17,7 @@ var LeftContainer = React.createClass({
     var icon = React.DOM.span({className:'icon-prop animation header-icon clickable',
                 onClick: this.toggleHamburger}, 'k');
     //logo
-    var img = React.createElement(Img,{src: 'image/broadcaster-header-assets/broadcaster-logo.png', className:'header-logo clickable'});
+    var img = React.createElement(Img,{src: 'images/broadcaster-header-assets/broadcaster-logo.png', className:'header-logo clickable'});
     return React.DOM.div({className:'header-left-section'}, icon, img);
   }
 });

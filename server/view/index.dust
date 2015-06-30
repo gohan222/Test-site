@@ -36,6 +36,8 @@
       {generateSearchContent}
     </div>
   </div>
+  <div id="app-modal">
+  </div>
   <script type="text/javascript" src="dist/broadcaster.{hash}.js"></script>
 </body>
 

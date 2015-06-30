@@ -31,6 +31,8 @@
       {generateSearchContent}
     </div>
   </div>
+  <div id="app-modal">
+  </div>
   <script type="text/javascript" src="dist/consumer.{hash}.js"></script>
 </body>
 

@@ -177,10 +177,10 @@ ul.contri_people  { padding:15px 10px 15px 25px; border-left:1px #e5e5e5 solid; 
 .ui-search-result { padding: 0px 30px; margin: 0px -30px; overflow-y:auto; position:fixed; width:100%; height: calc(100% - 141px); overflow-x:hidden; }
 
 /*Sign in Pop*/
-.whitepop { width:100%; height:100%; background:rgba(255,255,255,0.9); position:fixed; top:0; left:0; z-index:1100; color:#666666; min-width: 1280px; }
+.whitepop { width:100%; height:100%; background:rgba(255,255,255,0.9); position:fixed; top:0; left:0; color:#666666; min-width: 1280px; }
 
 
-.win_blue { box-shadow: 0 0 3px rgba(0,0,0,0.3); position:absolute; left:0; right:0; top:0; bottom:0; margin:auto; width:300px; height:534px; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.3); border-radius: 6px; overflow: hidden; }
+.win_blue { box-shadow: 0 0 3px rgba(0,0,0,0.3); position:fixed; left:0; right:0; top:0; bottom:0; margin:auto; width:300px; height:534px; background: white; box-shadow: 0 0 10px rgba(0,0,0,0.3); border-radius: 6px; overflow: hidden; }
 .win_black { box-shadow: 0 0 3px rgba(0,0,0,0.3); position:absolute; left:0; right:0; top:0; bottom:0; margin:auto; width:300px; height:534px; background: white;  }
 .blue_head { background:#507fae; line-height:50px; text-align: center; height:50px; position:relative; color:#fff; font-size:18px; font-weight:700; }
 .black_head { background:black; line-height:50px; text-align: center; height:50px; position:relative; color:#fff; font-size:18px; font-weight:700; }
@@ -1142,3 +1142,8 @@ z-index: 1;   }
 
 .table-column td div.dline{padding: 15px 5px 15px 30px;}
 .min-height{min-height: inherit;}
+
+.login-container{
+	width: 380px;
+  	height: 449px;
+}
