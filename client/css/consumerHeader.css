@@ -77,8 +77,11 @@
 }
 
 .header-consumer-app-switcher{
-	position: absolute;
-	right: 92px;
+	position: relative;
+  	height: 25px;
+  	display: inline-block;
+  	width: 25px;
+  	margin-left: 60px;
 }
 
 .header-consumer-search-container{

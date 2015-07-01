@@ -22,13 +22,10 @@ var LoginPopup = React.createClass({
         AppAction.submitLogin(this.username, this.password);
     },
     componentDidMount: function() {
-        // this.setState({data: AppStore.getSearchResultsCount()});
-        // AppStore.addChangeRelatedTopicsListener(this.onChange);
-        // AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+        AppStore.addChangeUserListener(this.close);
     },
     componentWillUnmount: function() {
-        // AppStore.removeChangeRelatedTopicsListener(this.onChange);
-        // AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
+        AppStore.removeChangeUserListener(this.close);
     },
     getInitialState: function() {
         return {};
@@ -54,6 +51,7 @@ var LoginPopup = React.createClass({
                 }),
                 React.DOM.input({
                     className: 'signup clickable',
+                    disabled:true,
                     value: 'Log in',
                     onClick: this.submitLogin
                 })),

@@ -21,7 +21,7 @@ var appAction = {
         AppServiceUser.login(username, password, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_CHANGE_USER,
-                searchResults: data
+                user: data
             });
         });
     },

@@ -46,6 +46,10 @@ function updateSearchTerms(results){
   searchTerms = results;
 }
 
+function updateUser(results){
+  user = results;
+}
+
 var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
@@ -189,8 +193,8 @@ AppDispatcher.register(function(action) {
       AppStore.emitChangeRelatedCollections();
       break;
     case Constants.ACTION_CHANGE_USER:
-      updateRelatedCollections(action.user);
-      AppStore.emitChangeUser
+      updateUser(action.user);
+      AppStore.emitChangeUser();
       break;
     default:
       // no op

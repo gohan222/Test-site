@@ -110,6 +110,17 @@ var RightContainer = React.createClass({
             user: null
         };
     },
+    userChange: function() {
+        this.setState({
+            user: AppStore.getUser()
+        });
+    },
+    componentDidMount: function() {
+        AppStore.addChangeUserListener(this.userChange);
+    },
+    componentWillUnmount: function() {
+        AppStore.removeChangeUserListener(this.userChange);
+    },
     showLogin: function() {
         React.render(
             React.createElement(Login),
@@ -146,16 +157,16 @@ var RightContainer = React.createClass({
 
         if (this.state.user) {
             //app switcher icon
-            icon = React.DOM.span({
-                className: 'icon-icon-appswitcher icon-prop animation header-consumer-icon header-consumer-app-switcher clickable'
-            });
+            icon = React.DOM.div({className:'header-consumer-app-switcher'}, React.DOM.span({
+                className: 'icon-prop animation header-consumer-icon clickable'
+            }, '0'));
             //logo
             img = React.createElement(Img, {
                 src: 'https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg',
                 className: 'clickable'
             });
             imgContainer = React.DOM.div({
-                className: 'header-consumer-avatar-container'
+                className: 'header-consumer-menu-item header-consumer-avatar-container clickable'
             }, img);
         } else {
             //logged out
@@ -166,7 +177,9 @@ var RightContainer = React.createClass({
             imgContainer = React.DOM.div({
                     className: 'header-consumer-menu-item icon-prop animate clickable'
                 },
-                React.DOM.span({onClick: this.showLogin}, 'Login'));
+                React.DOM.span({
+                    onClick: this.showLogin
+                }, 'Login'));
         }
 
         return React.DOM.div({
