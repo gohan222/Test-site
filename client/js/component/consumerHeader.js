@@ -107,7 +107,7 @@ var RightContainer = React.createClass({
     loginModal: null,
     getInitialState: function() {
         return {
-            user: null
+            user: this.props.user
         };
     },
     userChange: function() {
@@ -129,7 +129,8 @@ var RightContainer = React.createClass({
 
     },
     render: function() {
-
+        console.log('consumer');
+        console.log(this.state.user);
         //menu items
         var product = React.DOM.div({
                 className: 'header-consumer-menu-item icon-prop animate clickable'
@@ -162,7 +163,7 @@ var RightContainer = React.createClass({
             }, '0'));
             //logo
             img = React.createElement(Img, {
-                src: 'https://s3.amazonaws.com/prod-veritone-ugc/67e2daa5-fb3d-4e60-baef-15ed0510c88a%2Favatar%2FKsu3J4miTciq8EEoTHqk_IMG_1641.jpg',
+                src: this.state.user.image,
                 className: 'clickable'
             });
             imgContainer = React.DOM.div({
@@ -198,12 +199,20 @@ var RightContainer = React.createClass({
  * Parent Header Container
  ****************************/
 module.exports = React.createClass({
+    getInitialState: function() {
+        return {
+            user: this.props.user
+        };
+    },
     render: function() {
+        console.log('consumer');
+        console.log(this.state.user);
         var left = React.createElement(LeftContainer, {
                 className: 'header-consumer-left-section'
             }),
             right = React.createElement(RightContainer, {
-                className: 'header-consumer-right-section'
+                className: 'header-consumer-right-section',
+                user:this.state.user
             }),
             middle = React.createElement(MiddleContainer);
 

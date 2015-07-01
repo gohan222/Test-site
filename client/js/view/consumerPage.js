@@ -20,7 +20,7 @@ React = require('react');
 
 
 React.render(
-  React.createElement(Header, {app:AppConstant.APP_CONSUMER}),
+  React.createElement(Header, {app:AppConstant.APP_CONSUMER, user:window.APP.user}),
   document.getElementById('app-header')
 );
 

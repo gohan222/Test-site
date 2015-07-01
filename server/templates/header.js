@@ -11,6 +11,6 @@ module.exports = {
 		return chunk.write(React.renderToStaticMarkup(React.createElement(Hamburger)));
 	},
 	generateConsumerHeader: function(chunk, context, bodies, params){
-		return chunk.write(React.renderToStaticMarkup(React.createElement(Header,{app:AppConstant.APP_CONSUMER})));
+		return chunk.write(React.renderToStaticMarkup(React.createElement(Header,{app:AppConstant.APP_CONSUMER, user:context.get('user') })));
 	},
 };
