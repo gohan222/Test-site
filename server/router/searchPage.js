@@ -24,6 +24,7 @@ router.get('/broadcaster', function(req, res){
 });
 
 router.get('/consumer', function(req, res){
+	logger.info(req.session);
   res.render('consumer', merge(headerShare, contentShare, {hash:config.hash}));
 });
 

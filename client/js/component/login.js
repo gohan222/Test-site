@@ -5,10 +5,21 @@ var AppStore = require('../store/appStore'),
     React = require('react');
 
 var LoginPopup = React.createClass({
-    close:function(){
-      if(this.props.closeModal){
-        this.props.closeModal.apply(this,[]);
-      }
+    username: null,
+    password: null,
+    close: function() {
+        if (this.props.closeModal) {
+            this.props.closeModal.apply(this, []);
+        }
+    },
+    setUsername: function(event) {
+        this.username = event.target.value;
+    },
+    setPassword: function(event) {
+        this.password = event.target.value;
+    },
+    submitLogin: function() {
+        AppAction.submitLogin(this.username, this.password);
     },
     componentDidMount: function() {
         // this.setState({data: AppStore.getSearchResultsCount()});
@@ -29,7 +40,23 @@ var LoginPopup = React.createClass({
                 className: 'b_close clickable',
                 onClick: this.close
             })),
-            formFields = React.DOM.form(null),
+            formFields = React.DOM.form(null,
+                React.DOM.input({
+                    name: 'email',
+                    placeholder: 'email',
+                    onChange: this.setUsername,
+                }),
+                React.DOM.input({
+                    name: 'password',
+                    type: 'password',
+                    placeholder: 'password',
+                    onChange: this.setPassword,
+                }),
+                React.DOM.input({
+                    className: 'signup clickable',
+                    value: 'Log in',
+                    onClick: this.submitLogin
+                })),
             formLayout = React.DOM.div({
                     className: 'pop_col1'
                 },
@@ -45,18 +72,18 @@ var LoginPopup = React.createClass({
                 }, formFields)),
             bodyContainer = React.DOM.div({
                 className: 'clear'
-            }, formLayout);
+            }, formLayout),
+            modalContainer = React.DOM.div({
+                className: 'win_blue login-container'
+            }, header, bodyContainer);
 
-        var modalContainer = React.DOM.div({
-            className: 'win_blue login-container'
-        }, header, bodyContainer);
         return modalContainer;
     }
 });
 
 module.exports = React.createClass({
-    closeModal: function(){
-      React.unmountComponentAtNode(this.getDOMNode().parentNode);
+    closeModal: function() {
+        React.unmountComponentAtNode(this.getDOMNode().parentNode);
     },
     componentDidMount: function() {
         // this.setState({data: AppStore.getSearchResultsCount()});
@@ -75,6 +102,8 @@ module.exports = React.createClass({
             className: 'modal-container'
         }, React.DOM.div({
             className: 'whitepop'
-        }), React.createElement(LoginPopup, {closeModal: this.closeModal}));
+        }), React.createElement(LoginPopup, {
+            closeModal: this.closeModal
+        }));
     }
 });

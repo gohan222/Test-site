@@ -21,11 +21,13 @@ var CHANGE_SEARCH_TERM_EVENT = 'change_keyword';
 var CHANGE_RELATED_TOPICS_EVENT = 'change_realted_topics';
 var CHANGE_RELATED_COLLECTIONS_EVENT = 'change_realted_collections';
 var TOGGLE_HAMBURGER_EVENT = 'toggle_hamburger_event';
+var CHANGE_USER_EVENT = 'change_user_event';
 
 var searchResults = [];
 var relatedTopics = [];
 var relatedCollections = [];
 var searchTerms = '';
+var user = null;
 
 
 function updateSearchResults(results){
@@ -66,6 +68,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.emit(TOGGLE_HAMBURGER_EVENT);
   },
 
+  emitChangeUser: function() {
+    this.emit(CHANGE_USER_EVENT);
+  },
+
   /**
    * @param {function} callback
    */
@@ -87,6 +93,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   addToggleHamburgerListener: function(callback) {
     this.on(TOGGLE_HAMBURGER_EVENT, callback);
+  },
+
+  addChangeUserListener: function(callback) {
+    this.on(CHANGE_USER_EVENT, callback);
   },
 
   /**
@@ -112,6 +122,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.removeListener(TOGGLE_HAMBURGER_EVENT, callback);
   },
 
+  removeChangeUserListener: function(callback) {
+    this.removeListener(CHANGE_USER_EVENT, callback);
+  },
+
   getSearchResults: function(){
     return searchResults.records;
   },
@@ -126,6 +140,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     }else{
       return 0;
     }
+  },
+
+  getUser:function(){
+    return user;
   },
   
   getRelatedTopics: function(){
@@ -169,6 +187,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_SEARCH_RELATED_COLLECTION:
       updateRelatedCollections(action.relatedCollections);
       AppStore.emitChangeRelatedCollections();
+      break;
+    case Constants.ACTION_CHANGE_USER:
+      updateRelatedCollections(action.user);
+      AppStore.emitChangeUser
       break;
     default:
       // no op

@@ -201,7 +201,7 @@ ul.contri_people  { padding:15px 10px 15px 25px; border-left:1px #e5e5e5 solid; 
 .twitter { background:#4099ff; background:url(/images/sprite_consumer.png) no-repeat -0px 0 #4099ff; color:#fff; font-size:18px; font-weight:400; border-radius:8px; border:1px #1b87e9 solid; padding:12px 20px 12px 60px; margin:0 0 20px; display:inline-block;   }
 .twitter:hover { box-shadow:0 2px 3px rgba(0,0,0,0.2) inset;}
 .white_form { width:250px; margin:0 auto; text-align:left;}
-.white_form input, .white_form select,  .white_form textarea { font-size:18px; padding:8px 10px; margin:0 0 10px; width:100%; }
+.white_form input, .white_form select,  .white_form textarea { font-size:18px; padding:8px 10px; margin:0 0 10px; width:100%; border-radius: 5px;}
 .white_form input.half { width:120px;}
 
 .white_form input.signup { color:#fff; background:#0063c5; text-align:center; display:block; padding:8px 10px 8px 10px; margin:10px 0 20px; font-weight:400; border-radius:8px; border:1px #1b87e9 solid; width:100%; font-size:18px; }
@@ -1145,5 +1145,5 @@ z-index: 1;   }
 
 .login-container{
 	width: 380px;
-  	height: 449px;
+  	height: 375px;
 }
