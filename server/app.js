@@ -22,10 +22,10 @@ if (workers <= 0) {
 
 function startServer(application) {
     var client = redis.createClient();
-    client.on('connect',function(){
+    client.on('connect', function() {
         logger.info('redis connected');
     });
-    client.on('disconnect',function(err){
+    client.on('disconnect', function(err) {
         logger.info('redis disconnect: ' + err);
     });
 
@@ -62,8 +62,9 @@ function startServer(application) {
         logger.info(req.method + ' ' + req.originalUrl);
         next();
     });
+    
 
-    app.use(function(req, res, next) {
+    application.use(function(req, res, next) {
         if (!req.session) {
             return next(new Error('redis session not connected.')) // handle error
         }

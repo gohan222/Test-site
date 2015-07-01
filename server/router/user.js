@@ -10,8 +10,6 @@ router.post('/login', function(req, res) {
         password: req.body.password
     };
 
-    logger.debug(req.body);
-
     service.login(options, function(err, result, response) {
         if (!err) {
             req.session.user = result;

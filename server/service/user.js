@@ -13,8 +13,6 @@ var userService = {
                 password: options.password
             }
         }, function(error, response, body) {
-            logger.debug(body);
-            logger.debug(error);
             if (!error && response.statusCode === 200) {
                 if (callback) {
                     callback.apply(this, [null, body, res]);
