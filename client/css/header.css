@@ -1,8 +1,10 @@
 @charset "utf-8";
 
 .header-icon{
+	position: relative;
 	font-size: 25px;
-	top: 23px;
+	top: 21px;
+	display: inline-block;
 }
 
 .header-logo{
@@ -58,8 +60,7 @@
 }
 
 .header-app-switcher{
-	position: absolute;
-	right: 92px;
+	margin-left: 35px;
 }
 
 .header-search-container{

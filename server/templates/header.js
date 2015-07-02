@@ -5,7 +5,7 @@ Header = require('../../client/js/component/masterHeader');
 
 module.exports = {
 	generateHeader: function(chunk, context, bodies, params){
-		return chunk.write(React.renderToStaticMarkup(React.createElement(Header,{app:AppConstant.APP_BROADCASTER})));
+		return chunk.write(React.renderToStaticMarkup(React.createElement(Header,{app:AppConstant.APP_BROADCASTER, user:context.get('user') })));
 	},
 	generateHamburger: function(chunk, context, bodies, params){
 		return chunk.write(React.renderToStaticMarkup(React.createElement(Hamburger)));

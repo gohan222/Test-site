@@ -234,11 +234,15 @@ ul.contri_people  { padding:15px 10px 15px 25px; border-left:1px #e5e5e5 solid; 
 /*Loggedin state styles*/
 .loggedin { position:absolute; top:0; right:0; height:100%; min-width:135px;}
 .logged_display {/* background:#085394;*/ position:relative; z-index:2;  padding:8px 20px 9px;}
-.logged_dd {  z-index: 111; background:#fff; position:absolute; top:75px; right:5px; width:140px; border:1px #ccc solid; border-radius:5px; display:none; font-weight:400; text-align:left; box-shadow: 0 3px 6px rgba(0,0,0,0.15);}
+/*.logged_dd {  z-index: 111; background:#fff; position:absolute; top:75px; right:5px; width:140px; border:1px #ccc solid; border-radius:5px; display:none; font-weight:400; text-align:left; box-shadow: 0 3px 6px rgba(0,0,0,0.15);}
 .logged_dd.active {  display:block; }
-.logged_dd:after { width:18px; height:9px; display:block; position:absolute; right:25px; top:-9px; content:""; background:url(/images/fc_arrow.png) no-repeat center;}
-.logged_dd a { display:block; padding:10px 30px 10px 15px; color:#333; white-space:nowrap; border-bottom:1px #ccc solid; opacity:1; }
-.logged_dd a:hover { background:#0063c5; color:#fff;}
+.logged_dd:after { width:18px; height:9px; display:block; position:absolute; right:25px; top:-9px; content:""; background:url(/images/fc_arrow.png) no-repeat center;}*/
+.logged_dd {  z-index: 111; background:#fff; position:absolute; top: 45px !important; right:-10px !important; width:110px; border:1px #dedede solid; border-radius:3px; font-weight:400; text-align:left; box-shadow: 0 0 3px rgba(0,0,0,0.1);  padding: 5px;}
+.navi li .logged_dd.active {  display:block; }
+		.logged_dd:after, .logged_dd:before { right: 15px; bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none;}
+		.logged_dd:after { border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 8px; margin-right: 0px;}
+		.logged_dd:before { border-color: rgba(222, 222, 222, 0); border-bottom-color: #dedede; border-width: 9px; margin-right: -1px; }
+.logged_dd a { display:block; color:#333; white-space:nowrap; border-bottom:1px #ccc solid; opacity:1; }
 .logged_dd a:last-child { border-radius:0 0 5px 5px; border:none;}
 .logged_dd a:first-child { border-radius:5px 5px 0 0;}
 .logged_avtr { display:inline-block; overflow:hidden; height:40px; width:40px; background:url(/images/no_avatar.png) no-repeat center rgba(0,0,0,0.1); border-radius:30px; background-size: 60%; vertical-align: middle; cursor:pointer;   }
