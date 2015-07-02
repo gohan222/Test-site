@@ -17,7 +17,7 @@ var AppService = require('../service/search');
 var AppServiceUser = require('../service/user');
 
 var appAction = {
-    submitLogin: function(username,password) {
+    submitLogin: function(username, password) {
         AppServiceUser.login(username, password, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_CHANGE_USER,
@@ -64,7 +64,13 @@ var appAction = {
                 relatedCollections: data
             });
         });
-    }
+    },
+    changeView: function(view) {
+        AppDispatcher.dispatch({
+            actionType: AppConstant.ACTION_CHANGE_VIEW,
+            view: view
+        })
+    },
 
 };
 

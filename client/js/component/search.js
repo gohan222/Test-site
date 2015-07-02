@@ -4,7 +4,7 @@ var React = require('react'),
 Filter = require('../component/filter'),
 RelatedTopics = require('../component/relatedTopics'),
 RelatedCollections = require('../component/relatedCollections'),
-MentionList = require('../component/consumerMentionList');
+ConsumerViewContainer = require('../component/consumerViewContainer');
 
 var CollectionHeader = React.createClass({
   render: function(){
@@ -17,7 +17,7 @@ var CollectionHeader = React.createClass({
 
 module.exports = React.createClass({
   render: function() {
-    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter), React.createElement(MentionList));
+    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter), React.createElement(ConsumerViewContainer));
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
     var columnView = React.DOM.div({className:''},leftView,rightView);
 

@@ -22,15 +22,6 @@ var HamburgerItem = React.createClass({
 });
 
 module.exports = React.createClass({
-  onChange: function() {
-    this.setState({show: !this.state.show});
-  },
-  componentDidMount: function() {
-    AppStore.addToggleHamburgerListener(this.onChange);
-  },
-  componentWillUnmount: function() {
-    AppStore.removeToggleHamburgerListener(this.onChange);
-  },
   getInitialState: function() {
     return {data: staticData};
   },
