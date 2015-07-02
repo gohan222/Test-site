@@ -3,7 +3,7 @@ var React = require('react');
 var MenuItem = React.createClass({
   render:function(){
     var text = React.DOM.span({className:'icon-'}, this.props.appIcon),
-    container = React.DOM.a({className:'icon-prop app-switch-menuItem animate', href:this.props.href}, text, this.props.appName);
+    container = React.DOM.a({className:'icon-prop app-menuItem animate', href:this.props.href}, text, this.props.appName);
     return container;
   }
 });

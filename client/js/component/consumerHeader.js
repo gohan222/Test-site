@@ -5,6 +5,7 @@ var AppAction = require('../action/appAction'),
     Login = require('../component/login'),
     Img = require('../component/image'),
     AppSwitcher = require('../component/appSwitcherMenu'),
+    UserMenu = require('../component/userMenu'),
     React = require('react');
 
 /***************************
@@ -109,12 +110,18 @@ var RightContainer = React.createClass({
     getInitialState: function() {
         return {
             user: this.props.user,
-            showAppSwitcher: false
+            showAppSwitcher: false,
+            showUserMenu: false
         };
     },
-    toggleAppSwitcher : function(){
+    toggleAppSwitcher: function() {
         this.setState({
             showAppSwitcher: !this.state.showAppSwitcher
+        });
+    },
+    toggleAppUserMenu: function() {
+        this.setState({
+            showUserMenu: !this.state.showUserMenu
         });
     },
     userChange: function() {
@@ -166,12 +173,13 @@ var RightContainer = React.createClass({
             icon = React.DOM.div({
                 className: 'header-consumer-app-switcher'
             }, React.DOM.span({
-                className: 'icon-prop animation header-consumer-icon clickable'
-            , onClick:this.toggleAppSwitcher}, '0'), React.createElement(AppSwitcher, {
+                className: 'icon-prop animation header-consumer-icon clickable',
+                onClick: this.toggleAppSwitcher
+            }, '0'), React.createElement(AppSwitcher, {
                 showAppSwitcher: this.state.showAppSwitcher,
                 appName: 'Trends',
                 appIcon: '6',
-                href:'/trends'
+                href: '/trends'
             }));
             //logo
             img = React.createElement(Img, {
@@ -179,8 +187,11 @@ var RightContainer = React.createClass({
                 className: 'clickable'
             });
             imgContainer = React.DOM.div({
-                className: 'header-consumer-menu-item header-consumer-avatar-container clickable'
-            }, img);
+                className: 'header-consumer-menu-item header-consumer-avatar-container clickable',
+                onClick: this.toggleAppUserMenu
+            }, img, React.createElement(UserMenu, {
+                showUserMenu: this.state.showUserMenu
+            }));
         } else {
             //logged out
             icon = React.DOM.div({

@@ -16,8 +16,14 @@ router.get('/error', function(req, res){
 });
 
 router.get('/', function(req, res){
-  res.render('index', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
+  res.render('consumer', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
+
+router.get('/logout', function(req, res){
+	req.session.user = null;
+  	res.redirect('/');
+});
+
 
 router.get('/trends', function(req, res){
 	if(!req.session.user){
