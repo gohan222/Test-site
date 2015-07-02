@@ -24,7 +24,8 @@ router.get('/broadcaster', function(req, res){
 });
 
 router.get('/consumer', function(req, res){
-  res.render('consumer', merge(headerShare, contentShare, {hash:config.hash}));
+	logger.info(req.session.user);
+	res.render('consumer', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
 module.exports = router;

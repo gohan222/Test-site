@@ -9,52 +9,62 @@
  * appAction
  */
 
- 'use strict';
+'use strict';
 
 var AppDispatcher = require('../dispatcher/appDispatcher');
 var AppConstant = require('../constant/appConstant');
 var AppService = require('../service/search');
+var AppServiceUser = require('../service/user');
 
 var appAction = {
-  toggleHamburger:function(){
-    AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_TOGGLE_HAMBURGER
-    });
-  },
+    submitLogin: function(username,password) {
+        AppServiceUser.login(username, password, function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_CHANGE_USER,
+                user: data
+            });
+        });
+    },
 
-  searchInit:function(searchTerms){
-    AppService.getSearch(searchTerms,function(data){
-      AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_SEARCH_INIT,
-      searchResults:data
-    });
-    });
-  },
+    toggleHamburger: function() {
+        AppDispatcher.dispatch({
+            actionType: AppConstant.ACTION_TOGGLE_HAMBURGER
+        });
+    },
 
-  changeSearchTerm:function(searchTerms){
-    AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_SEARCH_TERM_CHANGE,
-      searchTerms:searchTerms
-    });
-  },
+    searchInit: function(searchTerms) {
+        AppService.getSearch(searchTerms, function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_SEARCH_INIT,
+                searchResults: data
+            });
+        });
+    },
 
-  getRelatedTopics:function(searchTerms){
-    AppService.getRelatedTopics(searchTerms,function(data){
-      AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_SEARCH_RELATED_TOPIC,
-      relatedTopics:data
-    });
-    });
-  },
+    changeSearchTerm: function(searchTerms) {
+        AppDispatcher.dispatch({
+            actionType: AppConstant.ACTION_SEARCH_TERM_CHANGE,
+            searchTerms: searchTerms
+        });
+    },
 
-  getRelatedCollections:function(searchTerms){
-    AppService.getRelatedCollections(searchTerms,function(data){
-      AppDispatcher.dispatch({
-      actionType: AppConstant.ACTION_SEARCH_RELATED_COLLECTION,
-      relatedCollections:data
-    });
-    });
-  }
+    getRelatedTopics: function(searchTerms) {
+        AppService.getRelatedTopics(searchTerms, function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_SEARCH_RELATED_TOPIC,
+                relatedTopics: data
+            });
+        });
+    },
+
+    getRelatedCollections: function(searchTerms) {
+        AppService.getRelatedCollections(searchTerms, function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_SEARCH_RELATED_COLLECTION,
+                relatedCollections: data
+            });
+        });
+    }
 
 };
 

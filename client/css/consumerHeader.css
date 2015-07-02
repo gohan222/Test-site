@@ -2,7 +2,6 @@
 
 .header-consumer-icon{
 	font-size: 25px;
-	top: 23px;
 }
 
 .header-consumer-logo{
@@ -77,8 +76,12 @@
 }
 
 .header-consumer-app-switcher{
-	position: absolute;
-	right: 92px;
+	top: 23px;
+	position: relative;
+  	height: 25px;
+  	display: inline-block;
+  	width: 25px;
+  	margin-left: 60px;
 }
 
 .header-consumer-search-container{

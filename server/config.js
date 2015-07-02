@@ -41,6 +41,10 @@ if (config.has('collectionUrl')) {
   settings.collectionUrl = config.get('collectionUrl');
 }
 
+if (config.has('ssoAuthUrl')) {
+  settings.ssoAuthUrl = config.get('ssoAuthUrl');
+}
+
 settings.sfUrlCallback = settings.redirectUri + '/confirmation';
 settings.oauthUrl = settings.sfOAuthUrl + '?client_id=' + settings.clientId + '&response_type=code&redirect_uri=' + settings.sfUrlCallback;
 

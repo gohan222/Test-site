@@ -16,11 +16,11 @@
 .avatar img {border-radius: 30px;}
 .center_div{margin:0; padding:33%}
 .ui-search-result{left: 0; margin: 0;}
-.profile_avtr.adv {background:url(../images/adv_logo_default.png);background-size: 140px;background-position: -25px -5px;}
+.profile_avtr.adv {background:url(/images/adv_logo_default.png);background-size: 140px;background-position: -25px -5px;}
 /*.goright .p_info, .goright .fullclip {z-index: 0;}*/
 /*.re_block .xtras {z-index: 0;}*/
 .home_search .search_btn{
-  background: #74aee7 url(../images/search_white.png) no-repeat;
+  background: #74aee7 url(/images/search_white.png) no-repeat;
   width: 50px;
   height: 40px;
   position: absolute;
@@ -45,7 +45,7 @@
 
 .logged_name.demo, .logged_avtr.demo {cursor: default;}
 input[type=submit].search_btn {
-  background: #74aee7 url(../images/search_white.png) no-repeat;
+  background: #74aee7 url(/images/search_white.png) no-repeat;
   width: 50px;
   height: 40px;
   position: absolute;

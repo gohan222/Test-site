@@ -3,7 +3,7 @@
 
 <head>
   <title>Hello React</title>
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <!-- <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/consumer.css">
   <link rel="stylesheet" href="css/override_consumer.css">
@@ -16,7 +16,8 @@
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/button.css">
   <link rel="stylesheet" href="css/hamburger.css">
-  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="dist/broadcaster.{hash}.css">
 </head>
 
 <body>
@@ -35,7 +36,9 @@
       {generateSearchContent}
     </div>
   </div>
-  <script type="text/javascript" src="dist/{hash}/broadcaster.{hash}.js"></script>
+  <div id="app-modal">
+  </div>
+  <script type="text/javascript" src="dist/broadcaster.{hash}.js"></script>
 </body>
 
 </html>
