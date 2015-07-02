@@ -1,5 +1,3 @@
 {
-  "port": 9090,
-  "connectionString":"postgres://postgres:P3ngu1ns!@localhost/connect",
-  "redirectUri" : "https://force.veritone.com"
+  "port": 80
 }

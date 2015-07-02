@@ -15,22 +15,22 @@ startBackground() {
     export NODE_ENV=local;
     export NEW_RELIC_HOME="newrelic/$NODE_ENV";
     node --max-old-space-size=2000 server.js name=S1 > /dev/null 2>&1 &
-    echo $! > veritone-connect.pid
+    echo $! > react-client.pid
     return 0
 }
 
 
 stop() {
     echo -n " Stopping program"
-    # killproc -p "veritone-connect.pid"
-    kill -9 $(<"veritone-connect.pid")
+    # killproc -p "react-client.pid"
+    kill -9 $(<"react-client.pid")
     return 0
 }
 
 nodemon() {
 	echo -n "Starting program"
 	NODE_ENV=local /usr/local/bin/nodemon server.js
-    echo $! > veritone-connect.pid
+    echo $! > react-client.pid
     return 0
 }
 # See how we were called.

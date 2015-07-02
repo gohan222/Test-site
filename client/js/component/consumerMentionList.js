@@ -50,7 +50,6 @@ module.exports = React.createClass({
     AppAction.searchInit(AppStore.getSearchTerms());
   },
   componentDidMount: function() {
-    this.setState({data: AppStore.getSearchResults()});
     AppStore.addChangeListener(this.onChange);
     AppStore.addChangeSearchTermListener(this.onSearchTermChange);
   },
@@ -59,7 +58,7 @@ module.exports = React.createClass({
     AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
   },
   getInitialState: function() {
-    return {data: []};
+    return {data: AppStore.getSearchResults()};
   },
   render: function() {
     if(!this.state.data){

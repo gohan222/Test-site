@@ -11,7 +11,7 @@ module.exports = React.createClass({
     this.setState({recordCount: AppStore.getSearchResultsCount()});
   },
   onSearchTermChange: function(){
-    this.setState({recordCount: 0});
+    this.setState({recordCount: AppStore.getSearchResultsCount() ? AppStore.getSearchResultsCount() : 0});
   },
   componentDidMount: function() {
     AppStore.addChangeListener(this.onChange);
@@ -36,7 +36,7 @@ module.exports = React.createClass({
     var countText = React.DOM.b(null, recordCount);
     var buttonBar = React.DOM.div({className: 'btn-group', role:'group'},
       React.DOM.button({className:'btn btn-default', type:'button', onClick:this.changeListView}, React.DOM.span({className:'glyphicon glyphicon-list'})),
-      React.DOM.button({className:'btn btn-default', type:'button', onClick:this.changeProgramView}, React.DOM.span({className:'glyphicon glyphicon-indent-left'})));
+      React.DOM.button({className:'btn btn-default', type:'button', onClick:this.changeProgramView}, React.DOM.span({className:'glyphicon glyphicon-align-left'})));
     var advFilter = React.DOM.div({className:'adv-holder'},
       buttonBar);
     var container = React.DOM.span(null, clipsText,countText, advFilter);
