@@ -4,6 +4,7 @@ var AppAction = require('../action/appAction'),
     AppStore = require('../store/appStore'),
     Login = require('../component/login'),
     Img = require('../component/image'),
+    AppSwitcher = require('../component/appSwitcherMenu'),
     React = require('react');
 
 /***************************
@@ -129,8 +130,6 @@ var RightContainer = React.createClass({
 
     },
     render: function() {
-        console.log('consumer');
-        console.log(this.state.user);
         //menu items
         var product = React.DOM.div({
                 className: 'header-consumer-menu-item icon-prop animate clickable'
@@ -158,9 +157,16 @@ var RightContainer = React.createClass({
 
         if (this.state.user) {
             //app switcher icon
-            icon = React.DOM.div({className:'header-consumer-app-switcher'}, React.DOM.span({
+            icon = React.DOM.div({
+                className: 'header-consumer-app-switcher'
+            }, React.DOM.span({
                 className: 'icon-prop animation header-consumer-icon clickable'
-            }, '0'));
+            }, '0'), React.createElement(AppSwitcher, {
+                showAppSwitcher: true,
+                appName: 'Trends',
+                appIcon: '6',
+                href:'/broadcaster'
+            }));
             //logo
             img = React.createElement(Img, {
                 src: this.state.user.image,
@@ -205,14 +211,12 @@ module.exports = React.createClass({
         };
     },
     render: function() {
-        console.log('consumer');
-        console.log(this.state.user);
         var left = React.createElement(LeftContainer, {
                 className: 'header-consumer-left-section'
             }),
             right = React.createElement(RightContainer, {
                 className: 'header-consumer-right-section',
-                user:this.state.user
+                user: this.state.user
             }),
             middle = React.createElement(MiddleContainer);
 

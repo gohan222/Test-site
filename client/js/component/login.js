@@ -51,7 +51,7 @@ var LoginPopup = React.createClass({
                 }),
                 React.DOM.input({
                     className: 'signup clickable',
-                    disabled:true,
+                    readOnly:true,
                     value: 'Log in',
                     onClick: this.submitLogin
                 })),

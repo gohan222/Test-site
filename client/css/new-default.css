@@ -36,8 +36,8 @@ a:hover { }
 		.navi li a { display: inline-block; line-height: 55px; color: #fff;}
 		.app-switch { width: 40px; height: 40px; margin: 7px 0px; background:url("/imageshome/sprite.png") 0 -60px; opacity: 0.8;   }
 		.app-switch:hover { opacity: 1;}
-		.app-menu { text-align: left; position: absolute; top: 55px; width: 208px; border-radius: 3px; line-height: normal; background:#fff; padding: 5px; left: -69px !important; border: 1px #dedede solid; }
-		.app-menu:after, .app-menu:before { bottom: 100%; left: 50%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none;}
+		.app-menu { text-align: left; position: absolute; top: 36px; width: 130px; border-radius: 3px; line-height: normal; background:#fff; padding: 5px; left: -68px !important; border: 1px #dedede solid; z-index: 1; }
+		.app-menu:after, .app-menu:before { bottom: 100%; left: 61%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none;}
 		.app-menu:after { border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 8px; margin-left: -8px;}
 		.app-menu:before { border-color: rgba(222, 222, 222, 0); border-bottom-color: #dedede; border-width: 9px; margin-left: -9px; }
 
@@ -280,7 +280,7 @@ a:hover { }
 
 	.p-info:hover .fc-info { display:block;}
 	.fc-info { z-index: 1; display:none; width:650px; position:absolute; top:33px; right:-140px; background:#fff; padding:15px; border:1px #ccc solid; z-index:10; box-shadow:0 3px 3px rgba(0,0,0,0.1); cursor:default; height:160px; color:#666666; font-size:13px; }
-	.fc-info:before { width:18px; height:11px; position:absolute; top:-11px; right:170px; content:""; background:url(/images/fc_arrow.png) no-repeat; }
+	.fc-info:before { width:18px; height:11px; position:absolute; top:-11px; right:170px; content:""; background:url("/images/fc_arrow.png") no-repeat; }
 	.fc-avatar { width: 120px; height:120px; background:rgba(0,0,0,0.1); vertical-align:middle; border-radius:60px; overflow:hidden; display:inline-block; margin:0 15px 0 0; background-position: center;}
 	.fc-details { display:inline-block; width:480px; vertical-align:top; }
 	.aired { margin:-15px 0 10px 0; color:#999999; font-weight:400; }
@@ -415,7 +415,7 @@ filter: Alpha(Opacity=35);
 background-image: none;
 }
 
-.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position: absolute; top: 0px; width: 28px; height: 29px; border-radius:0; right:0; background:url(/images/call_arrow.png) no-repeat left top; border:none; cursor:pointer; }
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next { position: absolute; top: 0px; width: 28px; height: 29px; border-radius:0; right:0; background:url("/images/call_arrow.png") no-repeat left top; border:none; cursor:pointer; }
 .ui-datepicker .ui-datepicker-prev { left: 0px; }
 .ui-datepicker .ui-datepicker-next  { right:0px; background-position:right top; }
 .ui-datepicker-prev:hover, .ui-datepicker-next:hover {  background-color:#f1f1f1;}
@@ -425,7 +425,7 @@ background-image: none;
 .date_dropdown { margin: 15px 10px; border:1px #ccc solid; display:inline-block; position:relative; padding:6px 35px 6px 10px; border-radius:5px; background:#fff; box-shadow:0 2px 2px rgba(0,0,0,0.1) inset; font-size:14px;    }
 .date_dropdown {cursor: pointer;}
 .date_btn span{ border-left:1px #ccc solid; background:#fafafa; padding:5px 12px; border-radius:0 5px 5px 0; font-size:13px; color:#999; display: inline-block; position:absolute; top:0px; right:0px; height:27px;  }
-.date_btn:after {content: ""; position: absolute; display: block; width: 9px; height: 7px; background: url(/images/arrow_split.png) no-repeat; top: 11px; right: 8px; opacity: 0.3;}
+.date_btn:after {content: ""; position: absolute; display: block; width: 9px; height: 7px; background: url("/images/arrow_split.png") no-repeat; top: 11px; right: 8px; opacity: 0.3;}
 .date_dropdown.show .date_options{display: block;}
 
 .date_options {width: 248px !important; height: 224px; overflow:hidden; background:#fff; border:1px #ccc solid; position:absolute; top:27px; right: 0px; display:none; z-index:9; box-shadow: 3px 3px 3px rgba(0,0,0,0.1); }
@@ -472,7 +472,7 @@ video-player video { width: 100%;}
 .navi li .app-menu a.has-access{opacity: 1;color: #333;}
 body.modal-open {overflow: hidden;}
 .padding20{padding: 20px;}
-.clip .new_trans { font-size: 16px; line-height: 24px; font-style: italic; font-weight: 400; padding: 5px 15px 0 30px; background: url(/images/quote_big_gray.png) no-repeat left 0px;}
+.clip .new_trans { font-size: 16px; line-height: 24px; font-style: italic; font-weight: 400; padding: 5px 15px 0 30px; background: url("/images/quote_big_gray.png") no-repeat left 0px;}
 .clip .audio { width: 320px; left: -40px; top: -13px;}
 .clip .markpos { border-color: black;}
 

@@ -13,3 +13,25 @@
 .content-container-show-hamburger{
 	margin-left: 290px;
 }
+
+.app-switch-menuItem{
+	height: 27px;
+  width: 100%;
+  display: block;
+}
+
+
+.app-switch-menuItem>span:first-child{
+	display: inline-block;
+  font-size: 22px;
+   top: 3px;
+  float: left;
+  margin-left: 10px;
+}
+.app-switch-menuItem>span:last-child{
+	display: inline-block;
+  font-size: 14px;
+  top: 7px;
+  margin-left: 5px;
+  float: left;
+}
