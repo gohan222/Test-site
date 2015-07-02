@@ -9,16 +9,9 @@ var MenuItem = React.createClass({
 });
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return {show:this.props.showAppSwitcher};
-  },
-
-  componentDidMount: function() {
-  },
-
   render: function() {
     var consumerMenu = React.createElement(MenuItem, {appName: this.props.appName, appIcon: this.props.appIcon, href:this.props.href}),
-    container = React.DOM.div({className:'app-menu sh-ani ui-pf-sel', hidden:!this.state.show}, consumerMenu);
+    container = React.DOM.div({className:'app-menu sh-ani ui-pf-sel', hidden:!this.props.showAppSwitcher}, consumerMenu);
 
     return container;
   }

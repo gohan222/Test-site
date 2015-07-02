@@ -108,8 +108,14 @@ var RightContainer = React.createClass({
     loginModal: null,
     getInitialState: function() {
         return {
-            user: this.props.user
+            user: this.props.user,
+            showAppSwitcher: false
         };
+    },
+    toggleAppSwitcher : function(){
+        this.setState({
+            showAppSwitcher: !this.state.showAppSwitcher
+        });
     },
     userChange: function() {
         this.setState({
@@ -161,8 +167,8 @@ var RightContainer = React.createClass({
                 className: 'header-consumer-app-switcher'
             }, React.DOM.span({
                 className: 'icon-prop animation header-consumer-icon clickable'
-            }, '0'), React.createElement(AppSwitcher, {
-                showAppSwitcher: true,
+            , onClick:this.toggleAppSwitcher}, '0'), React.createElement(AppSwitcher, {
+                showAppSwitcher: this.state.showAppSwitcher,
                 appName: 'Trends',
                 appIcon: '6',
                 href:'/broadcaster'
