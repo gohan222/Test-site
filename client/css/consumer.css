@@ -238,6 +238,7 @@ ul.contri_people  { padding:15px 10px 15px 25px; border-left:1px #e5e5e5 solid; 
 .logged_dd.active {  display:block; }
 .logged_dd:after { width:18px; height:9px; display:block; position:absolute; right:25px; top:-9px; content:""; background:url(/images/fc_arrow.png) no-repeat center;}*/
 .logged_dd {  z-index: 111; background:#fff; position:absolute; top: 45px !important; right:-10px !important; width:110px; border:1px #dedede solid; border-radius:3px; font-weight:400; text-align:left; box-shadow: 0 0 3px rgba(0,0,0,0.1);  padding: 5px;}
+.logged_dd ul{margin: 0px;}
 .navi li .logged_dd.active {  display:block; }
 		.logged_dd:after, .logged_dd:before { right: 15px; bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none;}
 		.logged_dd:after { border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 8px; margin-right: 0px;}
