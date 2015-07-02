@@ -19,7 +19,7 @@ router.get('/', function(req, res){
   res.render('index', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
-router.get('/broadcaster', function(req, res){
+router.get('/trends', function(req, res){
 	if(!req.session.user){
 		res.redirect('/consumer');
 		return;

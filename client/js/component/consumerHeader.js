@@ -171,7 +171,7 @@ var RightContainer = React.createClass({
                 showAppSwitcher: this.state.showAppSwitcher,
                 appName: 'Trends',
                 appIcon: '6',
-                href:'/broadcaster'
+                href:'/trends'
             }));
             //logo
             img = React.createElement(Img, {
