@@ -24,7 +24,7 @@ React = require('react');
 
 
 React.render(
-  React.createElement(Header,{app:AppConstant.APP_BROADCASTER}),
+  React.createElement(Header,{app:AppConstant.APP_BROADCASTER, user:window.APP.user}),
   document.getElementById('app-header')
 );
 

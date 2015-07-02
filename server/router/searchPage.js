@@ -16,15 +16,18 @@ router.get('/error', function(req, res){
 });
 
 router.get('/', function(req, res){
-  res.render('index', merge(headerShare, contentShare, {hash:config.hash}));
+  res.render('index', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
 router.get('/broadcaster', function(req, res){
-  res.render('index', merge(headerShare, contentShare, {hash:config.hash}));
+	if(!req.session.user){
+		res.redirect('/consumer');
+		return;
+	}
+  res.render('index', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
 router.get('/consumer', function(req, res){
-	logger.info(req.session.user);
 	res.render('consumer', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
