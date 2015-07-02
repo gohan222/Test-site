@@ -1,6 +1,6 @@
 'use strict';
 
-// require('../../css/bootstrap.min.css');
+require('../../css/bootstrap.css');
 require('../../css/style.css');
 require('../../css/font-awesome.min.css');
 require('../../css/consumer.css');

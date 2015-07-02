@@ -4,6 +4,7 @@ var AppAction = require('../action/appAction'),
     AppStore = require('../store/appStore'),
     Img = require('../component/image'),
     AppSwitcher = require('../component/appSwitcherMenu'),
+    UserMenu = require('../component/userMenu'),
     React = require('react');
 
 /***************************
@@ -112,7 +113,8 @@ var RightContainer = React.createClass({
     getInitialState: function() {
         return {
             user: this.props.user,
-            showAppSwitcher: false
+            showAppSwitcher: false,
+            showUserMenu: false
         };
     },
     userChange: function() {
@@ -129,6 +131,11 @@ var RightContainer = React.createClass({
     toggleAppSwitcher: function() {
         this.setState({
             showAppSwitcher: !this.state.showAppSwitcher
+        });
+    },
+    toggleAppUserMenu: function() {
+        this.setState({
+            showUserMenu: !this.state.showUserMenu
         });
     },
     render: function() {
@@ -148,8 +155,11 @@ var RightContainer = React.createClass({
             className: 'clickable'
         });
         var imgContainer = React.DOM.div({
-            className: 'header-avatar-container'
-        }, img)
+            className: 'header-avatar-container',
+            onClick: this.toggleAppUserMenu
+        }, img, React.createElement(UserMenu, {
+                showUserMenu: this.state.showUserMenu
+            }))
         return React.DOM.div({
             className: 'header-right-section'
         }, icon, imgContainer);

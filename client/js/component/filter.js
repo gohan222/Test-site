@@ -1,6 +1,8 @@
 'use strict';
 
 var AppStore = require('../store/appStore'),
+AppAction = require('../action/appAction'),
+Constants = require('../constant/appConstant'),
 React = require('react');
 
 module.exports = React.createClass({
@@ -12,7 +14,6 @@ module.exports = React.createClass({
     this.setState({recordCount: 0});
   },
   componentDidMount: function() {
-    this.setState({data: AppStore.getSearchResultsCount()});
     AppStore.addChangeListener(this.onChange);
     AppStore.addChangeSearchTermListener(this.onSearchTermChange);
   },
@@ -21,14 +22,23 @@ module.exports = React.createClass({
     AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
   },
   getInitialState: function() {
-    return {recordCount: 0};
+    return {recordCount: AppStore.getSearchResultsCount() ? AppStore.getSearchResultsCount() : 0};
+  },
+  changeListView: function(){
+    AppAction.changeView(Constants.VIEW_MENTION_LIST);
+  },
+  changeProgramView: function(){
+    AppAction.changeView(Constants.VIEW_PROGRAM_LIST);
   },
   render: function() {
     var recordCount = this.state.recordCount;
     var clipsText = React.DOM.span({className: 'f22 mr20'}, 'Clips');
     var countText = React.DOM.b(null, recordCount);
+    var buttonBar = React.DOM.div({className: 'btn-group', role:'group'},
+      React.DOM.button({className:'btn btn-default', type:'button', onClick:this.changeListView}, React.DOM.span({className:'glyphicon glyphicon-list'})),
+      React.DOM.button({className:'btn btn-default', type:'button', onClick:this.changeProgramView}, React.DOM.span({className:'glyphicon glyphicon-indent-left'})));
     var advFilter = React.DOM.div({className:'adv-holder'},
-      React.DOM.a({className:'adv-search animate ui-explore-filter'}, 'Advanced Search'));
+      buttonBar);
     var container = React.DOM.span(null, clipsText,countText, advFilter);
     
     return React.DOM.div({className:'page-title bb'}, container);

@@ -16,18 +16,12 @@ var EventEmitter = require('events').EventEmitter;
 var Constants = require('../constant/appConstant');
 var assign = require('object-assign');
 
-var CHANGE_EVENT = 'change';
-var CHANGE_SEARCH_TERM_EVENT = 'change_keyword';
-var CHANGE_RELATED_TOPICS_EVENT = 'change_realted_topics';
-var CHANGE_RELATED_COLLECTIONS_EVENT = 'change_realted_collections';
-var TOGGLE_HAMBURGER_EVENT = 'toggle_hamburger_event';
-var CHANGE_USER_EVENT = 'change_user_event';
-
 var searchResults = [];
 var relatedTopics = [];
 var relatedCollections = [];
 var searchTerms = '';
 var user = null;
+var currentView = '';
 
 
 function updateSearchResults(results){
@@ -50,84 +44,100 @@ function updateUser(results){
   user = results;
 }
 
+function updateView(results){
+  currentView = results;
+}
+
 var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
-    this.emit(CHANGE_EVENT);
+    this.emit(Constants.CHANGE_EVENT);
   },
 
   emitChangeSearchTerm: function() {
-    this.emit(CHANGE_SEARCH_TERM_EVENT);
+    this.emit(Constants.CHANGE_SEARCH_TERM_EVENT);
   },
 
   emitChangeRelatedTopics: function() {
-    this.emit(CHANGE_RELATED_TOPICS_EVENT);
+    this.emit(Constants.CHANGE_RELATED_TOPICS_EVENT);
   },
 
   emitChangeRelatedCollections: function() {
-    this.emit(CHANGE_RELATED_COLLECTIONS_EVENT);
+    this.emit(Constants.CHANGE_RELATED_COLLECTIONS_EVENT);
   },
 
   emitToggleHamburger: function() {
-    this.emit(TOGGLE_HAMBURGER_EVENT);
+    this.emit(Constants.TOGGLE_HAMBURGER_EVENT);
   },
 
   emitChangeUser: function() {
-    this.emit(CHANGE_USER_EVENT);
+    this.emit(Constants.CHANGE_USER_EVENT);
+  },
+
+  emitChangeView: function() {
+    this.emit(Constants.CHANGE_VIEW_EVENT);
   },
 
   /**
    * @param {function} callback
    */
   addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+    this.on(Constants.CHANGE_EVENT, callback);
   },
 
   addChangeSearchTermListener: function(callback) {
-    this.on(CHANGE_SEARCH_TERM_EVENT, callback);
+    this.on(Constants.CHANGE_SEARCH_TERM_EVENT, callback);
   },
 
   addChangeRelatedTopicsListener: function(callback) {
-    this.on(CHANGE_RELATED_TOPICS_EVENT, callback);
+    this.on(Constants.CHANGE_RELATED_TOPICS_EVENT, callback);
   },
 
   addChangeRelatedCollectionsListener: function(callback) {
-    this.on(CHANGE_RELATED_COLLECTIONS_EVENT, callback);
+    this.on(Constants.CHANGE_RELATED_COLLECTIONS_EVENT, callback);
   },
 
   addToggleHamburgerListener: function(callback) {
-    this.on(TOGGLE_HAMBURGER_EVENT, callback);
+    this.on(Constants.TOGGLE_HAMBURGER_EVENT, callback);
   },
 
   addChangeUserListener: function(callback) {
-    this.on(CHANGE_USER_EVENT, callback);
+    this.on(Constants.CHANGE_USER_EVENT, callback);
+  },
+
+  addChangeViewListener: function(callback) {
+    this.on(Constants.CHANGE_VIEW_EVENT, callback);
   },
 
   /**
    * @param {function} callback
    */
   removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+    this.removeListener(Constants.CHANGE_EVENT, callback);
   },
 
   removeChangeSearchTermListener: function(callback) {
-    this.removeListener(CHANGE_SEARCH_TERM_EVENT, callback);
+    this.removeListener(Constants.CHANGE_SEARCH_TERM_EVENT, callback);
   },
 
   removeChangeRelatedTopicsListener: function(callback) {
-    this.removeListener(CHANGE_RELATED_TOPICS_EVENT, callback);
+    this.removeListener(Constants.CHANGE_RELATED_TOPICS_EVENT, callback);
   },  
 
   removeChangeRelatedCollectionsListener: function(callback) {
-    this.removeListener(CHANGE_RELATED_COLLECTIONS_EVENT, callback);
+    this.removeListener(Constants.CHANGE_RELATED_COLLECTIONS_EVENT, callback);
   },
 
   removeToggleHamburgerListener: function(callback) {
-    this.removeListener(TOGGLE_HAMBURGER_EVENT, callback);
+    this.removeListener(Constants.TOGGLE_HAMBURGER_EVENT, callback);
   },
 
   removeChangeUserListener: function(callback) {
-    this.removeListener(CHANGE_USER_EVENT, callback);
+    this.removeListener(Constants.CHANGE_USER_EVENT, callback);
+  },
+
+  removeChangeViewListener: function(callback) {
+    this.removeListener(Constants.CHANGE_USER_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -148,6 +158,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getUser:function(){
     return user;
+  },
+
+  getView:function(){
+    return currentView;
   },
   
   getRelatedTopics: function(){
@@ -195,6 +209,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_CHANGE_USER:
       updateUser(action.user);
       AppStore.emitChangeUser();
+      break;
+    case Constants.ACTION_CHANGE_VIEW:
+      updateView(action.view);
+      AppStore.emitChangeView();
       break;
     default:
       // no op
