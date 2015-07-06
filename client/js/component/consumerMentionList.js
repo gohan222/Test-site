@@ -69,7 +69,7 @@ module.exports = React.createClass({
       return React.createElement(Mention, {data:mention});
     });
 
-    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'ui-search-item', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
+    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
     return React.DOM.ul({className: 'results'}, animationElement);
   }
 });
