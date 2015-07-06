@@ -54,6 +54,7 @@
     "merge": "^1.2.0",
     "object-assign": "^3.0.0",
     "react": "^0.13.2",
+    "react-timeago": "^2.2.1",
     "redis": "^0.12.1",
     "request": "^2.55.0"
   }
