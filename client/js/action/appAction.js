@@ -71,6 +71,14 @@ var appAction = {
             view: view
         })
     },
+    getSearchByProgramId: function(programId, searchTerms){
+      AppService.getSearchByProgramId( programId, searchTerms, function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_PROGRAM_SEARCH,
+                searchResults: data
+            });
+        });
+    }
 
 };
 

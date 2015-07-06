@@ -70,6 +70,7 @@ var ProgramRow = React.createClass({
 });
 
 module.exports = React.createClass({
+  sortedResult:null,
   sortData:function(mentions){
   	var hash = {};
   	var collection = [];
@@ -91,25 +92,61 @@ module.exports = React.createClass({
   	console.log(collection);
   	return collection;
   },
+  getProgramSearches:function(sortedMention){
+    for (var i = 0; i < sortedMention.length; i++) {
+      var mention = sortedMention[i][0];
+      AppAction.getSearchByProgramId(mention.programId, AppStore.getSearchTerms());
+    };    
+  },
   onChange: function() {
     //first we remove the data before adding new list to animate the draw.
-    this.setState({data: this.sortData(AppStore.getSearchResults())});
+    this.sortedResult = this.sortData(AppStore.getSearchResults());
+    this.setState({data: this.sortedResult});
+    this.getProgramSearches(this.sortedResult);
   },
   onSearchTermChange: function(){
     this.setState({data: []});
     AppAction.searchInit(AppStore.getSearchTerms());
   },
+  onProgramSearchResult: function(){
+    var programSearchResult = AppStore.getProgramsSearch();
+    if(!programSearchResult || programSearchResult.length === 0){
+      return;
+    }
+
+    var mention = programSearchResult[0],
+    mentionsList = null;
+    for (var i = 0; i < this.sortedResult.length; i++) {
+        if(this.sortedResult[i][0].programId === mention.programId){
+          mentionsList = this.sortedResult[i];
+          break;
+        }
+    };
+
+    if (!mentionsList){
+      return;
+    }
+
+    for (var i = 0; i < programSearchResult.length; i++) {
+      mentionsList.push(programSearchResult[i]);
+    };
+
+    this.setState({data: this.sortedResult});
+  },
   componentDidMount: function() {
     AppStore.addChangeListener(this.onChange);
     AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+    AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
   },
   componentWillUnmount: function() {
     AppStore.removeChangeListener(this.onChange);
     AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
+    AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
   },
   getInitialState: function() {
-  	var result = this.sortData(AppStore.getSearchResults());
-  	return {data: result};
+  	this.sortedResult = this.sortData(AppStore.getSearchResults());
+    this.getProgramSearches(this.sortedResult);
+    return {data: this.sortedResult};
   },
   render: function() {
   	var programNodes = this.state.data.map(function (mentions) {

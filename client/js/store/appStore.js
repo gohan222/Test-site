@@ -22,6 +22,7 @@ var relatedCollections = [];
 var searchTerms = '';
 var user = null;
 var currentView = '';
+var programSearchResult;
 
 
 function updateSearchResults(results){
@@ -46,6 +47,10 @@ function updateUser(results){
 
 function updateView(results){
   currentView = results;
+}
+
+function updateProgramSearch(results){
+  programSearchResult = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -76,6 +81,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeView: function() {
     this.emit(Constants.CHANGE_VIEW_EVENT);
+  },
+
+  emitChangeProgramSearch: function() {
+    this.emit(Constants.CHANGE_PROGRAM_SEARCH_EVENT);
   },
 
   /**
@@ -109,6 +118,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_VIEW_EVENT, callback);
   },
 
+  addChangeProgramSearchListener: function(callback) {
+    this.on(Constants.CHANGE_PROGRAM_SEARCH_EVENT, callback);
+  },
+
+  
+
   /**
    * @param {function} callback
    */
@@ -138,6 +153,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeViewListener: function(callback) {
     this.removeListener(Constants.CHANGE_USER_EVENT, callback);
+  },
+
+  removeChangeProgramSearchListener: function(callback) {
+    this.removeListener(Constants.CHANGE_PROGRAM_SEARCH_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -180,6 +199,15 @@ var AppStore = assign({}, EventEmitter.prototype, {
     return relatedCollections.records;
   },
 
+  getProgramsSearch: function(){
+    if(programSearchResult){
+      return programSearchResult.records;  
+    }else{
+      return null;
+    }
+    
+  },
+
 });
 
 // Register callback to handle all updates
@@ -213,6 +241,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_CHANGE_VIEW:
       updateView(action.view);
       AppStore.emitChangeView();
+      break;
+    case Constants.ACTION_PROGRAM_SEARCH:
+      updateProgramSearch(action.searchResults);
+      AppStore.emitChangeProgramSearch();
       break;
     default:
       // no op
