@@ -30,6 +30,7 @@ var Mention = React.createClass({
     // var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,this.props.data.programName));
 
     var airDate = React.DOM.i({className: 'mention-air-date'}, React.createElement(TimeAgo, {date: this.props.data.mediaStartTime}));
+    // var airDate = React.DOM.i({className: 'mention-air-date'}, React.createElement(TimeAgo, {date: new Date()}));
     var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},airDate);
     // var programNameContainer = React.DOM.div({className: 'prog-title'},arrowIcon, programName,airDate);
 
@@ -120,17 +121,9 @@ module.exports = React.createClass({
     mentionsList = null;
     for (var i = 0; i < this.sortedResult.length; i++) {
         if(this.sortedResult[i][0].programId === mention.programId){
-          mentionsList = this.sortedResult[i];
+          this.sortedResult[i] = programSearchResult;
           break;
         }
-    };
-
-    if (!mentionsList){
-      return;
-    }
-
-    for (var i = 0; i < programSearchResult.length; i++) {
-      mentionsList.push(programSearchResult[i]);
     };
 
     this.setState({data: this.sortedResult});

@@ -2,7 +2,6 @@
 
 var cluster = require('cluster'),
     config = require('./config'),
-    compress = require('compression'),
     webpack = require('webpack'),
     path = require('path'),
     redis = require('redis'),
@@ -45,7 +44,6 @@ function startServer(application) {
     }));
 
     // assign the dust engine to .dust files
-    application.use(compress());
     application.use(bodyParser.json()); // for parsing application/json
     application.use(bodyParser.urlencoded({
         extended: false
@@ -81,7 +79,7 @@ function startServer(application) {
 
     //app apis
     // should return data and status codes.
-    application.use('/page', require('./router/index'));
+    
     application.use('/user', require('./router/user'));
 
     application.listen(config.port);
