@@ -4,7 +4,7 @@ require('../../css/bootstrap.css');
 require('../../css/style.css');
 require('../../css/font-awesome.min.css');
 require('../../css/consumer.css');
-require('../../css/default.css');
+// require('../../css/default.css');
 require('../../css/ext-page.css');
 require('../../css/new-default.css');
 require('../../css/override_consumer.css');

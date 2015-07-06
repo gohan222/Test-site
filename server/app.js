@@ -60,7 +60,7 @@ function startServer(application) {
         logger.info(req.method + ' ' + req.originalUrl);
         next();
     });
-    
+
 
     application.use(function(req, res, next) {
         if (!req.session) {
@@ -79,7 +79,7 @@ function startServer(application) {
 
     //app apis
     // should return data and status codes.
-    
+
     application.use('/user', require('./router/user'));
 
     application.listen(config.port);
@@ -119,20 +119,16 @@ if (cluster.isMaster) {
             },
             module: {
                 loaders: [{
-                        test: /\.css$/,
-                        // loader: 'style-loader!css-loader'
-                        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-                    }, {
-                        test: /\.(png|eot|woff)$/,
-                        loader: 'url-loader?limit=100000'
-                    }]
-                    /*loaders: [{
-                        test: /\.css$/i,
-                        loader: "css"
-                    }, {
-                        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-                        loader: "file"
-                    }]*/
+                    test: /\.css$/,
+                    // loader: 'style-loader!css-loader'
+                    loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+                }, {
+                    test: /\.png$/,
+                    loader: "url-loader?limit=100000"
+                }, {
+                    test: /\.jpg$/,
+                    loader: "file-loader"
+                }]
             },
             plugins: [new ExtractTextPlugin('[name].[hash].css')]
         };
