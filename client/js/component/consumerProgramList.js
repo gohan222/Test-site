@@ -4,6 +4,7 @@ var React = require('react'),
 AppStore = require('../store/appStore'),
 AppAction = require('../action/appAction'),
 LazyLoadImg = require('../component/image'),
+TimeAgo = require('react-timeago'),
 Constants = require('../constant/appConstant');
 
 var Mention = React.createClass({
@@ -21,19 +22,19 @@ var Mention = React.createClass({
   },
 	render: function() {
     
-    var backgroundImage = React.DOM.div({className: 'prog-avtr'},
-                          React.createElement(LazyLoadImg,{src: this.props.data.programLiveImage, className:'prog-avtr-style'}));
+    // var backgroundImage = React.DOM.div({className: 'prog-avtr'},
+                          // React.createElement(LazyLoadImg,{src: this.props.data.programLiveImage, className:'prog-avtr-style'}));
 
     //add porgram name
-    var arrowIcon  = React.DOM.a({className: 'blue-play'});
-    var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,this.props.data.programName));
-    var airDate = React.DOM.i({className: 'mention-air-date'}, 'Air date: ' + this.props.data.mediaStartTime);
-    var programNameContainer = React.DOM.div({className: 'prog-title'},arrowIcon, programName,airDate);
+    // var arrowIcon  = React.DOM.a({className: 'blue-play'});
+    // var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,this.props.data.programName));
+    var airDate = React.DOM.i({className: 'mention-air-date'}, React.createElement(TimeAgo, {date: this.props.data.mediaStartTime}));
+    // var programNameContainer = React.DOM.div({className: 'prog-title'},arrowIcon, programName,airDate);
 
     //add mention snippet
     var mentionSnippet = React.DOM.p({className: 'program-list-mention-text'}, React.DOM.span({className:'cur-point ui-snip-text'}, this.getSnippetText(this.props.data.mentionSnippet)));
 
-    var holder = React.DOM.div({className: 'ui-program-au-holder'},backgroundImage, programNameContainer, mentionSnippet);
+    var holder = React.DOM.div({className: 'ui-program-au-holder'}, mentionSnippet, airDate);
     
   
     return holder;
@@ -46,7 +47,23 @@ var ProgramRow = React.createClass({
       return React.createElement(Mention, {data:mention});
     });
 
-    var container = React.DOM.li({className:'ui-program-search-item'}, mentionNodes);
+    //referenced mention
+    var refmention = this.props.data[0];
+
+    //program info
+    var programInfo = React.DOM.div();
+    var backgroundImage = React.DOM.div({className: 'prog-avtr2'},
+                          React.createElement(LazyLoadImg,{src: refmention.programLiveImage, className:'prog-avtr-style'}));
+
+    //add porgram name
+    // var arrowIcon  = React.DOM.a({className: 'blue-play'});
+    var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,refmention.programName));
+    var programNameContainer = React.DOM.div({className: 'prog-title2'}, programName);
+
+    var programContainer = React.DOM.div({className:'program-container'}, backgroundImage, programNameContainer)
+
+
+    var container = React.DOM.li({className:'ui-program-search-item'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, mentionNodes));
   
     return container;
   }

@@ -45,13 +45,13 @@
   padding-right: 10px;
   margin-right: 10px;
   border-right: solid 1px #e5e5e5;
+  height: 107px;
 }
 
 .ui-program-search-item{
   border-bottom: 1px #e5e5e5 solid;
   padding: 20px 30px 20px;
   white-space: nowrap;
-  overflow: auto;
 }
 
 .program-list-mention-text{
@@ -62,4 +62,38 @@
   vertical-align: top;
   height: 59px;
   white-space: normal;
+}
+
+.program-list-mention-container{
+  display: inline-block;
+  vertical-align: top;
+  width: calc(100% - 150px);
+  overflow: auto;
+}
+
+.program-container{
+  display: inline-block;
+  padding-right: 10px;
+  margin-right: 10px;
+  border-right: solid 1px #e5e5e5;
+  white-space: normal;
+}
+
+.prog-avtr2{
+  margin-left:50px;
+  width: 86px;
+  height: 86px;
+  border-radius: 100%;
+  display: inline-block;
+  vertical-align: top;
+  background: #f1f1f1;
+  background-position: center;
+  overflow: hidden;
+}
+
+.prog-title2{
+  width: 180px;
+  vertical-align: top;
+  text-align: center;
+  margin-top: 10px;
 }
