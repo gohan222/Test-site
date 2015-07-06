@@ -62,9 +62,9 @@ var ProgramRow = React.createClass({
 
     var programContainer = React.DOM.div({className:'program-container'}, backgroundImage, programNameContainer)
 
-
-    var container = React.DOM.li({className:'ui-program-search-item'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, mentionNodes));
-  
+    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'ui-program-au-holder', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
+    var container = React.DOM.li({className:'ui-program-search-item'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, animationElement));
+    
     return container;
   }
 });

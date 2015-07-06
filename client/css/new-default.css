@@ -624,34 +624,6 @@ body.modal-open {overflow: hidden;}
 }
 
 
-.ui-search-item-appear {
-  opacity: 0.01;
-  transition: opacity .2s ease-in;
-}
-
-.ui-search-item-appear.ui-search-item-appear-active {
-  opacity: 1;
-}
-
-.ui-search-item-enter {
-  opacity: 0.01;
-  transition: opacity .2s ease-in;
-}
-
-.ui-search-item-enter.ui-search-item-enter-active {
-  opacity: 1;
-}
-
-.ui-search-item-leave {
-  opacity: 1;
-  transition: opacity .2s ease-in;
-}
-
-.ui-search-item-leave.ui-search-item-leave-active {
-  opacity: 0.01;
-}
-
-
 .coll-prv-appear {
   opacity: 0.01;
   transition: opacity .2s ease-in;
