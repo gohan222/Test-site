@@ -82,6 +82,8 @@ function startServer(application) {
 
     application.use('/user', require('./router/user'));
 
+    application.use('/', require('./router/mention'));
+
     application.listen(config.port);
 };
 

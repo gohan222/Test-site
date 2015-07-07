@@ -3,7 +3,8 @@
 var React = require('react'),
 Constants = require('../constant/appConstant'),
 AppStore = require('../store/appStore'),
-MentionList = require('../component/consumerMentionList');
+BroadcasterMentionList = require('../component/broadcasterMentionList'),
+ConsumerMentionList = require('../component/consumerMentionList');
 
 module.exports = React.createClass({
   onChange:function(){
@@ -22,9 +23,9 @@ module.exports = React.createClass({
     var viewElem;
 
     if(this.state.view === Constants.VIEW_PROGRAM_LIST){
-      viewElem = React.DOM.div(null, 'New View');
+      viewElem = React.createElement(BroadcasterMentionList);
     }else{
-      viewElem = React.createElement(MentionList);
+      viewElem = React.createElement(ConsumerMentionList);
     }
     return viewElem;
   }

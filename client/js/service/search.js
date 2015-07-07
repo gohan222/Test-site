@@ -30,6 +30,13 @@ module.exports = {
 				callback.apply(this,[data]);
 			}
 		});
+	},
+	getMentions : function(callback){
+		$.get('mention',function(data, status){
+			if(callback){
+				callback.apply(this,[data]);
+			}
+		});
 	}
 }
 

@@ -1372,7 +1372,7 @@ table td.nopad{padding:0;}
 .mentionshead .rightpart { padding-right:21px;}
 .mentionscontent {height:calc(100% - 130px);overflow-y:auto;}
 .mentionshead .rightpart > div { float:left; padding:0 15px 0 15px; line-height:30px; height:30px;}
-.mentionshead {border-left: 4px solid transparent;}
+.mentionshead {border-left: 4px solid transparent; background-color: #f1f1f1;}
 .avaimg{ width:60px;height:60px; background-color:#f1f1f1;}
 .firstrow > div{ /*float:left; */margin:5px 0 10px;display: table-cell; vertical-align: middle; }
 .firstrow > div:not(:first-child) { border-left: 1px solid #e6e6e6; padding:0 15px;  }
@@ -1461,16 +1461,16 @@ table td.nopad{padding:0;}
 .audio .markpos { top: 7px; }
 
 /*quotes*/
-.hasquote{position:relative; min-height:15px; padding-right: 20px; max-width: calc(100% - 250px);}
+.hasquote{position:relative; min-height:15px; padding: 0px 20px 0px 20px;; max-width: calc(100% - 20px); overflow: hidden;}
 .ellipsis{white-space:nowrap;overflow:hidden; text-overflow: ellipsis; }
-.quotetxt{font: italic 13px 'Lato'; overflow: hidden; color: #666666; position: relative; height: 15px; display: inline-block;  position: relative; /*width: calc(100% - 235px);*/  }
+.quotetxt{font: italic 13px 'Lato'; overflow: hidden; color: #666666; position: relative; height: 15px; display: inline-block;  position: relative; width:100%;  }
 .quotetxt:after{}
-.hasquote:before{ content:'';position:absolute;background-image:url(/images/quote.png);width:15px;height:15px;content:'';left:-20px;background-repeat:no-repeat;}
+.hasquote:before{ content:'';position:absolute;background-image:url(/images/quote.png);width:15px;height:15px;content:'';left:5px;background-repeat:no-repeat;}
 .hasquote:after{ background-image:url(/images/quote.png);width:15px;height:15px;content:'';background-repeat:no-repeat;-moz-transform: rotate(180deg);transform: rotate(180deg);-webkit-transform: rotate(180deg); position: absolute; right: 0px; top: 0;}
 
 .mentionsrow.active .quotetxt { height: auto; display: inline; position: relative;}
 .mentionsrow.active .quotetxt:after{ display: inline-block; margin-bottom: -3px; background-image:url(/images/quote.png);width:15px;height:15px;content:'';background-repeat:no-repeat;-moz-transform: rotate(180deg);transform: rotate(180deg);-webkit-transform: rotate(180deg); }
-.mentionsexpand{margin:0 0 0 20px; position: relative; }
+.mentionsexpand{position: relative;}
 .mentionsrow.active .mentionbotcols{display:block; background: #fffaeb; padding:10px 0 10px 95px; margin:10px 0 -16px -115px; border-bottom:1px #ccc solid; }
 .mentionsrow.active .ellipsis {white-space: normal; overflow: auto;; text-overflow:none;}
 .mentionsrow.active .hasquote:after { display: none;}

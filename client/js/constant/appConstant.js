@@ -18,6 +18,7 @@ module.exports = keyMirror({
   ACTION_CHANGE_USER:null,
   ACTION_CHANGE_VIEW:null,
   ACTION_PROGRAM_SEARCH: null,
+  ACTION_GET_MENTIONS: null,
 
   CHANGE_EVENT : null,
   CHANGE_SEARCH_TERM_EVENT : null,
@@ -27,6 +28,7 @@ module.exports = keyMirror({
   CHANGE_USER_EVENT : null,
   CHANGE_VIEW_EVENT : null,
   CHANGE_PROGRAM_SEARCH_EVENT : null,
+  CHANGE_MENTIONS_EVENT : null,
 
 
   APP_BROADCASTER:null,

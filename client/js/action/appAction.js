@@ -78,6 +78,15 @@ var appAction = {
                 searchResults: data
             });
         });
+    },
+
+    getMentions: function(){
+      AppService.getMentions(function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_GET_MENTIONS,
+                mentions: data
+            });
+        });
     }
 
 };

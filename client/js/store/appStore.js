@@ -23,6 +23,7 @@ var searchTerms = '';
 var user = null;
 var currentView = '';
 var programSearchResult;
+var mentions = [];
 
 
 function updateSearchResults(results){
@@ -51,6 +52,10 @@ function updateView(results){
 
 function updateProgramSearch(results){
   programSearchResult = results;
+}
+
+function updateMentions(results){
+  mentions = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -85,6 +90,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeProgramSearch: function() {
     this.emit(Constants.CHANGE_PROGRAM_SEARCH_EVENT);
+  },
+
+  emitChangeMentions: function() {
+    this.emit(Constants.CHANGE_MENTIONS_EVENT);
   },
 
   /**
@@ -122,6 +131,11 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_PROGRAM_SEARCH_EVENT, callback);
   },
 
+  addChangeMentionsListener: function(callback) {
+    this.on(Constants.CHANGE_MENTIONS_EVENT, callback);
+  },
+  
+
   
 
   /**
@@ -157,6 +171,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeProgramSearchListener: function(callback) {
     this.removeListener(Constants.CHANGE_PROGRAM_SEARCH_EVENT, callback);
+  },
+
+  removeChangeMentionsListener: function(callback) {
+    this.removeListener(Constants.CHANGE_MENTIONS_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -208,6 +226,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     
   },
 
+  getMentions: function(){
+    return mentions;
+  },
+
 });
 
 // Register callback to handle all updates
@@ -245,6 +267,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_PROGRAM_SEARCH:
       updateProgramSearch(action.searchResults);
       AppStore.emitChangeProgramSearch();
+      break;
+    case Constants.ACTION_GET_MENTIONS:
+      updateMentions(action.mentions);
+      AppStore.emitChangeMentions();
       break;
     default:
       // no op
