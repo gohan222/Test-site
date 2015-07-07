@@ -146,11 +146,21 @@ if (cluster.isMaster) {
         // console.log(css);
         logger.info('version: ' + stats.hash);
         config.hash = stats.hash;
-        if (!err) {
-            startServer(app);
-        } else {
-            console.log(err);
+        
+        var jsonStats = stats.toJson();
+        if (jsonStats.errors.length > 0){
+            logger.error(jsonStats.errors);
+            return;
         }
+        if (jsonStats.warnings.length > 0){
+            logger.warn(jsonStats.warnings);
+        }
+        if(err){
+            logger.error(err);
+            return;
+        }
+        
+        startServer(app);
 
     });
 }
