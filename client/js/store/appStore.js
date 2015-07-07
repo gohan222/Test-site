@@ -22,6 +22,8 @@ var relatedCollections = [];
 var searchTerms = '';
 var user = null;
 var currentView = '';
+var programSearchResult;
+var mentions = [];
 
 
 function updateSearchResults(results){
@@ -46,6 +48,14 @@ function updateUser(results){
 
 function updateView(results){
   currentView = results;
+}
+
+function updateProgramSearch(results){
+  programSearchResult = results;
+}
+
+function updateMentions(results){
+  mentions = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -76,6 +86,14 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeView: function() {
     this.emit(Constants.CHANGE_VIEW_EVENT);
+  },
+
+  emitChangeProgramSearch: function() {
+    this.emit(Constants.CHANGE_PROGRAM_SEARCH_EVENT);
+  },
+
+  emitChangeMentions: function() {
+    this.emit(Constants.CHANGE_MENTIONS_EVENT);
   },
 
   /**
@@ -109,6 +127,17 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_VIEW_EVENT, callback);
   },
 
+  addChangeProgramSearchListener: function(callback) {
+    this.on(Constants.CHANGE_PROGRAM_SEARCH_EVENT, callback);
+  },
+
+  addChangeMentionsListener: function(callback) {
+    this.on(Constants.CHANGE_MENTIONS_EVENT, callback);
+  },
+  
+
+  
+
   /**
    * @param {function} callback
    */
@@ -138,6 +167,14 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeViewListener: function(callback) {
     this.removeListener(Constants.CHANGE_USER_EVENT, callback);
+  },
+
+  removeChangeProgramSearchListener: function(callback) {
+    this.removeListener(Constants.CHANGE_PROGRAM_SEARCH_EVENT, callback);
+  },
+
+  removeChangeMentionsListener: function(callback) {
+    this.removeListener(Constants.CHANGE_MENTIONS_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -180,6 +217,19 @@ var AppStore = assign({}, EventEmitter.prototype, {
     return relatedCollections.records;
   },
 
+  getProgramsSearch: function(){
+    if(programSearchResult){
+      return programSearchResult.records;  
+    }else{
+      return null;
+    }
+    
+  },
+
+  getMentions: function(){
+    return mentions;
+  },
+
 });
 
 // Register callback to handle all updates
@@ -213,6 +263,14 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_CHANGE_VIEW:
       updateView(action.view);
       AppStore.emitChangeView();
+      break;
+    case Constants.ACTION_PROGRAM_SEARCH:
+      updateProgramSearch(action.searchResults);
+      AppStore.emitChangeProgramSearch();
+      break;
+    case Constants.ACTION_GET_MENTIONS:
+      updateMentions(action.mentions);
+      AppStore.emitChangeMentions();
       break;
     default:
       // no op

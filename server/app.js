@@ -2,7 +2,6 @@
 
 var cluster = require('cluster'),
     config = require('./config'),
-    compress = require('compression'),
     webpack = require('webpack'),
     path = require('path'),
     redis = require('redis'),
@@ -45,7 +44,6 @@ function startServer(application) {
     }));
 
     // assign the dust engine to .dust files
-    application.use(compress());
     application.use(bodyParser.json()); // for parsing application/json
     application.use(bodyParser.urlencoded({
         extended: false
@@ -62,7 +60,7 @@ function startServer(application) {
         logger.info(req.method + ' ' + req.originalUrl);
         next();
     });
-    
+
 
     application.use(function(req, res, next) {
         if (!req.session) {
@@ -81,8 +79,10 @@ function startServer(application) {
 
     //app apis
     // should return data and status codes.
-    application.use('/page', require('./router/index'));
+
     application.use('/user', require('./router/user'));
+
+    application.use('/', require('./router/mention'));
 
     application.listen(config.port);
 };
@@ -121,20 +121,16 @@ if (cluster.isMaster) {
             },
             module: {
                 loaders: [{
-                        test: /\.css$/,
-                        // loader: 'style-loader!css-loader'
-                        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-                    }, {
-                        test: /\.(png|eot|woff)$/,
-                        loader: 'url-loader?limit=100000'
-                    }]
-                    /*loaders: [{
-                        test: /\.css$/i,
-                        loader: "css"
-                    }, {
-                        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-                        loader: "file"
-                    }]*/
+                    test: /\.css$/,
+                    // loader: 'style-loader!css-loader'
+                    loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+                }, {
+                    test: /\.png$/,
+                    loader: "url-loader?limit=100000"
+                }, {
+                    test: /\.jpg$/,
+                    loader: "file-loader"
+                }]
             },
             plugins: [new ExtractTextPlugin('[name].[hash].css')]
         };
@@ -152,11 +148,21 @@ if (cluster.isMaster) {
         // console.log(css);
         logger.info('version: ' + stats.hash);
         config.hash = stats.hash;
-        if (!err) {
-            startServer(app);
-        } else {
-            console.log(err);
+        
+        var jsonStats = stats.toJson();
+        if (jsonStats.errors.length > 0){
+            logger.error(jsonStats.errors);
+            return;
         }
+        if (jsonStats.warnings.length > 0){
+            logger.warn(jsonStats.warnings);
+        }
+        if(err){
+            logger.error(err);
+            return;
+        }
+        
+        startServer(app);
 
     });
 }

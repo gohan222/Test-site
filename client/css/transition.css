@@ -22,4 +22,59 @@
 	transition: all 0.2s;
 }
 
+.component-appear {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.component-appear.component-appear-active {
+  opacity: 1;
+}
+
+.component-enter {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.component-enter.component-enter-active {
+  opacity: 1;
+}
+
+.component-leave {
+  opacity: 1;
+  transition: opacity .2s ease-in;
+}
+
+.component-leave.component-leave-active {
+  opacity: 0.01;
+}
+
+
+.ui-program-au-holder-appear {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.ui-program-au-holder-appear.ui-program-au-holder-appear-active {
+  opacity: 1;
+}
+
+.ui-program-au-holder-enter {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.ui-program-au-holder-enter.ui-program-au-holder-enter-active {
+  opacity: 1;
+}
+
+.ui-program-au-holder-leave {
+  opacity: 1;
+  transition: opacity .2s ease-in;
+}
+
+.ui-program-au-holder-leave.ui-program-au-holder-leave-active {
+  opacity: 0.01;
+}
+
 /*.inlay-play { width: 45px; height: 45px; display: inline-block; border-radius: 100%; background: url("../imageshome/sprite.png") -215px -122px rgba(0,0,0,0.5) ;  margin-right: 20px; vertical-align: middle;}*/

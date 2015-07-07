@@ -1,10 +1,12 @@
 'use strict';
 
 var React = require('react'),
+Constants = require('../constant/appConstant'),
 Filter = require('../component/filter'),
 RelatedTopics = require('../component/relatedTopics'),
 RelatedCollections = require('../component/relatedCollections'),
-ConsumerViewContainer = require('../component/consumerViewContainer');
+ConsumerViewContainer = require('../component/consumerViewContainer'),
+BroadcasterViewContainer = require('../component/broadcasterViewContainer');
 
 var CollectionHeader = React.createClass({
   render: function(){
@@ -17,7 +19,9 @@ var CollectionHeader = React.createClass({
 
 module.exports = React.createClass({
   render: function() {
-    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter), React.createElement(ConsumerViewContainer));
+
+    var appView = this.props.app === Constants.APP_BROADCASTER ? BroadcasterViewContainer : ConsumerViewContainer
+    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter), React.createElement(appView));
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
     var columnView = React.DOM.div({className:''},leftView,rightView);
 

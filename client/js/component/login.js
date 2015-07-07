@@ -7,6 +7,13 @@ var AppStore = require('../store/appStore'),
 var LoginPopup = React.createClass({
     username: null,
     password: null,
+    keyEvent: function(event) {
+        var charCode = event.charCode;
+        //fire off search when enter is pressed
+        if (charCode === 13) {
+            this.submitLogin();
+        }
+    },
     close: function() {
         if (this.props.closeModal) {
             this.props.closeModal.apply(this, []);
@@ -41,12 +48,14 @@ var LoginPopup = React.createClass({
                 React.DOM.input({
                     name: 'email',
                     placeholder: 'email',
+                    onKeyPress: this.keyEvent,
                     onChange: this.setUsername,
                 }),
                 React.DOM.input({
                     name: 'password',
                     type: 'password',
                     placeholder: 'password',
+                    onKeyPress: this.keyEvent,
                     onChange: this.setPassword,
                 }),
                 React.DOM.input({

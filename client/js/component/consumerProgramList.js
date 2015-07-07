@@ -28,13 +28,16 @@ var Mention = React.createClass({
     //add porgram name
     // var arrowIcon  = React.DOM.a({className: 'blue-play'});
     // var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,this.props.data.programName));
+
     var airDate = React.DOM.i({className: 'mention-air-date'}, React.createElement(TimeAgo, {date: this.props.data.mediaStartTime}));
+    // var airDate = React.DOM.i({className: 'mention-air-date'}, React.createElement(TimeAgo, {date: new Date()}));
+    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},airDate);
     // var programNameContainer = React.DOM.div({className: 'prog-title'},arrowIcon, programName,airDate);
 
     //add mention snippet
     var mentionSnippet = React.DOM.p({className: 'program-list-mention-text'}, React.DOM.span({className:'cur-point ui-snip-text'}, this.getSnippetText(this.props.data.mentionSnippet)));
 
-    var holder = React.DOM.div({className: 'ui-program-au-holder'}, mentionSnippet, airDate);
+    var holder = React.DOM.div({className: 'ui-program-au-holder'}, mentionSnippet, animationElement);
     
   
     return holder;
@@ -62,14 +65,15 @@ var ProgramRow = React.createClass({
 
     var programContainer = React.DOM.div({className:'program-container'}, backgroundImage, programNameContainer)
 
-
-    var container = React.DOM.li({className:'ui-program-search-item'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, mentionNodes));
-  
+    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
+    var container = React.DOM.li({className:'ui-program-search-item'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, animationElement));
+    
     return container;
   }
 });
 
 module.exports = React.createClass({
+  sortedResult:null,
   sortData:function(mentions){
   	var hash = {};
   	var collection = [];
@@ -91,25 +95,57 @@ module.exports = React.createClass({
   	console.log(collection);
   	return collection;
   },
+  getProgramSearches:function(sortedMention){
+    for (var i = 0; i < sortedMention.length; i++) {
+      var mention = sortedMention[i][0];
+      AppAction.getSearchByProgramId(mention.programId, AppStore.getSearchTerms());
+    };    
+  },
   onChange: function() {
     //first we remove the data before adding new list to animate the draw.
-    this.setState({data: this.sortData(AppStore.getSearchResults())});
+    this.sortedResult = this.sortData(AppStore.getSearchResults());
+    this.setState({data: this.sortedResult});
+    this.getProgramSearches(this.sortedResult);
   },
   onSearchTermChange: function(){
     this.setState({data: []});
     AppAction.searchInit(AppStore.getSearchTerms());
   },
+  onProgramSearchResult: function(){
+    var programSearchResult = AppStore.getProgramsSearch();
+    if(!programSearchResult || programSearchResult.length === 0){
+      return;
+    }
+
+    var mention = programSearchResult[0],
+    mentionsList = null;
+    for (var i = 0; i < this.sortedResult.length; i++) {
+        if(this.sortedResult[i][0].programId === mention.programId){
+          this.sortedResult[i] = programSearchResult;
+          break;
+        }
+    };
+
+    this.setState({data: this.sortedResult});
+  },
   componentDidMount: function() {
     AppStore.addChangeListener(this.onChange);
     AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+    AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
+
+    if(this.state.searchTerms){
+      AppAction.searchInit(this.state.searchTerms);  
+    }
   },
   componentWillUnmount: function() {
     AppStore.removeChangeListener(this.onChange);
     AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
+    AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
   },
   getInitialState: function() {
-  	var result = this.sortData(AppStore.getSearchResults());
-  	return {data: result};
+  	this.sortedResult = this.sortData(AppStore.getSearchResults());
+    //this.getProgramSearches(this.sortedResult);
+    return {data: this.sortedResult, searchTerms: AppStore.getSearchTerms()};
   },
   render: function() {
   	var programNodes = this.state.data.map(function (mentions) {

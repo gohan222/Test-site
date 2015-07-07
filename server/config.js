@@ -45,6 +45,10 @@ if (config.has('ssoAuthUrl')) {
   settings.ssoAuthUrl = config.get('ssoAuthUrl');
 }
 
+if (config.has('metricsUrl')) {
+  settings.metricsUrl = config.get('metricsUrl');
+}
+
 settings.sfUrlCallback = settings.redirectUri + '/confirmation';
 settings.oauthUrl = settings.sfOAuthUrl + '?client_id=' + settings.clientId + '&response_type=code&redirect_uri=' + settings.sfUrlCallback;
 

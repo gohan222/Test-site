@@ -52,13 +52,18 @@ module.exports = React.createClass({
   componentDidMount: function() {
     AppStore.addChangeListener(this.onChange);
     AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+
+    if(this.state.searchTerms){
+      AppAction.searchInit(this.state.searchTerms);  
+    }
+    
   },
   componentWillUnmount: function() {
     AppStore.removeChangeListener(this.onChange);
     AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
   },
   getInitialState: function() {
-    return {data: AppStore.getSearchResults()};
+    return {data: AppStore.getSearchResults(), searchTerms: AppStore.getSearchTerms()};
   },
   render: function() {
     if(!this.state.data){
@@ -69,7 +74,7 @@ module.exports = React.createClass({
       return React.createElement(Mention, {data:mention});
     });
 
-    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'ui-search-item', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
+    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
     return React.DOM.ul({className: 'results'}, animationElement);
   }
 });

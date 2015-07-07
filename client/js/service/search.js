@@ -23,6 +23,20 @@ module.exports = {
 				callback.apply(this,[data]);
 			}
 		});
+	},
+	getSearchByProgramId : function(programId, searchTerms, callback){
+		$.get('search?confidence=12&includeSnippet=true&limit=25&offset=0&q=' + searchTerms + '&programIds=' + programId,function(data, status){
+			if(callback){
+				callback.apply(this,[data]);
+			}
+		});
+	},
+	getMentions : function(callback){
+		$.get('mention',function(data, status){
+			if(callback){
+				callback.apply(this,[data]);
+			}
+		});
 	}
 }
 
