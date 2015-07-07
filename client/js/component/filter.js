@@ -6,12 +6,19 @@ Constants = require('../constant/appConstant'),
 React = require('react');
 
 module.exports = React.createClass({
+  onViewCheck:function(){
+    var curView = AppStore.getView();
+
+    if (curView === Constants.VIEW_PROGRAM_LIST){
+      this.changeListView();
+    }
+  },
   onChange: function() {
-    //first we remove the data before adding new list to animate the draw.
     this.setState({recordCount: AppStore.getSearchResultsCount()});
   },
   onSearchTermChange: function(){
     this.setState({recordCount: AppStore.getSearchResultsCount() ? AppStore.getSearchResultsCount() : 0});
+    setTimeout(this.onViewCheck, 1); 
   },
   componentDidMount: function() {
     AppStore.addChangeListener(this.onChange);

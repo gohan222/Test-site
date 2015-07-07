@@ -29,7 +29,7 @@ React.render(
 );
 
 React.render(
-  React.createElement(SearchBody),
+  React.createElement(SearchBody, {app:AppConstant.APP_BROADCASTER}),
   document.getElementById('app-content')
 );
 

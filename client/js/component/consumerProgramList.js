@@ -132,6 +132,10 @@ module.exports = React.createClass({
     AppStore.addChangeListener(this.onChange);
     AppStore.addChangeSearchTermListener(this.onSearchTermChange);
     AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
+
+    if(this.state.searchTerms){
+      AppAction.searchInit(this.state.searchTerms);  
+    }
   },
   componentWillUnmount: function() {
     AppStore.removeChangeListener(this.onChange);
@@ -140,8 +144,8 @@ module.exports = React.createClass({
   },
   getInitialState: function() {
   	this.sortedResult = this.sortData(AppStore.getSearchResults());
-    this.getProgramSearches(this.sortedResult);
-    return {data: this.sortedResult};
+    //this.getProgramSearches(this.sortedResult);
+    return {data: this.sortedResult, searchTerms: AppStore.getSearchTerms()};
   },
   render: function() {
   	var programNodes = this.state.data.map(function (mentions) {
