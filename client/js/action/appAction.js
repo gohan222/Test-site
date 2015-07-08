@@ -15,13 +15,14 @@ var AppDispatcher = require('../dispatcher/appDispatcher');
 var AppConstant = require('../constant/appConstant');
 var AppService = require('../service/search');
 var AppServiceUser = require('../service/user');
+var AppServiceAnalytics = require('../service/analytics');
 
 var appAction = {
     submitLogin: function(username, password) {
         AppServiceUser.login(username, password, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_CHANGE_USER,
-                user: data
+                data: data
             });
         });
     },
@@ -36,7 +37,7 @@ var appAction = {
         AppService.getSearch(searchTerms, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_SEARCH_INIT,
-                searchResults: data
+                data: data
             });
         });
     },
@@ -44,7 +45,7 @@ var appAction = {
     changeSearchTerm: function(searchTerms) {
         AppDispatcher.dispatch({
             actionType: AppConstant.ACTION_SEARCH_TERM_CHANGE,
-            searchTerms: searchTerms
+            data: searchTerms
         });
     },
 
@@ -52,7 +53,7 @@ var appAction = {
         AppService.getRelatedTopics(searchTerms, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_SEARCH_RELATED_TOPIC,
-                relatedTopics: data
+                data: data
             });
         });
     },
@@ -61,7 +62,7 @@ var appAction = {
         AppService.getRelatedCollections(searchTerms, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_SEARCH_RELATED_COLLECTION,
-                relatedCollections: data
+                data: data
             });
         });
     },
@@ -75,7 +76,7 @@ var appAction = {
       AppService.getSearchByProgramId( programId, searchTerms, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_PROGRAM_SEARCH,
-                searchResults: data
+                data: data
             });
         });
     },
@@ -84,11 +85,19 @@ var appAction = {
       AppService.getMentions(function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_GET_MENTIONS,
-                mentions: data
+                data: data
+            });
+        });
+    },
+
+    getTopTrends: function(){
+      AppServiceAnalytics.getTopTrends(function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_GET_TOP_TRENDS,
+                data: data
             });
         });
     }
-
 };
 
 module.exports = appAction;
