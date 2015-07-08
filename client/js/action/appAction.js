@@ -69,7 +69,7 @@ var appAction = {
     changeView: function(view) {
         AppDispatcher.dispatch({
             actionType: AppConstant.ACTION_CHANGE_VIEW,
-            view: view
+            data: view
         })
     },
     getSearchByProgramId: function(programId, searchTerms){

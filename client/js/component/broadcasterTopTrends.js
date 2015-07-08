@@ -70,8 +70,8 @@ module.exports = React.createClass({
     AppStore.removeChangeTopTrendsListener(this.onChange);
   },
   getInitialState: function() {
-    var modData = this.formatData(AppStore.getTopTrends());
-    return {data: modData};
+    // var modData = this.formatData(AppStore.getTopTrends());
+    return {};
   },
   render: function() {
     if (!this.state.data || this.state.data.length === 0){
