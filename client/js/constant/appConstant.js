@@ -37,4 +37,6 @@ module.exports = keyMirror({
 
   VIEW_MENTION_LIST:null,
   VIEW_PROGRAM_LIST:null,
+  VIEW_TOP_TRENDS_LIST:null,
+  VIEW_TRENDING_SEARCH_TERMS_LIST:null
 });

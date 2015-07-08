@@ -28,6 +28,7 @@
   <div id="app-modal">
   </div>
   <script type="text/javascript" src="dist/broadcaster.{hash}.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 </body>
 
 </html>

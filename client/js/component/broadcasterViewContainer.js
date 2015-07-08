@@ -3,8 +3,8 @@
 var React = require('react'),
 Constants = require('../constant/appConstant'),
 AppStore = require('../store/appStore'),
-BroadcasterMentionList = require('../component/broadcasterMentionList'),
-ConsumerMentionList = require('../component/consumerMentionList');
+BroadcasterTopTrends = require('../component/broadcasterTopTrends'),
+BroadcasterTrendSearchTerm = require('../component/broadcasterTrendSearchTerm');
 
 module.exports = React.createClass({
   onChange:function(){
@@ -22,10 +22,10 @@ module.exports = React.createClass({
   render: function() {
     var viewElem;
 
-    if(this.state.view === Constants.VIEW_PROGRAM_LIST){
-      viewElem = React.createElement(BroadcasterMentionList);
+    if(this.state.view === Constants.VIEW_TOP_TRENDS_LIST){
+      viewElem = React.createElement(BroadcasterTopTrends);
     }else{
-      viewElem = React.createElement(ConsumerMentionList);
+      viewElem = React.createElement(BroadcasterTrendSearchTerm);
     }
     return viewElem;
   }
