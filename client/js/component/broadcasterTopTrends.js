@@ -4,7 +4,7 @@ var AppStore = require('../store/appStore'),
 AppAction = require('../action/appAction'),
 Constants = require('../constant/appConstant'),
 Chart = require('react-google-charts').Chart,
-React = require('react');
+React = require('react/addons');
 
 var metaData = ['Search Term', 'Count', { role: 'style' }];
 
@@ -21,6 +21,11 @@ var options = {
         height: 800,
         bar: {groupWidth: "95%"},
         legend: { position: "none" },
+        animation:{
+          duration: 1000,
+          easing: 'out',
+          startup: true
+        },
       };
 
 module.exports = React.createClass({
@@ -73,7 +78,6 @@ module.exports = React.createClass({
       return React.DOM.div();  
     }
     
-    console.log(this.state.data);
     return React.createElement(Chart,{chartType:'ColumnChart', data:this.state.data, options:options});
   }
 });
