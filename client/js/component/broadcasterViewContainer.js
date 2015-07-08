@@ -22,10 +22,10 @@ module.exports = React.createClass({
   render: function() {
     var viewElem;
 
-    if(this.state.view === Constants.VIEW_TOP_TRENDS_LIST){
-      viewElem = React.createElement(BroadcasterTopTrends);
-    }else{
+    if(this.state.view === Constants.VIEW_TRENDING_SEARCH_TERMS_LIST){
       viewElem = React.createElement(BroadcasterTrendSearchTerm);
+    }else{
+      viewElem = React.createElement(BroadcasterTopTrends);
     }
     return viewElem;
   }

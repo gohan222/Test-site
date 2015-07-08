@@ -3,28 +3,18 @@
 var React = require('react'),
 Constants = require('../constant/appConstant'),
 Filter = require('../component/filter'),
-RelatedTopics = require('../component/relatedTopics'),
-RelatedCollections = require('../component/relatedCollections'),
 BroadcasterViewContainer = require('../component/broadcasterViewContainer');
 
-var CollectionHeader = React.createClass({
-  render: function(){
-    return React.DOM.div({className:'page-title bb'},
-        React.DOM.a({className:'goright f13'}, 'View All Related Collections'),
-        React.DOM.span({className:'f22 mr20', style:{paddingTop:'10px'}}, 'Collections')
-        );
-  }
-});
+var buttonGroup = [{view: Constants.VIEW_TOP_TRENDS_LIST ,icon: 'glyphicon glyphicon-stats'},
+                  {view: Constants.VIEW_TRENDING_SEARCH_TERMS_LIST ,icon: 'glyphicon glyphicon-signal'}];
 
 module.exports = React.createClass({
   render: function() {
 
-    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter), React.createElement(BroadcasterViewContainer));
-    var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
-    var columnView = React.DOM.div({className:''},leftView,rightView);
+    var leftView = React.DOM.div({className:'ui-exp-coll min-height'}, React.createElement(Filter,{app: this.props.app , buttonGroup: buttonGroup}), React.createElement(BroadcasterViewContainer));
+    var columnView = React.DOM.div({className:''},leftView);
 
     return React.DOM.div({className:'contain min-height active'},
-      React.createElement(RelatedTopics), 
       columnView
       );
   }

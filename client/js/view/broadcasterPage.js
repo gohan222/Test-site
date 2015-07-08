@@ -14,7 +14,7 @@ require('../../css/transition.css');
 require('../../css/button.css');
 require('../../css/common.css');
 
-var SearchBody = require('../component/search'),
+var TrendBody = require('../component/trend'),
 Header = require('../component/masterHeader'),
 Hamburger = require('../component/hamburger'),
 AppStore = require('../store/appStore'),
@@ -29,7 +29,7 @@ React.render(
 );
 
 React.render(
-  React.createElement(SearchBody, {app:AppConstant.APP_BROADCASTER}),
+  React.createElement(TrendBody, {app:AppConstant.APP_BROADCASTER}),
   document.getElementById('app-content')
 );
 

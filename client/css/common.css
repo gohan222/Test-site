@@ -97,3 +97,8 @@
   text-align: center;
   margin-top: 10px;
 }
+
+.adv-holder-trend{
+  display: inline-block;
+  left: calc(100% - 70px);
+}

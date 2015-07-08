@@ -22,7 +22,7 @@
     </div>
     <!--END OF HEADER-->
     <div id="app-content">
-      {generateSearchContent}
+      {generateTrendContent}
     </div>
   </div>
   <div id="app-modal">
