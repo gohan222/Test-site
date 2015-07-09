@@ -20,26 +20,22 @@ var searchService = {
     getTrendsMetrics: function(options, callback, res) {
         //get the last 30days of data for each search term.
 
-        var todayDate = new Date();
         var data = [];
         var counter = options.searchTerms.length * options.days;
         //make request per keyword
         for (var i = 0; i < options.searchTerms.length; i++) {
             var term = options.searchTerms[i];
+            var todayDate = new Date();
             //request per day
             for (var j = 0; j < options.days; j++) {
                 var endDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
-                todayDate.setDate(todayDate.getDate() - j);
+                todayDate.setDate(todayDate.getDate() - 1);
                 var startDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
                 this.getTrendsMetricsRequest(term, startDate, endDate, function(err, resBody) {
                     counter--;
-                    console.log('counter: ' + counter);
-                    console.log('data: ' + resBody);
                     data.push(resBody);
                     if (counter === 0) {
-                        console.log('counter is zero');
                         if (callback) {
-                            console.log('callback');
                             callback.apply(this, [null, data, res]);
                         }
                     }
