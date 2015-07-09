@@ -44,12 +44,12 @@
   display: inline-block;
   padding-right: 10px;
   margin-right: 10px;
-  border-right: solid 1px #e5e5e5;
+  border-right: solid 1px #CCCCCC;
   height: 133px;
 }
 
 .ui-program-search-item{
-  border-bottom: 1px #e5e5e5 solid;
+  border-bottom: 1px #CCCCCC solid;
   padding: 20px 30px 20px;
   white-space: nowrap;
 }
@@ -57,32 +57,32 @@
 .program-list-mention-text{
   overflow: hidden;
   font-size: 16px;
-  width: 380px;
   display: block;
   vertical-align: top;
-  height: 59px;
+  height: calc(100% - 26px);
   white-space: normal;
+  color: #333333;
 }
 
 .program-list-mention-container{
   display: inline-block;
   vertical-align: top;
-  width: calc(100% - 150px);
+  width: calc(100% - 200px);
   overflow: auto;
+  line-height: 1.375;
 }
 
 .program-container{
   display: inline-block;
   padding-right: 10px;
   margin-right: 10px;
-  border-right: solid 1px #e5e5e5;
   white-space: normal;
 }
 
 .prog-avtr2{
-  margin-left:50px;
-  width: 86px;
-  height: 86px;
+  margin: 35px 0px 0px 50px;
+  width: 88px;
+  height: 88px;
   border-radius: 100%;
   display: inline-block;
   vertical-align: top;
@@ -96,4 +96,62 @@
   vertical-align: top;
   text-align: center;
   margin-top: 10px;
+}
+
+.adv-holder-trend{
+  display: inline-block;
+  left: calc(100% - 70px);
+}
+
+.trends-date-filter{
+  float: right;
+  margin-right: 83px;
+}
+
+#app-content{
+  
+}
+
+
+.program-list-result{
+  border-bottom: 1px #CCCCCC solid;
+  padding: 0px;
+}
+
+.program-list-row{
+  border-bottom: 1px #CCCCCC solid;
+  white-space: nowrap;
+}
+
+.program-list-row:hover{
+  background-color: #fff6e0;
+}
+
+.program-list-row:hover .program-card{
+  background-color: #ffffff;
+  border: solid 1px #cccccc;
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.16);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.16);
+  box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.16);
+}
+
+.program-card{
+  display: inline-block;
+  padding: 10px;
+  margin: 10px;
+  border: solid 1px #ffffff;
+  border-right: solid 1px #CCCCCC;
+  height: 198px;
+  width: 310px;
+}
+
+.program-mention-air-date{
+  font-size: 12px;
+  color: #9B9B9B;
+}
+
+.prog-avtr-style2{
+  height:100%;
+  clip-path: circle(44px at 44px 44px);
+  -webkit-clip-path: circle(44px at 44px 44px);
 }

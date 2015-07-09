@@ -22,7 +22,7 @@ var LeftContainer = React.createClass({
         }, 'k')) ;
         //logo
         var img = React.createElement(Img, {
-            src: 'images/broadcaster-header-assets/broadcaster-logo.png',
+            src: '/images/veritone-trends-logo_2.png',
             className: 'header-logo clickable'
         });
         return React.DOM.div({

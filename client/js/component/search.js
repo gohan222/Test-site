@@ -8,6 +8,9 @@ RelatedCollections = require('../component/relatedCollections'),
 ConsumerViewContainer = require('../component/consumerViewContainer'),
 BroadcasterViewContainer = require('../component/broadcasterViewContainer');
 
+var buttonGroup = [{view: Constants.VIEW_MENTION_LIST ,icon: 'glyphicon glyphicon-list'},
+                  {view: Constants.VIEW_PROGRAM_LIST ,icon: 'glyphicon glyphicon-align-left'}];
+
 var CollectionHeader = React.createClass({
   render: function(){
     return React.DOM.div({className:'page-title bb'},
@@ -21,7 +24,7 @@ module.exports = React.createClass({
   render: function() {
 
     var appView = this.props.app === Constants.APP_BROADCASTER ? BroadcasterViewContainer : ConsumerViewContainer
-    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter), React.createElement(appView));
+    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView));
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
     var columnView = React.DOM.div({className:''},leftView,rightView);
 

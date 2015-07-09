@@ -22,22 +22,13 @@ var Mention = React.createClass({
   },
 	render: function() {
     
-    // var backgroundImage = React.DOM.div({className: 'prog-avtr'},
-                          // React.createElement(LazyLoadImg,{src: this.props.data.programLiveImage, className:'prog-avtr-style'}));
-
-    //add porgram name
-    // var arrowIcon  = React.DOM.a({className: 'blue-play'});
-    // var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,this.props.data.programName));
-
-    var airDate = React.DOM.i({className: 'mention-air-date'}, React.createElement(TimeAgo, {date: this.props.data.mediaStartTime}));
-    // var airDate = React.DOM.i({className: 'mention-air-date'}, React.createElement(TimeAgo, {date: new Date()}));
+    var airDate = React.DOM.i({className: 'program-mention-air-date'}, React.createElement(TimeAgo, {date: this.props.data.mediaStartTime}));
     var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},airDate);
-    // var programNameContainer = React.DOM.div({className: 'prog-title'},arrowIcon, programName,airDate);
-
+    
     //add mention snippet
     var mentionSnippet = React.DOM.p({className: 'program-list-mention-text'}, React.DOM.span({className:'cur-point ui-snip-text'}, this.getSnippetText(this.props.data.mentionSnippet)));
 
-    var holder = React.DOM.div({className: 'ui-program-au-holder'}, mentionSnippet, animationElement);
+    var holder = React.DOM.div({className: 'program-card'}, mentionSnippet, animationElement);
     
   
     return holder;
@@ -66,7 +57,7 @@ var ProgramRow = React.createClass({
     var programContainer = React.DOM.div({className:'program-container'}, backgroundImage, programNameContainer)
 
     var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
-    var container = React.DOM.li({className:'ui-program-search-item'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, animationElement));
+    var container = React.DOM.li({className:'program-list-row'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, animationElement));
     
     return container;
   }
@@ -152,6 +143,6 @@ module.exports = React.createClass({
       return React.createElement(ProgramRow, {data:mentions});
     });
 
-    return React.DOM.ul({className: 'results'}, programNodes);
+    return React.DOM.ul({className: 'program-list-result'}, programNodes);
   }
 });

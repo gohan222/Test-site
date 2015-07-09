@@ -8,7 +8,7 @@ input:focus{ outline:none; }*/
 
 .bar_con { background:white; height:70px; position:fixed; top:0; left:0; width:100%; z-index:120; min-width:1280px; border-bottom: 3px solid #5881a8; box-shadow: 0 0 5px rgba(0,0,0,0.5);}
 .logo_con { display:inline-block; vertical-align:middle; }
-.contain { /*max-width:1280px; min-width:990px; margin:0 auto; */min-height:70px; position:relative; min-width:1280px;}
+.contain { /*max-width:1280px; min-width:990px; margin:0 auto; */min-height:70px; position:relative; min-width:1280px; height:100%;}
 
 .h100 { height:100%; background:#fff; padding-top:125px; z-index:0; }
 

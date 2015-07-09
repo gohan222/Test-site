@@ -52,6 +52,8 @@
     "merge": "^1.2.0",
     "object-assign": "^3.0.0",
     "react": "^0.13.2",
+    "react-bootstrap": "^0.23.7",
+    "react-google-charts": "^0.1.4",
     "react-timeago": "^2.2.1",
     "redis": "^0.12.1",
     "request": "^2.55.0",

@@ -83,6 +83,7 @@ function startServer(application) {
     application.use('/user', require('./router/user'));
 
     application.use('/', require('./router/mention'));
+    application.use('/analytics', require('./router/analytics'));
 
     application.listen(config.port);
 };

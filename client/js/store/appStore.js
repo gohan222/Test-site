@@ -24,6 +24,9 @@ var user = null;
 var currentView = '';
 var programSearchResult;
 var mentions = [];
+var topTrends = [];
+var trends = [];
+var filterDays = 1;
 
 
 function updateSearchResults(results){
@@ -56,6 +59,18 @@ function updateProgramSearch(results){
 
 function updateMentions(results){
   mentions = results;
+}
+
+function updateTopTrends(results){
+  topTrends = results;
+}
+
+function updateTrends(results){
+  trends = results;
+}
+
+function updateFilter(results){
+  filterDays = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -96,6 +111,18 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.emit(Constants.CHANGE_MENTIONS_EVENT);
   },
 
+  emitChangeTopTrends: function() {
+    this.emit(Constants.CHANGE_TOP_TRENDS_EVENT);
+  },
+
+  emitChangeTrends: function() {
+    this.emit(Constants.CHANGE_TRENDS_EVENT);
+  },
+
+  emitChangeFilter: function() {
+    this.emit(Constants.CHANGE_FILTER_EVENT);
+  },
+
   /**
    * @param {function} callback
    */
@@ -134,10 +161,20 @@ var AppStore = assign({}, EventEmitter.prototype, {
   addChangeMentionsListener: function(callback) {
     this.on(Constants.CHANGE_MENTIONS_EVENT, callback);
   },
-  
+
+  addChangeTopTrendsListener: function(callback) {
+    this.on(Constants.CHANGE_TOP_TRENDS_EVENT, callback);
+  },
+
+  addChangeTrendsListener: function(callback) {
+    this.on(Constants.CHANGE_TRENDS_EVENT, callback);
+  },
+
+  addChangeFilterListener: function(callback) {
+    this.on(Constants.CHANGE_FILTER_EVENT, callback);
+  },
 
   
-
   /**
    * @param {function} callback
    */
@@ -175,6 +212,18 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeMentionsListener: function(callback) {
     this.removeListener(Constants.CHANGE_MENTIONS_EVENT, callback);
+  },
+
+  removeChangeTopTrendsListener: function(callback) {
+    this.removeListener(Constants.CHANGE_TOP_TRENDS_EVENT, callback);
+  },
+
+  removeChangeTrendsListener: function(callback) {
+    this.removeListener(Constants.CHANGE_TRENDS_EVENT, callback);
+  },
+
+  removeChangeFilterListener: function(callback) {
+    this.removeListener(Constants.CHANGE_FILTER_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -230,6 +279,18 @@ var AppStore = assign({}, EventEmitter.prototype, {
     return mentions;
   },
 
+  getTopTrends: function(){
+    return topTrends;
+  },
+
+  getTrends: function(){
+    return trends;
+  },
+
+  getFilter: function(){
+    return filterDays;
+  },
+
 });
 
 // Register callback to handle all updates
@@ -240,37 +301,49 @@ AppDispatcher.register(function(action) {
       break;    
 
     case Constants.ACTION_SEARCH_INIT:
-      updateSearchResults(action.searchResults);
+      updateSearchResults(action.data);
       AppStore.emitChange();
       break;
 
     case Constants.ACTION_SEARCH_TERM_CHANGE:
-      updateSearchTerms(action.searchTerms)
+      updateSearchTerms(action.data)
       AppStore.emitChangeSearchTerm();
       break;
     case Constants.ACTION_SEARCH_RELATED_TOPIC:
-      updateRelatedTopics(action.relatedTopics);
+      updateRelatedTopics(action.data);
       AppStore.emitChangeRelatedTopics();
       break;
     case Constants.ACTION_SEARCH_RELATED_COLLECTION:
-      updateRelatedCollections(action.relatedCollections);
+      updateRelatedCollections(action.data);
       AppStore.emitChangeRelatedCollections();
       break;
     case Constants.ACTION_CHANGE_USER:
-      updateUser(action.user);
+      updateUser(action.data);
       AppStore.emitChangeUser();
       break;
     case Constants.ACTION_CHANGE_VIEW:
-      updateView(action.view);
+      updateView(action.data);
       AppStore.emitChangeView();
       break;
     case Constants.ACTION_PROGRAM_SEARCH:
-      updateProgramSearch(action.searchResults);
+      updateProgramSearch(action.data);
       AppStore.emitChangeProgramSearch();
       break;
     case Constants.ACTION_GET_MENTIONS:
-      updateMentions(action.mentions);
+      updateMentions(action.data);
       AppStore.emitChangeMentions();
+      break;
+    case Constants.ACTION_GET_TOP_TRENDS:
+      updateTopTrends(action.data);
+      AppStore.emitChangeTopTrends();
+      break;
+    case Constants.ACTION_GET_TRENDS:
+      updateTrends(action.data);
+      AppStore.emitChangeTrends();
+      break;
+    case Constants.ACTION_UPDATE_FILTER:
+      updateFilter(action.data);
+      AppStore.emitChangeFilter();
       break;
     default:
       // no op

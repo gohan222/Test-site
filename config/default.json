@@ -3,5 +3,6 @@
   "searchUrl":"https://core.veritone.com/search",
   "collectionUrl":"http://services.dev-puma.veritone.com/cn-collection-mgmt",
   "ssoAuthUrl":"http://services.dev-puma.veritone.com/sso-auth",
-  "metricsUrl":"http://services.dev-puma.veritone.com/mp-metrics"
+  "metricsUrl":"http://services.dev-puma.veritone.com/mp-metrics",
+  "analyticsUrl":"https://api.veritone.com/v1/analytics"
 }
