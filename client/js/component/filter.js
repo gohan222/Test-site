@@ -77,6 +77,7 @@ var DateFilter = React.createClass({
       dropdown = React.createElement(Bootstrap.DropdownButton, {className:'trends-date-filter', title:'Date Range', onSelect:this.onSelect}, menuItem1, menuItem2, menuItem3, menuItem4, menuItem5);
     }
     
+
     return dropdown;
   }
 });

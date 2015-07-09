@@ -98,6 +98,14 @@ var appAction = {
             });
         });
     },
+    getTrends: function(searchTerms, days){
+      AppServiceAnalytics.getTrends(searchTerms, days, function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_GET_TRENDS,
+                data: data
+            });
+        });
+    },
     updateFilter: function(days){
       AppDispatcher.dispatch({
             actionType: AppConstant.ACTION_UPDATE_FILTER,

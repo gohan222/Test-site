@@ -107,3 +107,7 @@
   float: right;
   margin-right: 83px;
 }
+
+#app-content{
+  height: 100%;
+}

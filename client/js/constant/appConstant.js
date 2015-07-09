@@ -20,6 +20,7 @@ module.exports = keyMirror({
   ACTION_PROGRAM_SEARCH: null,
   ACTION_GET_MENTIONS: null,
   ACTION_GET_TOP_TRENDS: null,
+  ACTION_GET_TRENDS: null,
   ACTION_UPDATE_FILTER:null,
 
   CHANGE_EVENT : null,
@@ -32,6 +33,7 @@ module.exports = keyMirror({
   CHANGE_PROGRAM_SEARCH_EVENT : null,
   CHANGE_MENTIONS_EVENT : null,
   CHANGE_TOP_TRENDS_EVENT:null,
+  CHANGE_TRENDS_EVENT:null,
   CHANGE_FILTER_EVENT:null,
 
 

@@ -14,7 +14,7 @@ module.exports = React.createClass({
     var leftView = React.DOM.div({className:'ui-exp-coll min-height'}, React.createElement(Filter,{app: this.props.app , buttonGroup: buttonGroup}), React.createElement(BroadcasterViewContainer));
     var columnView = React.DOM.div({className:''},leftView);
 
-    return React.DOM.div({className:'contain min-height active'},
+    return React.DOM.div({className:'contain active'},
       columnView
       );
   }

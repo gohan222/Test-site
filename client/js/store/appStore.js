@@ -25,6 +25,7 @@ var currentView = '';
 var programSearchResult;
 var mentions = [];
 var topTrends = [];
+var trends = [];
 var filterDays = 1;
 
 
@@ -62,6 +63,10 @@ function updateMentions(results){
 
 function updateTopTrends(results){
   topTrends = results;
+}
+
+function updateTrends(results){
+  trends = results;
 }
 
 function updateFilter(results){
@@ -108,6 +113,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeTopTrends: function() {
     this.emit(Constants.CHANGE_TOP_TRENDS_EVENT);
+  },
+
+  emitChangeTrends: function() {
+    this.emit(Constants.CHANGE_TRENDS_EVENT);
   },
 
   emitChangeFilter: function() {
@@ -157,6 +166,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_TOP_TRENDS_EVENT, callback);
   },
 
+  addChangeTrendsListener: function(callback) {
+    this.on(Constants.CHANGE_TRENDS_EVENT, callback);
+  },
+
   addChangeFilterListener: function(callback) {
     this.on(Constants.CHANGE_FILTER_EVENT, callback);
   },
@@ -203,6 +216,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeTopTrendsListener: function(callback) {
     this.removeListener(Constants.CHANGE_TOP_TRENDS_EVENT, callback);
+  },
+
+  removeChangeTrendsListener: function(callback) {
+    this.removeListener(Constants.CHANGE_TRENDS_EVENT, callback);
   },
 
   removeChangeFilterListener: function(callback) {
@@ -266,6 +283,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     return topTrends;
   },
 
+  getTrends: function(){
+    return trends;
+  },
+
   getFilter: function(){
     return filterDays;
   },
@@ -315,6 +336,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_GET_TOP_TRENDS:
       updateTopTrends(action.data);
       AppStore.emitChangeTopTrends();
+      break;
+    case Constants.ACTION_GET_TRENDS:
+      updateTrends(action.data);
+      AppStore.emitChangeTrends();
       break;
     case Constants.ACTION_UPDATE_FILTER:
       updateFilter(action.data);
