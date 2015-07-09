@@ -68,7 +68,7 @@ module.exports = React.createClass({
     AppStore.addChangeFilterListener(this.onChangeFilter);
 
     //get the new list of trends
-    AppAction.getTopTrends(AppStore.getFilter());
+    AppAction.getTopTrends(1);
   },
   componentWillUnmount: function() {
     AppStore.removeChangeTopTrendsListener(this.onChange);
