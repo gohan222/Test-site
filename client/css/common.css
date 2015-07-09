@@ -102,3 +102,8 @@
   display: inline-block;
   left: calc(100% - 70px);
 }
+
+.trends-date-filter{
+  float: right;
+  margin-right: 83px;
+}

@@ -25,6 +25,7 @@ var currentView = '';
 var programSearchResult;
 var mentions = [];
 var topTrends = [];
+var filterDays = 1;
 
 
 function updateSearchResults(results){
@@ -61,6 +62,10 @@ function updateMentions(results){
 
 function updateTopTrends(results){
   topTrends = results;
+}
+
+function updateFilter(results){
+  filterDays = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -103,6 +108,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeTopTrends: function() {
     this.emit(Constants.CHANGE_TOP_TRENDS_EVENT);
+  },
+
+  emitChangeFilter: function() {
+    this.emit(Constants.CHANGE_FILTER_EVENT);
   },
 
   /**
@@ -148,6 +157,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_TOP_TRENDS_EVENT, callback);
   },
 
+  addChangeFilterListener: function(callback) {
+    this.on(Constants.CHANGE_FILTER_EVENT, callback);
+  },
+
   
   /**
    * @param {function} callback
@@ -190,6 +203,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeTopTrendsListener: function(callback) {
     this.removeListener(Constants.CHANGE_TOP_TRENDS_EVENT, callback);
+  },
+
+  removeChangeFilterListener: function(callback) {
+    this.removeListener(Constants.CHANGE_FILTER_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -249,6 +266,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     return topTrends;
   },
 
+  getFilter: function(){
+    return filterDays;
+  },
+
 });
 
 // Register callback to handle all updates
@@ -294,6 +315,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_GET_TOP_TRENDS:
       updateTopTrends(action.data);
       AppStore.emitChangeTopTrends();
+      break;
+    case Constants.ACTION_UPDATE_FILTER:
+      updateFilter(action.data);
+      AppStore.emitChangeFilter();
       break;
     default:
       // no op

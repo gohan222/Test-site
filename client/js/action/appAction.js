@@ -90,14 +90,20 @@ var appAction = {
         });
     },
 
-    getTopTrends: function(){
-      AppServiceAnalytics.getTopTrends(function(data) {
+    getTopTrends: function(days){
+      AppServiceAnalytics.getTopTrends(days, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_GET_TOP_TRENDS,
                 data: data
             });
         });
-    }
+    },
+    updateFilter: function(days){
+      AppDispatcher.dispatch({
+            actionType: AppConstant.ACTION_UPDATE_FILTER,
+            data: days
+        });
+    },
 };
 
 module.exports = appAction;

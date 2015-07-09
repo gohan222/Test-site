@@ -24,7 +24,8 @@ router.get('/topTrends', function(req, res) {
 router.get('/trends', function(req, res) {
 
   var options = {
-    searchTerms: req.query.q.split(',')
+    searchTerms: req.query.q.split(','),
+    days: req.query.days
   };
 
   service.getTrendsMetrics(options, function(err, result, response) {

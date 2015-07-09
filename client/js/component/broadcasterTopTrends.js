@@ -53,6 +53,9 @@ module.exports = React.createClass({
 
     return formatData;
   },
+  onChangeFilter: function() {
+    AppAction.getTopTrends(AppStore.getFilter());
+  },
   onChange: function() {
     var modData = this.formatData(AppStore.getTopTrends());
     this.setState({data: modData});
@@ -62,15 +65,16 @@ module.exports = React.createClass({
   },
   componentDidMount: function() {
     AppStore.addChangeTopTrendsListener(this.onChange);
+    AppStore.addChangeFilterListener(this.onChangeFilter);
 
     //get the new list of trends
-    AppAction.getTopTrends();
+    AppAction.getTopTrends(AppStore.getFilter());
   },
   componentWillUnmount: function() {
     AppStore.removeChangeTopTrendsListener(this.onChange);
+    AppStore.removeChangeFilterListener(this.onChangeFilter);
   },
   getInitialState: function() {
-    // var modData = this.formatData(AppStore.getTopTrends());
     return {};
   },
   render: function() {
@@ -78,6 +82,7 @@ module.exports = React.createClass({
       return React.DOM.div();  
     }
     
+    options.title = 'Top Trending Searches ' + AppStore.getFilter() + ' day(s)';
     return React.createElement(Chart,{chartType:'ColumnChart', data:this.state.data, options:options});
   }
 });
