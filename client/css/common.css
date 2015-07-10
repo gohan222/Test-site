@@ -135,12 +135,15 @@
   box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.16);
 }
 
+.program-list-row:hover .program-card-spacer{
+  border-right: 1px solid #fff6e0;
+}
+
 .program-card{
   display: inline-block;
   padding: 10px;
-  margin: 10px;
+  margin: 10px 5px 10px 5px;
   border: solid 1px #ffffff;
-  border-right: solid 1px #CCCCCC;
   height: 198px;
   width: 310px;
 }
@@ -154,4 +157,15 @@
   height:100%;
   clip-path: circle(44px at 44px 44px);
   -webkit-clip-path: circle(44px at 44px 44px);
+}
+
+.program-card-container{
+  display: inline-block;
+}
+
+.program-card-spacer{
+  border-right: 1px solid #cccccc;
+  display: inline-block;
+  height: 165px;
+  margin: auto;
 }

@@ -38,7 +38,7 @@ var Mention = React.createClass({
 var ProgramRow = React.createClass({
   render: function() {
   	var mentionNodes = this.props.data.map(function (mention) {
-      return React.createElement(Mention, {data:mention});
+      return React.DOM.div({className:'program-card-container'}, React.createElement(Mention, {data:mention}), React.DOM.div({className:'program-card-spacer'}));
     });
 
     //referenced mention
@@ -50,7 +50,8 @@ var ProgramRow = React.createClass({
                           React.createElement(LazyLoadImg,{src: refmention.programLiveImage, className:'prog-avtr-style'}));
 
     //add porgram name
-    // var arrowIcon  = React.DOM.a({className: 'blue-play'});
+    var leftArrow  = React.DOM.i({className: 'fa fa-chevron-left'});
+    var rightArrow  = React.DOM.i({className: 'fa fa-chevron-right'});
     var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,refmention.programName));
     var programNameContainer = React.DOM.div({className: 'prog-title2'}, programName);
 
