@@ -173,3 +173,7 @@
 .exp-col1-expand{
   width: 100%;
 }
+
+.exp-column-container{
+  white-space: nowrap;
+}
