@@ -114,7 +114,7 @@
 
 
 .program-list-result{
-  border-bottom: 1px #CCCCCC solid;
+  /*border-bottom: 1px #CCCCCC solid;*/
   padding: 0px;
 }
 
@@ -168,4 +168,8 @@
   display: inline-block;
   height: 165px;
   margin: auto;
+}
+
+.exp-col1-expand{
+  width: 100%;
 }
