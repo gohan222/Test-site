@@ -65,16 +65,16 @@
 }
 
 .program-list-mention-container{
+  padding: 0px 20px 0px 20px;
   display: inline-block;
   vertical-align: top;
   width: calc(100% - 200px);
-  overflow: auto;
+  overflow-y: auto;
   line-height: 1.375;
 }
 
 .program-container{
   display: inline-block;
-  padding-right: 10px;
   margin-right: 10px;
   white-space: normal;
 }
@@ -139,6 +139,14 @@
   border-right: 1px solid #fff6e0;
 }
 
+.program-list-row:hover .prog-left-arrow{
+  opacity: 1;
+}
+
+.program-list-row:hover .prog-right-arrow{
+  opacity: 1;
+}
+
 .program-card{
   display: inline-block;
   padding: 10px;
@@ -176,4 +184,46 @@
 
 .exp-column-container{
   white-space: nowrap;
+}
+
+.prog-arrow-background{
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #FFF6E0;
+  opacity: 0.851;
+  position: absolute;
+  top: 85px;
+  left: -15px;
+}
+
+.prog-right-arrow{
+  position: absolute;
+  right:20px;
+  display: inline-block;
+  height: 100%;
+  opacity: 0;
+}
+
+.prog-right-arrow i{
+  display: inline-block;
+  line-height: 220px;
+  height: 100%;
+  color: #2980b9;
+  font-size: 20px;
+}
+
+.prog-left-arrow{
+  position: absolute;
+  left: 205px;
+  display: inline-block;
+  height: 100%;
+  opacity: 0;
+}
+
+.prog-left-arrow i{
+  display: inline-block;
+  line-height: 220px;
+  color: #2980b9;
+  font-size: 20px;
 }

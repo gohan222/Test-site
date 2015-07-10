@@ -78,7 +78,7 @@ var MiddleContainer = React.createClass({
     render: function() {
         //search button
         var button = React.DOM.div({
-                className: 'header-consumer-button-search animate clickable',
+                className: 'header-consumer-button-search animation clickable',
                 onClick: this.submitButtonClick
             },
             React.DOM.span({
@@ -145,21 +145,21 @@ var RightContainer = React.createClass({
     render: function() {
         //menu items
         var product = React.DOM.div({
-                className: 'header-consumer-menu-item icon-prop animate clickable'
+                className: 'header-consumer-menu-item icon-prop animation clickable'
             },
             React.DOM.span(null, 'Products'),
             React.DOM.i({
                 className: 'fa fa-sort-desc'
             }));
         var developer = React.DOM.div({
-                className: 'header-consumer-menu-item icon-prop animate clickable'
+                className: 'header-consumer-menu-item icon-prop animation clickable'
             },
             React.DOM.span(null, 'Developer'),
             React.DOM.i({
                 className: 'fa fa-sort-desc'
             }));
         var about = React.DOM.div({
-                className: 'header-consumer-menu-item icon-prop animate clickable'
+                className: 'header-consumer-menu-item icon-prop animation clickable'
             },
             React.DOM.span(null, 'About'),
             React.DOM.i({
@@ -199,7 +199,7 @@ var RightContainer = React.createClass({
                 },
                 React.DOM.span(null, 'Sign Up'));
             imgContainer = React.DOM.div({
-                    className: 'header-consumer-menu-item icon-prop animate clickable'
+                    className: 'header-consumer-menu-item icon-prop animation clickable'
                 },
                 React.DOM.span({
                     onClick: this.showLogin

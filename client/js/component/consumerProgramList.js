@@ -28,7 +28,7 @@ var Mention = React.createClass({
     //add mention snippet
     var mentionSnippet = React.DOM.p({className: 'program-list-mention-text'}, React.DOM.span({className:'cur-point ui-snip-text'}, this.getSnippetText(this.props.data.mentionSnippet)));
 
-    var holder = React.DOM.div({className: 'program-card'}, mentionSnippet, animationElement);
+    var holder = React.DOM.div({className: 'program-card animation-1 clickable'}, mentionSnippet, animationElement);
     
   
     return holder;
@@ -50,15 +50,15 @@ var ProgramRow = React.createClass({
                           React.createElement(LazyLoadImg,{src: refmention.programLiveImage, className:'prog-avtr-style'}));
 
     //add porgram name
-    var leftArrow  = React.DOM.i({className: 'fa fa-chevron-left'});
-    var rightArrow  = React.DOM.i({className: 'fa fa-chevron-right'});
+    var leftArrow  = React.DOM.div({className:'prog-left-arrow animation-1'},React.DOM.div({className:'prog-arrow-background'}),React.DOM.i({className: 'fa fa-chevron-left fa-2 clickable'}));
+    var rightArrow  = React.DOM.div({className:'prog-right-arrow animation-1'},React.DOM.div({className:'prog-arrow-background'}),React.DOM.i({className: 'fa fa-chevron-right fa-2 clickable'}));
     var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,refmention.programName));
     var programNameContainer = React.DOM.div({className: 'prog-title2'}, programName);
 
     var programContainer = React.DOM.div({className:'program-container'}, backgroundImage, programNameContainer)
 
     var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
-    var container = React.DOM.li({className:'program-list-row'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, animationElement));
+    var container = React.DOM.li({className:'program-list-row animation-1'}, programContainer, React.DOM.div({className:'program-list-mention-container animation-1'}, animationElement), leftArrow, rightArrow);
     
     return container;
   }
@@ -94,7 +94,7 @@ module.exports = React.createClass({
     };    
   },
   onChange: function() {
-    //first we remove the data before adding new list to animate the draw.
+    //first we remove the data before adding new list to animation the draw.
     this.sortedResult = this.sortData(AppStore.getSearchResults());
     this.setState({data: this.sortedResult});
     this.getProgramSearches(this.sortedResult);
