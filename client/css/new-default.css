@@ -256,7 +256,7 @@ a:hover { }
 	.results li { border-bottom: 1px #e5e5e5 solid; padding: 35px 50px 50px;  }
 	.results li:hover {background: #fff6db;}
 	.results li .prog-avtr{ width: 86px; height: 86px; border-radius: 100%; display: inline-block; vertical-align: top; margin: 0 25px 0 0; background: #f1f1f1; background-position: center; overflow: hidden;}
-	.results li .prog-title { width:260px; padding: 0 50px 0 35px; display: inline-block; vertical-align: top;}
+	.results li .prog-title { width:260px; padding: 0 50px 0 35px; display: inline-block; vertical-align: top; white-space: normal;}
 	.prog-title .adflyout { left: 145px; top: -61px;}
 	.results li i { color: #9b9b9b; font-size: 12px; font-style: italic; line-height: 18px; display: block; margin-top: 10px;}
 	.results .blue-play { width: 24px; height: 24px; background: url("/imageshome/sprite.png") -360px -60px; position: absolute; top: 5px; left: 0;}
