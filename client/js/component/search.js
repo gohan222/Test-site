@@ -40,7 +40,7 @@ module.exports = React.createClass({
   render: function() {
 
     var appView = this.props.app === Constants.APP_BROADCASTER ? BroadcasterViewContainer : ConsumerViewContainer
-    var leftView = React.DOM.div({className:'exp-col1 animate ui-exp-coll min-height'}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView));
+    var leftView = React.DOM.div({className:'exp-col1 animation-3 ui-exp-coll min-height'}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView));
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
     var columnView = React.DOM.div({className:'exp-column-container'},leftView,rightView);
 

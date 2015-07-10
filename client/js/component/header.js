@@ -17,7 +17,7 @@ var LeftContainer = React.createClass({
     render: function() {
         //hambergher icon
         var icon = React.DOM.div({className:'header-icon'}, React.DOM.span({
-            className: 'icon-prop animation clickable',
+            className: 'icon-prop animation-2 clickable',
             onClick: this.toggleHamburger
         }, 'k')) ;
         //logo
@@ -86,7 +86,7 @@ var MiddleContainer = React.createClass({
                 onClick: this.submitButtonClick
             },
             React.DOM.span({
-                className: 'icon-search icon-prop animation header-icon'
+                className: 'icon-search icon-prop animation-2 header-icon'
             }));
         //search input
         var input = React.DOM.input({
@@ -141,7 +141,7 @@ var RightContainer = React.createClass({
     render: function() {
         //hambergher icon
         var icon = React.DOM.div({className:'header-icon header-app-switcher'}, React.DOM.span({
-            className: 'icon-prop animation clickable',
+            className: 'icon-prop animation-2 clickable',
             onClick: this.toggleAppSwitcher
         }, '0'), React.createElement(AppSwitcher, {
             showAppSwitcher: this.state.showAppSwitcher,
