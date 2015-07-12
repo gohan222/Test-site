@@ -46,6 +46,11 @@
   transition: all 0.05s;
 }
 
+.scroll-animation {
+  transition: left .5s ease-in-out;
+}
+
+
 .component-appear {
   opacity: 0.01;
   transition: opacity .2s ease-in;

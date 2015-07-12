@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react'),
+$ = require('jquery'),
 AppStore = require('../store/appStore'),
 AppAction = require('../action/appAction'),
 LazyLoadImg = require('../component/image'),
@@ -36,6 +37,26 @@ var Mention = React.createClass({
 });
 
 var ProgramRow = React.createClass({
+  scrollIndex:0,
+  onScrollLeft:function(event){
+    console.log(event);
+    this.scrollIndex--;
+    if(this.scrollIndex < 0){
+      this.scrollIndex = 0;
+    }
+    this.refs.mentionList.getDOMNode().style.left = -1*(321*this.scrollIndex) + 'px';
+    // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(321*this.scrollIndex)}, 300);
+  },
+  onScrollRight:function(event){
+    console.log(event);
+    this.scrollIndex++;
+    if(this.scrollIndex > this.props.data.length){
+      this.scrollIndex = this.props.data.length;
+    }
+
+    this.refs.mentionList.getDOMNode().style.left = -1*(321*this.scrollIndex) + 'px';
+    // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(321*this.scrollIndex)}, 300);
+  },
   render: function() {
   	var mentionNodes = this.props.data.map(function (mention) {
       return React.DOM.div({className:'program-card-container'}, React.createElement(Mention, {data:mention}), React.DOM.div({className:'program-card-spacer'}));
@@ -50,14 +71,14 @@ var ProgramRow = React.createClass({
                           React.createElement(LazyLoadImg,{src: refmention.programLiveImage, className:'prog-avtr-style'}));
 
     //add porgram name
-    var leftArrow  = React.DOM.div({className:'prog-left-arrow animation-3'},React.DOM.div({className:'prog-arrow-background'}),React.DOM.i({className: 'fa fa-chevron-left fa-2 clickable'}));
-    var rightArrow  = React.DOM.div({className:'prog-right-arrow animation-3'},React.DOM.div({className:'prog-arrow-background'}),React.DOM.i({className: 'fa fa-chevron-right fa-2 clickable'}));
+    var leftArrow  = React.DOM.div({className:'prog-left-arrow animation-3 clickable', onClick: this.onScrollLeft},React.DOM.div({className:'prog-arrow-background'}),React.DOM.i({className: 'fa fa-chevron-left'}));
+    var rightArrow  = React.DOM.div({className:'prog-right-arrow animation-3 clickable', onClick: this.onScrollRight},React.DOM.div({className:'prog-arrow-background'}),React.DOM.i({className: 'fa fa-chevron-right'}));
     var programName  = React.DOM.div({className: 'm5 bold'}, React.DOM.a(null,refmention.programName));
     var programNameContainer = React.DOM.div({className: 'prog-title2'}, programName);
 
     var programContainer = React.DOM.div({className:'program-container'}, backgroundImage, programNameContainer)
 
-    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true},mentionNodes);
+    var animationElement = React.createElement(React.addons.CSSTransitionGroup,{className:'scroll-animation',transitionName: 'component', transitionAppear:true, transitionLeave:true, transitionEnter: true, ref:'mentionList'},mentionNodes);
     var container = React.DOM.li({className:'program-list-row animation-1'}, programContainer, React.DOM.div({className:'program-list-mention-container'}, animationElement), leftArrow, rightArrow);
     
     return container;

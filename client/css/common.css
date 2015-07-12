@@ -69,8 +69,8 @@
   display: inline-block;
   vertical-align: top;
   width: calc(100% - 200px);
-  overflow-y: auto;
   line-height: 1.375;
+  overflow: hidden;
 }
 
 .program-container{
@@ -193,37 +193,40 @@
   background-color: #ffffff;
   opacity: 0.5;
   position: absolute;
-  top: 85px;
-  left: -15px;
 }
 
 .prog-right-arrow{
+  width: 48px;
+  height: 48px;
+  top: 85px;
   position: absolute;
-  right:20px;
+  right:0px;
   display: inline-block;
-  height: 100%;
   opacity: 0;
+  text-align: center;
 }
 
 .prog-right-arrow i{
   display: inline-block;
-  line-height: 220px;
-  height: 100%;
+  line-height: 48px;
   color: #2980b9;
   font-size: 20px;
 }
 
 .prog-left-arrow{
+  width: 48px;
+  height: 48px;
+  top: 85px;
   position: absolute;
   left: 205px;
   display: inline-block;
-  height: 100%;
   opacity: 0;
+  text-align: center;
 }
 
 .prog-left-arrow i{
   display: inline-block;
-  line-height: 220px;
+  line-height: 48px;
   color: #2980b9;
   font-size: 20px;
 }
