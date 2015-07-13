@@ -54,6 +54,7 @@
     "react": "^0.13.2",
     "react-bootstrap": "^0.23.7",
     "react-google-charts": "^0.1.4",
+    "react-progress": "0.0.3",
     "react-timeago": "^2.2.1",
     "redis": "^0.12.1",
     "request": "^2.55.0",

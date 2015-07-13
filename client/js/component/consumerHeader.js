@@ -5,6 +5,7 @@ var AppAction = require('../action/appAction'),
     Login = require('../component/login'),
     Img = require('../component/image'),
     AppSwitcher = require('../component/appSwitcherMenu'),
+    Progress = require('react-progress'),
     UserMenu = require('../component/userMenu'),
     React = require('react');
 
@@ -78,7 +79,7 @@ var MiddleContainer = React.createClass({
     render: function() {
         //search button
         var button = React.DOM.div({
-                className: 'header-consumer-button-search animate clickable',
+                className: 'header-consumer-button-search animation-2 clickable',
                 onClick: this.submitButtonClick
             },
             React.DOM.span({
@@ -145,21 +146,21 @@ var RightContainer = React.createClass({
     render: function() {
         //menu items
         var product = React.DOM.div({
-                className: 'header-consumer-menu-item icon-prop animate clickable'
+                className: 'header-consumer-menu-item icon-prop animation-2 clickable'
             },
             React.DOM.span(null, 'Products'),
             React.DOM.i({
                 className: 'fa fa-sort-desc'
             }));
         var developer = React.DOM.div({
-                className: 'header-consumer-menu-item icon-prop animate clickable'
+                className: 'header-consumer-menu-item icon-prop animation-2 clickable'
             },
             React.DOM.span(null, 'Developer'),
             React.DOM.i({
                 className: 'fa fa-sort-desc'
             }));
         var about = React.DOM.div({
-                className: 'header-consumer-menu-item icon-prop animate clickable'
+                className: 'header-consumer-menu-item icon-prop animation-2 clickable'
             },
             React.DOM.span(null, 'About'),
             React.DOM.i({
@@ -173,7 +174,7 @@ var RightContainer = React.createClass({
             icon = React.DOM.div({
                 className: 'header-consumer-app-switcher'
             }, React.DOM.span({
-                className: 'icon-prop animation header-consumer-icon clickable',
+                className: 'icon-prop animation-2 header-consumer-icon clickable',
                 onClick: this.toggleAppSwitcher
             }, '0'), React.createElement(AppSwitcher, {
                 showAppSwitcher: this.state.showAppSwitcher,
@@ -199,7 +200,7 @@ var RightContainer = React.createClass({
                 },
                 React.DOM.span(null, 'Sign Up'));
             imgContainer = React.DOM.div({
-                    className: 'header-consumer-menu-item icon-prop animate clickable'
+                    className: 'header-consumer-menu-item icon-prop animation-2 clickable'
                 },
                 React.DOM.span({
                     onClick: this.showLogin
@@ -222,9 +223,21 @@ var RightContainer = React.createClass({
  * Parent Header Container
  ****************************/
 module.exports = React.createClass({
+    progressChange: function() {
+        this.setState({
+            progress: AppStore.getProgress()
+        });
+    },
+    componentDidMount: function() {
+        AppStore.addChangeProgressListener(this.progressChange);
+    },
+    componentWillUnmount: function() {
+        AppStore.removeChangeProgressListener(this.progressChange);
+    },
     getInitialState: function() {
         return {
-            user: this.props.user
+            user: this.props.user,
+            progress: 0
         };
     },
     render: function() {
@@ -235,10 +248,33 @@ module.exports = React.createClass({
                 className: 'header-consumer-right-section',
                 user: this.state.user
             }),
-            middle = React.createElement(MiddleContainer);
+            middle = React.createElement(MiddleContainer),
+            progress = React.createElement(Progress, {
+                percent: this.state.progress,
+                style:{backgroundImage:'linear-gradient(to right, #5ac8fa, #007aff, #34aadc)'}
+            });
 
-        return React.DOM.div({
-            className: 'header-consumer-container'
-        }, left, middle, right)
+        if (this.state.progress >= 100) {
+            var context = this;
+            setTimeout(function() {
+                context.setState({
+                    progress: 0
+                });
+            }, 500);
+        }
+
+        var headerComponent;
+
+        if (this.state.progress > 0) {
+            headerComponent = React.DOM.div({
+                className: 'header-consumer-container'
+            }, left, middle, right, progress);
+        } else {
+            headerComponent = React.DOM.div({
+                className: 'header-consumer-container'
+            }, left, middle, right);
+        }
+
+        return headerComponent;
     }
 });

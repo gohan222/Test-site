@@ -17,6 +17,8 @@ var AppService = require('../service/search');
 var AppServiceUser = require('../service/user');
 var AppServiceAnalytics = require('../service/analytics');
 
+
+
 var appAction = {
     submitLogin: function(username, password) {
         AppServiceUser.login(username, password, function(data) {
@@ -39,7 +41,7 @@ var appAction = {
                 actionType: AppConstant.ACTION_SEARCH_INIT,
                 data: data
             });
-        });
+        }, true, this.sendProgress);
     },
 
     changeSearchTerm: function(searchTerms) {
@@ -72,8 +74,8 @@ var appAction = {
             data: view
         })
     },
-    getSearchByProgramId: function(programId, searchTerms){
-      AppService.getSearchByProgramId( programId, searchTerms, function(data) {
+    getSearchByProgramId: function(programIds, searchTerms) {
+        AppService.getSearchByProgramId(programIds, searchTerms, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_PROGRAM_SEARCH,
                 data: data
@@ -81,8 +83,8 @@ var appAction = {
         });
     },
 
-    getMentions: function(){
-      AppService.getMentions(function(data) {
+    getMentions: function() {
+        AppService.getMentions(function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_GET_MENTIONS,
                 data: data
@@ -90,28 +92,38 @@ var appAction = {
         });
     },
 
-    getTopTrends: function(days){
-      AppServiceAnalytics.getTopTrends(days, function(data) {
+    getTopTrends: function(days) {
+        AppServiceAnalytics.getTopTrends(days, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_GET_TOP_TRENDS,
                 data: data
             });
         });
     },
-    getTrends: function(searchTerms, days){
-      AppServiceAnalytics.getTrends(searchTerms, days, function(data) {
+    getTrends: function(searchTerms, days) {
+        AppServiceAnalytics.getTrends(searchTerms, days, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_GET_TRENDS,
                 data: data
             });
         });
     },
-    updateFilter: function(days){
-      AppDispatcher.dispatch({
+    updateFilter: function(days) {
+        AppDispatcher.dispatch({
             actionType: AppConstant.ACTION_UPDATE_FILTER,
             data: days
         });
     },
+
+    sendProgress: function(percentComplete) {
+        setTimeout(function() {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_UPDATE_PROGRESS,
+                data: percentComplete
+            });
+        }, 1);
+
+    }
 };
 
 module.exports = appAction;

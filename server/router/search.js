@@ -20,6 +20,21 @@ router.get('/', function(req, res) {
   }, res);
 });
 
+router.get('/program', function(req, res) {
+
+  var options = {
+    programIds : req.query.programIds,
+    searchTerms : req.query.q
+  };
+
+  service.getSearchByPrograms(options, function(err, result, response) {
+    if (response) {
+      res.setHeader('Content-Type', 'application/json');
+      response.send(result);
+    }
+  }, res);
+});
+
 router.get('/relatedTopics', function(req, res) {
 
   var options = {

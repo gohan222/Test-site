@@ -16,11 +16,44 @@
 	color: #61bae3;
 }
 
-.animation{
+.animation-4{
+  -webkit-transition: all 0.4s; 
+  -moz-transition: all 0.4s; 
+  transition: all 0.4s;
+}
+
+.animation-3{
+  -webkit-transition: all 0.3s; 
+  -moz-transition: all 0.3s; 
+  transition: all 0.3s;
+}
+
+.animation-2{
 	-webkit-transition: all 0.2s; 
 	-moz-transition: all 0.2s; 
 	transition: all 0.2s;
 }
+
+.animation-1{
+  -webkit-transition: all 0.1s; 
+  -moz-transition: all 0.1s; 
+  transition: all 0.1s;
+}
+
+.animation-05{
+  -webkit-transition: all 0.05s; 
+  -moz-transition: all 0.05s; 
+  transition: all 0.05s;
+}
+
+.scroll-animation {
+  transition: left .6s ease;
+}
+
+.background-color-animation {
+  transition: background-color .2s;
+}
+
 
 .component-appear {
   opacity: 0.01;

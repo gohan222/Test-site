@@ -27,6 +27,7 @@ var mentions = [];
 var topTrends = [];
 var trends = [];
 var filterDays = 1;
+var percentComplete = 0;
 
 
 function updateSearchResults(results){
@@ -71,6 +72,10 @@ function updateTrends(results){
 
 function updateFilter(results){
   filterDays = results;
+}
+
+function updateProgress(results){
+  percentComplete = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -121,6 +126,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeFilter: function() {
     this.emit(Constants.CHANGE_FILTER_EVENT);
+  },
+
+  emitChangeProgress: function() {
+    this.emit(Constants.CHANGE_PROGRESS_EVENT);
   },
 
   /**
@@ -174,6 +183,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_FILTER_EVENT, callback);
   },
 
+  addChangeProgressListener: function(callback) {
+    this.on(Constants.CHANGE_PROGRESS_EVENT, callback);
+  },
+
   
   /**
    * @param {function} callback
@@ -224,6 +237,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeFilterListener: function(callback) {
     this.removeListener(Constants.CHANGE_FILTER_EVENT, callback);
+  },
+
+  removeChangeProgressListener: function(callback) {
+    this.removeListener(Constants.CHANGE_PROGRESS_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -291,6 +308,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     return filterDays;
   },
 
+  getProgress: function(){
+    return percentComplete*100;
+  },
+
 });
 
 // Register callback to handle all updates
@@ -344,6 +365,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_UPDATE_FILTER:
       updateFilter(action.data);
       AppStore.emitChangeFilter();
+      break;
+    case Constants.ACTION_UPDATE_PROGRESS:
+      updateProgress(action.data);
+      AppStore.emitChangeProgress();
       break;
     default:
       // no op

@@ -1,7 +1,9 @@
 'use strict';
 
 var React = require('react'),
+$ = require('jquery'),
 Constants = require('../constant/appConstant'),
+AppStore = require('../store/appStore'),
 Filter = require('../component/filter'),
 RelatedTopics = require('../component/relatedTopics'),
 RelatedCollections = require('../component/relatedCollections'),
@@ -21,12 +23,26 @@ var CollectionHeader = React.createClass({
 });
 
 module.exports = React.createClass({
+  onViewChange: function(){
+    var view = AppStore.getView();
+    if(view === Constants.VIEW_PROGRAM_LIST){
+      $('.exp-col1').addClass('exp-col1-expand');
+    }else{
+      $('.exp-col1').removeClass('exp-col1-expand');
+    }
+  },
+  componentDidMount: function() {
+      AppStore.addChangeViewListener(this.onViewChange);
+  },
+  componentWillUnmount: function() {
+      AppStore.removeChangeViewListener(this.onViewChange);
+  },
   render: function() {
 
     var appView = this.props.app === Constants.APP_BROADCASTER ? BroadcasterViewContainer : ConsumerViewContainer
-    var leftView = React.DOM.div({className:'exp-col1 ui-exp-coll min-height'}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView));
+    var leftView = React.DOM.div({className:'exp-col1 animation-3 ui-exp-coll min-height'}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView));
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
-    var columnView = React.DOM.div({className:''},leftView,rightView);
+    var columnView = React.DOM.div({className:'exp-column-container'},leftView,rightView);
 
     return React.DOM.div({className:'contain min-height active'},
       React.createElement(RelatedTopics), 
