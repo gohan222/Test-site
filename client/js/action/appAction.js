@@ -72,8 +72,8 @@ var appAction = {
             data: view
         })
     },
-    getSearchByProgramId: function(programId, searchTerms){
-      AppService.getSearchByProgramId( programId, searchTerms, function(data) {
+    getSearchByProgramId: function(programIds, searchTerms){
+      AppService.getSearchByProgramId( programIds, searchTerms, function(data) {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_PROGRAM_SEARCH,
                 data: data

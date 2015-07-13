@@ -47,7 +47,11 @@
 }
 
 .scroll-animation {
-  transition: left .5s ease-in-out;
+  transition: left .6s ease;
+}
+
+.background-color-animation {
+  transition: background-color .2s;
 }
 
 
