@@ -5,7 +5,8 @@ config = require('../config'),
 merge = require('merge'),
 logger = require('../logger/logger'),
 headerShare = require('../templates/header'),
-contentShare = require('../templates/content');
+contentShare = require('../templates/content'),
+reactTemplates = require('../templates/homepage');
 
 router.get('/error', function(req, res){
   //set common security headers.
@@ -16,7 +17,9 @@ router.get('/error', function(req, res){
 });
 
 router.get('/', function(req, res){
-  res.render('consumer', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
+  // res.render('consumer', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
+  res.setHeader('Content-Type', 'text/html');
+  res.end(reactTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
 router.get('/logout', function(req, res){

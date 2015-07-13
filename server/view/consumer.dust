@@ -10,7 +10,7 @@
 </head>
 
 <body>
-  <div class="content-container animate">
+  <div class="content-container">
     <!--START OF HEADER-->
     <div id="app-header">
       {generateConsumerHeader}
