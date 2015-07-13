@@ -54,7 +54,7 @@ module.exports = React.createClass({
     AppStore.addChangeSearchTermListener(this.onSearchTermChange);
 
     if(this.state.searchTerms){
-      AppAction.searchInit(this.state.searchTerms);  
+      AppAction.searchInit(this.state.searchTerms);
     }
     
   },

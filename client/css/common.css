@@ -14,6 +14,17 @@
 	margin-left: 290px;
 }
 
+#app-header{
+  position: fixed;
+  z-index: 3;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+#app-content{
+  margin-top: 73px;
+}
+
 .app-menuItem{
 	height: 27px;
   width: 100%;
@@ -106,10 +117,6 @@
 .trends-date-filter{
   float: right;
   margin-right: 83px;
-}
-
-#app-content{
-  
 }
 
 

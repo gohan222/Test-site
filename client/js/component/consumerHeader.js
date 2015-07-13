@@ -5,6 +5,7 @@ var AppAction = require('../action/appAction'),
     Login = require('../component/login'),
     Img = require('../component/image'),
     AppSwitcher = require('../component/appSwitcherMenu'),
+    Progress = require('react-progress'),
     UserMenu = require('../component/userMenu'),
     React = require('react');
 
@@ -222,9 +223,21 @@ var RightContainer = React.createClass({
  * Parent Header Container
  ****************************/
 module.exports = React.createClass({
+    progressChange: function() {
+        this.setState({
+            progress: AppStore.getProgress()
+        });
+    },
+    componentDidMount: function() {
+        AppStore.addChangeProgressListener(this.progressChange);
+    },
+    componentWillUnmount: function() {
+        AppStore.removeChangeProgressListener(this.progressChange);
+    },
     getInitialState: function() {
         return {
-            user: this.props.user
+            user: this.props.user,
+            progress: 0
         };
     },
     render: function() {
@@ -235,10 +248,33 @@ module.exports = React.createClass({
                 className: 'header-consumer-right-section',
                 user: this.state.user
             }),
-            middle = React.createElement(MiddleContainer);
+            middle = React.createElement(MiddleContainer),
+            progress = React.createElement(Progress, {
+                percent: this.state.progress,
+                style:{backgroundImage:'linear-gradient(to right, #5ac8fa, #007aff, #34aadc)'}
+            });
 
-        return React.DOM.div({
-            className: 'header-consumer-container'
-        }, left, middle, right)
+        if (this.state.progress >= 100) {
+            var context = this;
+            setTimeout(function() {
+                context.setState({
+                    progress: 0
+                });
+            }, 500);
+        }
+
+        var headerComponent;
+
+        if (this.state.progress > 0) {
+            headerComponent = React.DOM.div({
+                className: 'header-consumer-container'
+            }, left, middle, right, progress);
+        } else {
+            headerComponent = React.DOM.div({
+                className: 'header-consumer-container'
+            }, left, middle, right);
+        }
+
+        return headerComponent;
     }
 });
