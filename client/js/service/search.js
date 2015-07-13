@@ -36,24 +36,6 @@ module.exports = {
                         }
                     }*/
                 }, false);
-                xhr.addEventListener('loadstart', function(evt) {
-                	console.log('loadstart');   
-                }, false);
-                xhr.addEventListener('abort', function(evt) {
-                	console.log('abort');   
-                }, false);
-                xhr.addEventListener('error', function(evt) {
-                	console.log('error');   
-                }, false);
-                xhr.addEventListener('load', function(evt) {
-                	console.log('load');   
-                }, false);
-                xhr.addEventListener('timeout', function(evt) {
-                	console.log('timeout');   
-                }, false);
-                xhr.addEventListener('loadend', function(evt) {
-                	console.log('loadend');   
-                }, false);
                 xhr.addEventListener('readystatechange', function(evt) {
                 	console.log('readystatechange');
                 	console.log(evt);
@@ -104,11 +86,70 @@ module.exports = {
             }
         });
     },
-    getSearchByProgramId: function(programIds, searchTerms, callback) {
-        $.get('search/program?q=' + searchTerms + '&programIds=' + programIds, function(data, status) {
+    getSearchByProgramId: function(programIds, searchTerms, callback, isSendProgress, callbackProgress) {
+        /*$.get('search/program?q=' + searchTerms + '&programIds=' + programIds, function(data, status) {
             if (callback) {
                 callback.apply(this, [data]);
             }
+        });*/
+		$.ajax({
+            type: 'GET', // 'POST' here so that _upload_ progress _also_ makes sense; 
+            // Change to 'GET' if you need. 
+            url: 'search/program?q=' + searchTerms + '&programIds=' + programIds,
+            data: {},
+            success: function(data) {
+                if (callback) {
+                    callback.apply(this, [data]);
+                }
+            },
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.addEventListener('progress', function(evt) {
+                	/*console.log('progress');
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        if(isSendProgress){
+                        	if (callbackProgress) {
+                        		callbackProgress.apply(this,[percentComplete]);
+                        	}
+                        	
+                        }
+                    }*/
+                }, false);
+                xhr.addEventListener('readystatechange', function(evt) {
+                	console.log('readystatechange');
+                	console.log(evt);
+                	var percentComplete = 0; 
+
+                	if(isSendProgress){
+                		switch(this.readyState){
+                			case 1:
+                				percentComplete = .25;
+                				break;
+                			case 2:
+                				percentComplete = .50;
+                				break;
+                			case 3:
+                				percentComplete = .75;
+                				break;
+                			case 4:
+                				percentComplete = 1;
+                				break;
+                			default:
+                				percentComplete = 0;
+                				break;
+                		}
+
+                    	if (callbackProgress) {
+                    		callbackProgress.apply(this,[percentComplete]);
+                    	}
+                    	
+                    }
+                }, false);
+
+                
+                return xhr;
+            },
         });
     },
     getMentions: function(callback) {

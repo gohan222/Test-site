@@ -126,7 +126,9 @@ var ProgramRow = React.createClass({
 
         var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
             className: 'scroll-animation',
-            style:{left:0},
+            style: {
+                left: 0
+            },
             transitionName: 'component',
             transitionAppear: true,
             transitionLeave: true,
@@ -163,7 +165,6 @@ module.exports = React.createClass({
             }
         };
 
-        console.log(collection);
         return collection;
     },
     getProgramSearches: function(sortedMention) {
@@ -186,6 +187,7 @@ module.exports = React.createClass({
             data: this.sortedResult
         });
         this.getProgramSearches(this.sortedResult);
+        // AppAction.sendProgress(0);
     },
     onSearchTermChange: function() {
         this.setState({
@@ -195,6 +197,7 @@ module.exports = React.createClass({
     },
     onProgramSearchResult: function() {
         var programSearchResult = AppStore.getProgramsSearch();
+        var context = this;
         // this.sortedResult = this.sortData(programSearchResult);
         if (!programSearchResult || programSearchResult.length === 0) {
             return;
@@ -213,9 +216,13 @@ module.exports = React.createClass({
         };
 
 
-        this.setState({
-            data: this.sortedResult
-        });
+        setTimeout(function() {
+            context.setState({
+                data: context.sortedResult
+            });
+        }, 500);
+
+        // AppAction.sendProgress(0);
     },
     componentDidMount: function() {
         AppStore.addChangeListener(this.onChange);
