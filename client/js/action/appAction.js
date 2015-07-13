@@ -17,6 +17,8 @@ var AppService = require('../service/search');
 var AppServiceUser = require('../service/user');
 var AppServiceAnalytics = require('../service/analytics');
 
+var curPercent;
+var timeoutToken;
 
 
 var appAction = {
@@ -75,12 +77,19 @@ var appAction = {
         })
     },
     getSearchByProgramId: function(programIds, searchTerms) {
-        AppService.getSearchByProgramId(programIds, searchTerms, function(data) {
-            AppDispatcher.dispatch({
-                actionType: AppConstant.ACTION_PROGRAM_SEARCH,
-                data: data
-            });
-        });
+
+        var list = programIds.split(',');
+
+        for (var i = 0; i < list.length; i++) {
+            AppService.getSearchByProgramId(list[i], searchTerms, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_PROGRAM_SEARCH,
+                    data: data
+                });
+            }, true, this.sendProgress);
+        };
+
+
     },
 
     getMentions: function() {
@@ -116,12 +125,26 @@ var appAction = {
     },
 
     sendProgress: function(percentComplete) {
-        setTimeout(function() {
+        console.log('sendProgress: ' + percentComplete);
+
+        if (percentComplete === curPercent) {
+            return;
+        }
+
+        if (timeoutToken) {
+            clearTimeout(timeoutToken);
+        }
+
+        curPercent = percentComplete;
+
+        timeoutToken = setTimeout(function() {
+            curPercent = -1;
+            console.log('callback invoked: ' + percentComplete);
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_UPDATE_PROGRESS,
                 data: percentComplete
             });
-        }, 1);
+        }, 100);
 
     }
 };
