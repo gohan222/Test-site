@@ -7,7 +7,8 @@ var React = require('react'),
     LazyLoadImg = require('../component/image'),
     Player = require('../component/player'),
     TimeAgo = require('react-timeago'),
-    Constants = require('../constant/appConstant');
+    Constants = require('../constant/appConstant'),
+    Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
     getSnippetText: function(snippets) {
@@ -65,7 +66,7 @@ var Mention = React.createClass({
             mentionContainer = React.DOM.div({
                 className: 'program-list-mention-player'
             }, React.createElement(Player, {
-                src: this.props.data.fileLocation,
+                src: Utils.mediaUrl(this.props.data),
                 poster: this.props.data.programLiveImage,
                 fileType: this.props.data.fileType
             }));
