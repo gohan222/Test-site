@@ -43,7 +43,7 @@ var Mention = React.createClass({
         }, this.getSnippetText(this.props.data.mentionSnippet)));
 
         var holder = React.DOM.div({
-            className: 'program-card clickable'
+            className: 'program-card box-shadow-animation clickable'
         }, mentionSnippet, animationElement);
 
 

@@ -134,6 +134,12 @@
   background-color: #fff6e0;
 }
 
+.program-card:hover{
+  -webkit-box-shadow: 0px 0px 12px 5px rgba(148,211,238,0.6) !important;
+  -moz-box-shadow: 0px 0px 12px 5px rgba(148,211,238,0.6) !important;
+  box-shadow: 0px 0px 12px 5px rgba(148,211,238,0.6) !important; 
+}
+
 .program-list-row:hover .program-card{
   background-color: #ffffff;
   border: solid 1px #cccccc;

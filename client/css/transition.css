@@ -51,7 +51,11 @@
 }
 
 .background-color-animation {
-  transition: background-color .2s;
+  transition: background-color .05s;
+}
+
+.box-shadow-animation{
+  transition: box-shadow .2s;
 }
 
 
