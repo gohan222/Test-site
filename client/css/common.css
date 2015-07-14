@@ -269,3 +269,13 @@
   color: #2980b9;
   font-size: 20px;
 }
+
+.program-player-img{
+  height: calc(100% - 31px);
+  width: 100%;
+  display: inline-block;
+}
+
+.program-player-control{
+  display: inherit;
+}

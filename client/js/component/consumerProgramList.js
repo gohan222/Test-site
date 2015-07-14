@@ -62,7 +62,11 @@ var Mention = React.createClass({
             });
             mentionContainer = React.DOM.div({
                 className: 'program-list-mention-player'
-            }, React.createElement(Player));
+            }, React.createElement(Player, {
+                src: this.props.data.fileLocation,
+                poster: this.props.data.programLiveImage,
+                fileType: this.props.data.fileType
+            }));
         } else {
             playIcon = React.DOM.i({
                 className: 'fa fa-play-circle program-card-play-icon clickable',
