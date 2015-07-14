@@ -54,6 +54,8 @@ var Mention = React.createClass({
             onClick: this.onCloseClick
         });
 
+
+
         var playIcon, mentionContainer;
         if (this.state.isPlaying) {
             playIcon = React.DOM.i({
@@ -79,6 +81,13 @@ var Mention = React.createClass({
                 className: 'cur-point ui-snip-text'
             }, this.getSnippetText(this.props.data.mentionSnippet)));
         }
+
+        var animateMentionContainer = React.createElement(React.addons.CSSTransitionGroup, {
+            transitionName: 'component',
+            transitionAppear: true,
+            transitionLeave: true,
+            transitionEnter: true,
+        }, mentionContainer);
 
         var iconContainer = React.DOM.div({
                 className: 'program-card-icon-container program-card-icon-animation'
@@ -114,7 +123,7 @@ var Mention = React.createClass({
 
         var holder = React.DOM.div({
             className: 'program-card program-card-animation clickable'
-        }, mentionContainer, footer);
+        }, animateMentionContainer, footer);
 
 
         return holder;

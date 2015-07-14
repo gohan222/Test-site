@@ -20,7 +20,7 @@ module.exports = React.createClass({
       return React.DOM.div(null,player);
     }else{
       var img = React.createElement(LazyLoadImg,{className:'program-player-img', src:this.props.poster});
-      player = React.DOM.audio({className:'program-player-control', src:this.props.src, controls:true});
+      player = React.DOM.audio({className:'program-player-control', src:this.props.src, controls:true, autoPlay:true});
       return React.DOM.div(null, img,player); 
     }
   }
