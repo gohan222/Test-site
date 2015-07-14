@@ -54,8 +54,20 @@
   transition: background-color .05s;
 }
 
+.boarder-color-animation {
+  transition: border-color .1s;
+}
+
 .box-shadow-animation{
   transition: box-shadow .2s;
+}
+
+.program-card-animation{
+ transition: border-color .15s, box-shadow .2s; 
+}
+
+.program-card-icon-animation{
+  transition: opacity .1s; 
 }
 
 
