@@ -25,7 +25,7 @@ module.exports = {
             }),
             React.DOM.script({
                 dangerouslySetInnerHTML: {
-                    __html: 'var APP = ' + Utils.safeStringify(options.user ? options.user : {} ) + ';'
+                    __html: 'var APP = ' + Utils.safeStringify(options ? options : {} ) + ';'
                 }
             }),
             React.DOM.script({
