@@ -48,9 +48,9 @@ function startServer(application) {
     application.use(bodyParser.urlencoded({
         extended: false
     })); // for parsing application/x-www-form-urlencoded
-    application.engine('dust', cons.dust);
-    application.set('view engine', 'dust');
-    application.set('views', __dirname + '/view');
+    // application.engine('dust', cons.dust);
+    // application.set('view engine', 'dust');
+    // application.set('views', __dirname + '/view');
 
     //apply static location
     application.use(express.static('client'));

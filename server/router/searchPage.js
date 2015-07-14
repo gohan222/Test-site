@@ -5,7 +5,9 @@ config = require('../config'),
 merge = require('merge'),
 logger = require('../logger/logger'),
 headerShare = require('../templates/header'),
-contentShare = require('../templates/content');
+contentShare = require('../templates/content'),
+consumerTemplates = require('../templates/consumer'),
+trendsTemplates = require('../templates/trends');
 
 router.get('/error', function(req, res){
   //set common security headers.
@@ -16,7 +18,8 @@ router.get('/error', function(req, res){
 });
 
 router.get('/', function(req, res){
-  res.render('consumer', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
+  res.setHeader('Content-Type', 'text/html');
+  res.end(consumerTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
 router.get('/logout', function(req, res){
@@ -30,11 +33,15 @@ router.get('/trends', function(req, res){
 		res.redirect('/consumer');
 		return;
 	}
-  res.render('index', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
+  
+  res.setHeader('Content-Type', 'text/html');
+  res.end(trendsTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
+  // res.render('index', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
 router.get('/consumer', function(req, res){
-	res.render('consumer', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
+	res.setHeader('Content-Type', 'text/html');
+  res.end(consumerTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
 module.exports = router;

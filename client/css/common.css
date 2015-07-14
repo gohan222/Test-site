@@ -75,6 +75,13 @@
   color: #333333;
 }
 
+.program-list-mention-player{
+  overflow: hidden;
+  display: block;
+  vertical-align: top;
+  height: calc(100% - 16px);
+}
+
 .program-list-mention-container{
   padding: 0px 20px 0px 20px;
   display: inline-block;
@@ -134,6 +141,19 @@
   background-color: #fff6e0;
 }
 
+.program-card:hover{
+  border: solid 1px #77a1d8 !important;
+}
+
+.program-card:hover .program-card-icon-container{
+  opacity: 1 !important;
+}
+
+.program-card-icon-container{
+  display: inline;
+  opacity: 0;
+}
+
 .program-list-row:hover .program-card{
   background-color: #ffffff;
   border: solid 1px #cccccc;
@@ -176,6 +196,18 @@
 
 .program-card-container{
   display: inline-block;
+}
+
+.program-card-icon{
+  color: #cccccc;
+  margin-left: 5px;
+}
+
+.program-card-play-icon{
+  color: #cccccc;
+  float:right;
+  font-size: 20px;
+  margin-left: 5px;
 }
 
 .program-card-spacer{
@@ -236,4 +268,14 @@
   line-height: 48px;
   color: #2980b9;
   font-size: 20px;
+}
+
+.program-player-img{
+  height: calc(100% - 31px);
+  width: 100%;
+  display: inline-block;
+}
+
+.program-player-control{
+  display: inherit;
 }

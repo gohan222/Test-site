@@ -44,7 +44,7 @@ module.exports = React.createClass({
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
     var columnView = React.DOM.div({className:'exp-column-container'},leftView,rightView);
 
-    return React.DOM.div({className:'contain min-height active'},
+    return React.DOM.div({className:'min-height active'},
       React.createElement(RelatedTopics), 
       columnView
       );

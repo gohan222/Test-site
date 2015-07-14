@@ -5,6 +5,7 @@ var React = require('react'),
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
     LazyLoadImg = require('../component/image'),
+    Player = require('../component/player'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant');
 
@@ -21,6 +22,21 @@ var Mention = React.createClass({
 
         return text;
     },
+    onPlayClick: function(event) {
+        this.setState({
+            isPlaying: true
+        });
+    },
+    onCloseClick: function(event) {
+        this.setState({
+            isPlaying: false
+        });
+    },
+    getInitialState: function() {
+        return {
+            isPlaying: false
+        };
+    },
     render: function() {
 
         var airDate = React.DOM.i({
@@ -28,23 +44,77 @@ var Mention = React.createClass({
         }, React.createElement(TimeAgo, {
             date: this.props.data.mediaStartTime
         }));
-        var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
-            transitionName: 'component',
-            transitionAppear: true,
-            transitionLeave: true,
-            transitionEnter: true
-        }, airDate);
 
-        //add mention snippet
-        var mentionSnippet = React.DOM.p({
-            className: 'program-list-mention-text'
-        }, React.DOM.span({
-            className: 'cur-point ui-snip-text'
-        }, this.getSnippetText(this.props.data.mentionSnippet)));
+        //program info
+        // var expandIcon = React.DOM.span({className:'fa-stack fa-lg'},
+        //   React.DOM.i({className:'fa fa-circle fa-stack-2x'}),
+        //   React.DOM.i({className:'fa a-expand fa-stack-1x fa-inverse'}));
+        var expandIcon = React.DOM.i({
+            className: 'fa fa-plus-circle program-card-play-icon clickable',
+            onClick: this.onCloseClick
+        });
+
+        var playIcon, mentionContainer;
+        if (this.state.isPlaying) {
+            playIcon = React.DOM.i({
+                className: 'fa fa-times-circle program-card-play-icon clickable',
+                onClick: this.onCloseClick
+            });
+            mentionContainer = React.DOM.div({
+                className: 'program-list-mention-player'
+            }, React.createElement(Player, {
+                src: this.props.data.fileLocation,
+                poster: this.props.data.programLiveImage,
+                fileType: this.props.data.fileType
+            }));
+        } else {
+            playIcon = React.DOM.i({
+                className: 'fa fa-play-circle program-card-play-icon clickable',
+                onClick: this.onPlayClick
+            });
+            //add mention snippet
+            mentionContainer = React.DOM.p({
+                className: 'program-list-mention-text'
+            }, React.DOM.span({
+                className: 'cur-point ui-snip-text'
+            }, this.getSnippetText(this.props.data.mentionSnippet)));
+        }
+
+        var iconContainer = React.DOM.div({
+                className: 'program-card-icon-container program-card-icon-animation'
+            },
+            expandIcon, playIcon)
+
+
+        //media type
+        var mediaType;
+
+        if (this.props.mediaSourceTypeId === 2) {
+            mediaType = React.DOM.i({
+                className: 'fa fa-video-camera program-card-icon'
+            });
+        } else if (this.props.mediaSourceTypeId === 3) {
+            mediaType = React.DOM.i({
+                className: 'fa fa-youtube-play program-card-icon'
+            });
+        } else if (this.props.mediaSourceTypeId === 4) {
+            mediaType = React.DOM.i({
+                className: 'fa fa-rss program-card-icon'
+            });
+        } else {
+            mediaType = React.DOM.i({
+                className: 'fa fa-microphone program-card-icon'
+            });
+        }
+
+        var footer = React.DOM.div(null,
+            airDate,
+            mediaType,
+            iconContainer);
 
         var holder = React.DOM.div({
-            className: 'program-card clickable'
-        }, mentionSnippet, animationElement);
+            className: 'program-card program-card-animation clickable'
+        }, mentionContainer, footer);
 
 
         return holder;

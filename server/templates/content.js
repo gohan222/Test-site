@@ -1,6 +1,6 @@
 var React = require('react'),
-Search = require('../../client/js/component/search');
-Trend = require('../../client/js/component/trend');
+Search = require('../../client/js/component/search'),
+Trend = require('../../client/js/component/trend'),
 Constant = require('../../client/js/constant/appConstant');
 
 module.exports = {
