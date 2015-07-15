@@ -16,11 +16,11 @@ module.exports = React.createClass({
   render: function() {
     var player, img;
     if(this.props.fileType.indexOf('video') >= 0){
-      player = React.DOM.video({className:'', src:this.props.src, controls:true});
+      player = React.DOM.video({className:'program-video-control', src:this.props.src, controls:true, autoPlay:true, preload:'metadata'});
       return React.DOM.div(null,player);
     }else{
       var img = React.createElement(LazyLoadImg,{className:'program-player-img', src:this.props.poster});
-      player = React.DOM.audio({className:'program-player-control', src:this.props.src, controls:true, autoPlay:true});
+      player = React.DOM.audio({className:'program-player-control', src:this.props.src, controls:true, autoPlay:true, preload:'metadata'});
       return React.DOM.div(null, img,player); 
     }
   }

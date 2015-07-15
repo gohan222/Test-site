@@ -99,15 +99,15 @@ var Mention = React.createClass({
         //media type
         var mediaType;
 
-        if (this.props.mediaSourceTypeId === 2) {
+        if (this.props.data.mediaSourceTypeId === 2) {
             mediaType = React.DOM.i({
                 className: 'fa fa-video-camera program-card-icon'
             });
-        } else if (this.props.mediaSourceTypeId === 3) {
+        } else if (this.props.data.mediaSourceTypeId === 3) {
             mediaType = React.DOM.i({
                 className: 'fa fa-youtube-play program-card-icon'
             });
-        } else if (this.props.mediaSourceTypeId === 4) {
+        } else if (this.props.data.mediaSourceTypeId === 4) {
             mediaType = React.DOM.i({
                 className: 'fa fa-rss program-card-icon'
             });

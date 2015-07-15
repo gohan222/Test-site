@@ -271,11 +271,15 @@
 }
 
 .program-player-img{
-  height: calc(100% - 31px);
   width: 100%;
   display: inline-block;
 }
 
 .program-player-control{
   display: inherit;
+  top: -48px;
+}
+
+.program-video-control{
+  width:100%;
 }
