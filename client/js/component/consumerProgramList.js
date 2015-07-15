@@ -51,7 +51,7 @@ var Mention = React.createClass({
         //   React.DOM.i({className:'fa fa-circle fa-stack-2x'}),
         //   React.DOM.i({className:'fa a-expand fa-stack-1x fa-inverse'}));
         var expandIcon = React.DOM.i({
-            className: 'fa fa-plus-circle program-card-play-icon clickable',
+            className: 'fa fa-plus-circle program-card-play-icon icon-prop icon-prop-animation clickable',
             onClick: this.onCloseClick
         });
 
@@ -60,7 +60,7 @@ var Mention = React.createClass({
         var playIcon, mentionContainer;
         if (this.state.isPlaying) {
             playIcon = React.DOM.i({
-                className: 'fa fa-times-circle program-card-play-icon clickable',
+                className: 'fa fa-times-circle program-card-play-icon icon-prop icon-prop-animation clickable',
                 onClick: this.onCloseClick
             });
             mentionContainer = React.DOM.div({
@@ -72,7 +72,7 @@ var Mention = React.createClass({
             }));
         } else {
             playIcon = React.DOM.i({
-                className: 'fa fa-play-circle program-card-play-icon clickable',
+                className: 'fa fa-play-circle program-card-play-icon icon-prop icon-prop-animation clickable',
                 onClick: this.onPlayClick
             });
             //add mention snippet

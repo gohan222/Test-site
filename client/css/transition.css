@@ -16,6 +16,10 @@
 	color: #61bae3;
 }
 
+.icon-prop-animation{
+  transition: color 0.2s;
+}
+
 .animation-4{
   -webkit-transition: all 0.4s; 
   -moz-transition: all 0.4s; 

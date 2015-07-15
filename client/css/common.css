@@ -277,8 +277,9 @@
 }
 
 .program-player-control{
+  position: absolute;
   display: inherit;
-  top: -48px;
+  top: 130px;
 }
 
 .program-video-control{
