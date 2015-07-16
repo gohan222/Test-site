@@ -51,11 +51,11 @@
 }
 
 .scroll-animation {
-  -webkit-transition: left .6s ease-out;
-  -moz-transition: left .6s ease-out;
-  -ms-transition: left .6s ease-out;
-  -o-transition: left .6s ease-out;
-  transition: left .6s ease-out;
+  -webkit-transition: left .4s ease-out;
+  -moz-transition: left .4s ease-out;
+  -ms-transition: left .4s ease-out;
+  -o-transition: left .4s ease-out;
+  transition: left .4s ease-out;
 }
 
 .background-color-animation {

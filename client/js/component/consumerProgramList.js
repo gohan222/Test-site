@@ -138,23 +138,47 @@ var Mention = React.createClass({
 var ProgramRow = React.createClass({
     scrollIndex: 0,
     onScrollLeft: function(event) {
+        var cardWidth = 321;
+        var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
+        var parentWidth = parentContainer.offsetWidth;
+        var curPos = (cardWidth * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth/cardWidth);
+
+        if(viewableCards >= this.props.data.length){
+            return;
+        }else if (this.scrollIndex - viewableCards < 0){
+            this.scrollIndex = 0;
+        }else{
+            this.scrollIndex -= viewableCards - 1;
+        }
+
         // console.log(event);
         this.scrollIndex--;
         if (this.scrollIndex < 0) {
             this.scrollIndex = 0;
         }
-        this.refs.mentionList.getDOMNode().style.left = -1 * (321 * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(321*this.scrollIndex)}, 300);
+        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
+        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     onScrollRight: function(event) {
         // console.log(event);
-        this.scrollIndex++;
-        if (this.scrollIndex > this.props.data.length) {
-            this.scrollIndex = this.props.data.length;
+        var cardWidth = 321;
+        var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
+        var parentWidth = parentContainer.offsetWidth;
+        var curPos = (cardWidth * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth/cardWidth);
+
+        // this.scrollIndex++;
+        if(viewableCards >= this.props.data.length){
+            return;
+        }else if(viewableCards + this.scrollIndex >= this.props.data.length){
+            this.scrollIndex = this.props.data.length - viewableCards;
+        }else{
+            this.scrollIndex += viewableCards - 1;
         }
 
-        this.refs.mentionList.getDOMNode().style.left = -1 * (321 * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(321*this.scrollIndex)}, 300);
+        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
+        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     getInitialState: function() {
         return {
