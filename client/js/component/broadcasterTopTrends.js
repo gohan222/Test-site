@@ -16,11 +16,11 @@ var dataArray = [
          ['Platinum', 21.45, 'color: #e5e4e2' ] // CSS-style declaration
       ];
 var options = {
-        title: "Top Trending Searches",
+        title: 'Top Trending Searches',
         width: '100%',
         height: 800,
-        bar: {groupWidth: "95%"},
-        legend: { position: "none" },
+        bar: {groupWidth: '95%'},
+        legend: { position: 'none' },
         animation:{
           duration: 1000,
           easing: 'out',
@@ -49,7 +49,7 @@ module.exports = React.createClass({
     for (var i = 0; i < data.length; i++) {
       var searchTerms = data[i];
       formatData.push([searchTerms['term'], parseInt(searchTerms['count']), this.getRandomColor()]);
-    };
+    }
 
     return formatData;
   },

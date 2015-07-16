@@ -74,7 +74,7 @@ var appAction = {
         AppDispatcher.dispatch({
             actionType: AppConstant.ACTION_CHANGE_VIEW,
             data: view
-        })
+        });
     },
     getSearchByProgramId: function(programIds, searchTerms) {
 
@@ -87,7 +87,7 @@ var appAction = {
                     data: data
                 });
             }, true, this.sendProgress);
-        };
+        }
 
 
     },
@@ -124,9 +124,17 @@ var appAction = {
         });
     },
 
-    sendProgress: function(percentComplete) {
-        console.log('sendProgress: ' + percentComplete);
+    getTranscript: function(id, startTime, endTime) {
+        AppService.getTranscript(id, startTime, endTime, function(data) {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_GET_TRANSCRIPT,
+                data: data,
+                id:id
+            });
+        });
+    },
 
+    sendProgress: function(percentComplete) {
         if (percentComplete === curPercent) {
             return;
         }
@@ -139,7 +147,6 @@ var appAction = {
 
         timeoutToken = setTimeout(function() {
             curPercent = -1;
-            console.log('callback invoked: ' + percentComplete);
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_UPDATE_PROGRESS,
                 data: percentComplete

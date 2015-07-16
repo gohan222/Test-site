@@ -19,6 +19,20 @@ var searchService = {
             }
         });
     },
+    getTranscript: function(options, callback, res) {
+        console.log(config.searchDomain + '/transcript/' + options.id + '?' + options.url);
+        request.get(config.searchDomain + '/transcript/' + options.id + '?' + options.url, function(error, response, body) {
+            if (!error && response.statusCode === 200) {
+                if (callback) {
+                    callback.apply(this, [null, body, res]);
+                }
+            } else {
+                if (callback) {
+                    callback.apply(this, [error, null, res]);
+                }
+            }
+        });
+    },
     getSearchByPrograms: function(options, callback, res) {
 
         var programIds = options.programIds.split(',');
@@ -38,12 +52,10 @@ var searchService = {
                     }
 
                     if (counter === 0 && callback) {
-                        console.log('callback');
                         callback.apply(this, [null, mergedResponse, res]);
                     }
                 } else {
                     if (counter === 0 && callback) {
-                        console.log('callback');
                         callback.apply(this, [error, null, res]);
                     }
                 }

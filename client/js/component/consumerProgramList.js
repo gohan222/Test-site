@@ -6,6 +6,7 @@ var React = require('react'),
     AppAction = require('../action/appAction'),
     LazyLoadImg = require('../component/image'),
     Player = require('../component/player'),
+    ExpandedMention = require('../component/expandedMention'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
     Utils = require('../../../server/utils');
@@ -47,13 +48,20 @@ var Mention = React.createClass({
         }));
 
         //program info
-        // var expandIcon = React.DOM.span({className:'fa-stack fa-lg'},
-        //   React.DOM.i({className:'fa fa-circle fa-stack-2x'}),
-        //   React.DOM.i({className:'fa a-expand fa-stack-1x fa-inverse'}));
-        var expandIcon = React.DOM.i({
+        var expandIcon = React.DOM.span({
+                className: 'fa-stack program-card-play-icon icon-prop icon-prop-animation program-fa-stacked-play-icon clickable',
+                onClick: this.props.onExpand.bind(null, this.props.data)
+            },
+            React.DOM.i({
+                className: 'fa fa-circle fa-stack-2x'
+            }),
+            React.DOM.i({
+                className: 'fa fa-expand fa-stack-1x fa-inverse'
+            }));
+        /*var expandIcon = React.DOM.i({
             className: 'fa fa-plus-circle program-card-play-icon icon-prop icon-prop-animation clickable',
-            onClick: this.onCloseClick
-        });
+            onClick: this.props.onExpand.bind(null,this.props.data)
+        });*/
 
 
 
@@ -152,16 +160,34 @@ var ProgramRow = React.createClass({
         this.refs.mentionList.getDOMNode().style.left = -1 * (321 * this.scrollIndex) + 'px';
         // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(321*this.scrollIndex)}, 300);
     },
+    getInitialState: function() {
+        return {
+            isExpanding: false
+        };
+    },
+    onExpand: function(mention) {
+        this.setState({
+            isExpanding: true,
+            expandMention: mention
+        });
+    },
+    onCloseExpand: function() {
+        this.setState({
+            isExpanding: false,
+            expandMention: null
+        });
+    },
     render: function() {
         var mentionNodes = this.props.data.map(function(mention) {
             return React.DOM.div({
                 className: 'program-card-container'
             }, React.createElement(Mention, {
-                data: mention
+                data: mention,
+                onExpand: this.onExpand,
             }), React.DOM.div({
                 className: 'program-card-spacer'
             }));
-        });
+        }, this);
 
         //referenced mention
         var refmention = this.props.data[0];
@@ -206,20 +232,36 @@ var ProgramRow = React.createClass({
 
         var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
             className: 'scroll-animation',
-            style: {
-                left: 0
+            style: !this.state.isExpanding ? {
+                left: 0,
+                display: 'inline-block'
+            } : {
+                left: 0,
+                display: 'none'
             },
             transitionName: 'component',
             transitionAppear: true,
             transitionLeave: true,
             transitionEnter: true,
-            ref: 'mentionList'
+            ref: 'mentionList',
+            hidden: this.state.isExpanding
         }, mentionNodes);
+
+        var expandedMention = React.createElement(ExpandedMention, {
+            style: this.state.isExpanding ? {
+                display: 'inline-block'
+            } : {
+                display: 'none'
+            },
+            data: this.state.expandMention,
+            onClose: this.onCloseExpand
+        });
+
         var container = React.DOM.li({
-            className: 'program-list-row background-color-animation'
+            className: this.state.isExpanding ? 'program-list-row-active' : 'program-list-row background-color-animation'
         }, programContainer, React.DOM.div({
             className: 'program-list-mention-container'
-        }, animationElement), leftArrow, rightArrow);
+        }, animationElement, expandedMention), leftArrow, rightArrow);
 
         return container;
     }

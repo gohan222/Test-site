@@ -4,13 +4,7 @@ var $ = require('jquery');
 
 module.exports = {
     getSearch: function(searchTerms, callback, isSendProgress, callbackProgress) {
-        /*$.get('search?confidence=12&includeSnippet=true&limit=25&offset=0&q=' + searchTerms,function(data, status){
-			if(callback){
-				callback.apply(this,[data]);
-			}
-		});*/
-	
-		//give arbitray display of progress
+        //give arbitray display of progress
 		
         $.ajax({
             type: 'GET', // 'POST' here so that _upload_ progress _also_ makes sense; 
@@ -37,8 +31,6 @@ module.exports = {
                     }*/
                 }, false);
                 xhr.addEventListener('readystatechange', function(evt) {
-                	console.log('readystatechange');
-                	console.log(evt);
                 	var percentComplete = 0; 
 
                 	if(isSendProgress){
@@ -117,8 +109,6 @@ module.exports = {
                     }*/
                 }, false);
                 xhr.addEventListener('readystatechange', function(evt) {
-                	console.log('readystatechange');
-                	console.log(evt);
                 	var percentComplete = 0; 
 
                 	if(isSendProgress){
@@ -156,6 +146,13 @@ module.exports = {
         $.get('mention', function(data, status) {
             if (callback) {
                 callback.apply(this, [data]);
+            }
+        });
+    },
+    getTranscript:function(id,startTime, endTime, callback){
+        $.get('search/transcript/' + id + '?start=' + startTime + '&end=' + endTime,function(data, status){
+            if(callback){
+                callback.apply(this,[data]);
             }
         });
     }

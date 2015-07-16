@@ -1,3 +1,5 @@
+'use strict';
+
 var AppStore = require('../store/appStore'),
 AppAction = require('../action/appAction'),
 LazyLoadImg = require('../component/image'),
