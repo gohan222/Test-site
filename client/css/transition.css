@@ -51,11 +51,27 @@
 }
 
 .scroll-animation {
-  transition: left .6s ease;
+  -webkit-transition: left .6s ease-out;
+  -moz-transition: left .6s ease-out;
+  -ms-transition: left .6s ease-out;
+  -o-transition: left .6s ease-out;
+  transition: left .6s ease-out;
 }
 
 .background-color-animation {
+  -webkit-transition: background-color .05s;
+  -moz-transition: background-color .05s;
+  -ms-transition: background-color .05s;
+  -o-transition: background-color .05s;
   transition: background-color .05s;
+}
+
+.resize-animation {
+  -webkit-transition: width .25s ease-out, height .25s ease-out;
+  -moz-transition: width .25s ease-out, height .25s ease-out;
+  -ms-transition: width .25s ease-out, height .25s ease-out;
+  -o-transition: width .25s ease-out, height .25s ease-out;
+  transition: width .25s ease-out, height .25s ease-out;
 }
 
 .boarder-color-animation {
@@ -67,11 +83,27 @@
 }
 
 .program-card-animation{
- transition: border-color .15s, box-shadow .2s; 
+  -webkit-transition: border-color .15s, box-shadow .2s;
+  -moz-transition: border-color .15s, box-shadow .2s;
+  -ms-transition: border-color .15s, box-shadow .2s;
+  -o-transition: border-color .15s, box-shadow .2s;
+  transition: border-color .15s, box-shadow .2s; 
 }
 
 .program-card-icon-animation{
+  -webkit-transition: opacity .1s;
+  -moz-transition: opacity .1s;
+  -ms-transition: opacity .1s;
+  -o-transition: opacity .1s;
   transition: opacity .1s; 
+}
+
+.opacity-animation{
+  -webkit-transition: opacity .4s;
+  -moz-transition: opacity .4s;
+  -ms-transition: opacity .4s;
+  -o-transition: opacity .4s;
+  transition: opacity .4s; 
 }
 
 

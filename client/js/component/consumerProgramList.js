@@ -39,6 +39,9 @@ var Mention = React.createClass({
             isPlaying: false
         };
     },
+    onExpand: function() {
+        this.props.onExpand(this.props.data);
+    },
     render: function() {
 
         var airDate = React.DOM.i({
@@ -50,7 +53,7 @@ var Mention = React.createClass({
         //program info
         var expandIcon = React.DOM.span({
                 className: 'fa-stack program-card-play-icon icon-prop icon-prop-animation program-fa-stacked-play-icon clickable',
-                onClick: this.props.onExpand.bind(null, this.props.data)
+                onClick: this.onExpand
             },
             React.DOM.i({
                 className: 'fa fa-circle fa-stack-2x'
@@ -91,13 +94,6 @@ var Mention = React.createClass({
             }, this.getSnippetText(this.props.data.mentionSnippet)));
         }
 
-        var animateMentionContainer = React.createElement(React.addons.CSSTransitionGroup, {
-            transitionName: 'component',
-            transitionAppear: true,
-            transitionLeave: true,
-            transitionEnter: true,
-        }, mentionContainer);
-
         var iconContainer = React.DOM.div({
                 className: 'program-card-icon-container program-card-icon-animation'
             },
@@ -132,7 +128,7 @@ var Mention = React.createClass({
 
         var holder = React.DOM.div({
             className: 'program-card program-card-animation clickable'
-        }, animateMentionContainer, footer);
+        }, mentionContainer, footer);
 
 
         return holder;
@@ -166,16 +162,36 @@ var ProgramRow = React.createClass({
         };
     },
     onExpand: function(mention) {
-        this.setState({
-            isExpanding: true,
-            expandMention: mention
-        });
+        var context = this;
+        $(React.findDOMNode(this.refs.mentionList)).animate({
+            opacity: 0
+        }, 200);
+
+        $(this.getDOMNode()).animate({
+                height: 354
+            }, 200,
+            function() {
+                context.setState({
+                    isExpanding: true,
+                    expandMention: mention
+                });
+            });
     },
     onCloseExpand: function() {
-        this.setState({
-            isExpanding: false,
-            expandMention: null
-        });
+        var context = this
+        $(React.findDOMNode(this.refs.mentionList)).animate({
+            opacity: 1
+        }, 200);
+        $(this.getDOMNode()).animate({
+                height: 219
+            }, 200,
+            function() {
+                context.setState({
+                    isExpanding: false,
+                    expandMention: null
+                });
+            });
+
     },
     render: function() {
         var mentionNodes = this.props.data.map(function(mention) {
@@ -258,7 +274,7 @@ var ProgramRow = React.createClass({
         });
 
         var container = React.DOM.li({
-            className: this.state.isExpanding ? 'program-list-row-active' : 'program-list-row background-color-animation'
+            className: this.state.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation'
         }, programContainer, React.DOM.div({
             className: 'program-list-mention-container'
         }, animationElement, expandedMention), leftArrow, rightArrow);

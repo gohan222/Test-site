@@ -5,6 +5,7 @@ var React = require('react'),
     TimeAgo = require('react-timeago'),
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
+    $ = require('jquery'),
     Utils = require('../../../server/utils');
 
 module.exports = React.createClass({
@@ -20,9 +21,19 @@ module.exports = React.createClass({
 
         return text;
     },
+    onCloseExpand: function() {
+        var context = this;
+        $(this.getDOMNode()).animate({
+            opacity: 0
+        }, 200, function() {
+            context.props.onClose();
+        });
+    },
     onChangeTranscript: function() {
-        if(this.props.data && AppStore.getTranscriptId() === this.props.data.mediaId){
-            this.setState({transcript: this.getSnippetText(AppStore.getTranscript())});
+        if (this.props.data && AppStore.getTranscriptId() === this.props.data.mediaId) {
+            this.setState({
+                transcript: this.getSnippetText(AppStore.getTranscript())
+            });
         }
     },
     componentDidMount: function() {
@@ -32,12 +43,18 @@ module.exports = React.createClass({
         AppStore.removeChangeTranscriptListener(this.onChangeTranscript);
     },
     componentWillReceiveProps: function(nextProps) {
-      // console.log('componentWillReceiveProps');  
-      if(nextProps.data && this.props.data != nextProps.data){
-        AppAction.getTranscript(nextProps.data.mediaId, nextProps.data.mentionSnippet[0].startTime, nextProps.data.mentionSnippet[nextProps.data.mentionSnippet.length-1].endTime);
-      }
+        // console.log('componentWillReceiveProps');  
+        if (nextProps.data && this.props.data != nextProps.data) {
+            AppAction.getTranscript(nextProps.data.mediaId, nextProps.data.mentionSnippet[0].startTime, nextProps.data.mentionSnippet[nextProps.data.mentionSnippet.length - 1].endTime);
+        }
     },
-    getInitialState:function(){
+    componentDidUpdate: function() {
+        $(this.getDOMNode()).animate({
+            opacity: 1
+        }, 200);
+
+    },
+    getInitialState: function() {
         return {};
     },
     render: function() {
@@ -74,7 +91,9 @@ module.exports = React.createClass({
                 className: 'fa fa-code program-card-play-icon icon-prop icon-prop-animation clickable'
             }));
 
-        var expandTranscript = React.DOM.div({className: 'program-expanded-right'}, 
+        var expandTranscript = React.DOM.div({
+                className: 'program-expanded-right'
+            },
             React.DOM.p(null, this.state.transcript ? this.state.transcript : ''));
         var expandMedia = React.DOM.div({
             className: 'program-expanded-left'
@@ -84,12 +103,12 @@ module.exports = React.createClass({
 
         var closeIcon = React.DOM.i({
             className: 'fa fa-times-circle program-card-close-expand-icon icon-prop icon-prop-animation clickable',
-            onClick: this.props.onClose.bind(null)
+            onClick: this.onCloseExpand
         });
 
 
         return React.DOM.div({
-            className: 'program-expand-mention',
+            className: 'program-expand-mention opacity-animation',
             hidden: this.props.hidden
         }, expandMedia, expandTranscript, closeIcon);
     }

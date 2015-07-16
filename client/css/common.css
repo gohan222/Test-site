@@ -133,6 +133,7 @@
 }
 
 .program-list-row{
+  height: 219px;
   border-bottom: 1px #CCCCCC solid;
   white-space: nowrap;
 }
@@ -142,6 +143,7 @@
 }
 
 .program-list-row-active{
+  /*height: 354px;*/
   background-color: #ECECEC;
   border-bottom: 1px #CCCCCC solid;
   white-space: nowrap;
