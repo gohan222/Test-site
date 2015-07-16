@@ -23,6 +23,8 @@
 
 #app-content{
   margin-top: 73px;
+  overflow: hidden;
+  height: calc(100% - 73px);
 }
 
 .app-menuItem{

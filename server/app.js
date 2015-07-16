@@ -51,7 +51,8 @@ function startServer(application) {
     })); 
 
     //apply static location
-    application.use(express.static('client'));
+    var oneYear = 31536000000
+    application.use(express.static('client',{ maxAge: oneYear }));
 
     
     application.use(log4js.connectLogger(logger, {
