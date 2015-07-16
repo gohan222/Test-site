@@ -25,7 +25,7 @@ module.exports = React.createClass({
         var context = this;
         $(this.getDOMNode()).animate({
             opacity: 0
-        }, 200, function() {
+        }, 200, 'linear', function() {
             context.props.onClose();
         });
     },
@@ -51,7 +51,7 @@ module.exports = React.createClass({
     componentDidUpdate: function() {
         $(this.getDOMNode()).animate({
             opacity: 1
-        }, 200);
+        }, 200, 'linear');
 
     },
     getInitialState: function() {

@@ -165,11 +165,11 @@ var ProgramRow = React.createClass({
         var context = this;
         $(React.findDOMNode(this.refs.mentionList)).animate({
             opacity: 0
-        }, 200);
+        }, 200, 'linear');
 
         $(this.getDOMNode()).animate({
                 height: 354
-            }, 200,
+            }, 200, 'linear',
             function() {
                 context.setState({
                     isExpanding: true,
@@ -181,10 +181,10 @@ var ProgramRow = React.createClass({
         var context = this
         $(React.findDOMNode(this.refs.mentionList)).animate({
             opacity: 1
-        }, 200);
+        }, 200, 'linear');
         $(this.getDOMNode()).animate({
                 height: 219
-            }, 200,
+            }, 200, 'linear',
             function() {
                 context.setState({
                     isExpanding: false,
@@ -391,8 +391,15 @@ module.exports = React.createClass({
             });
         });
 
+        var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
+            transitionName: 'component',
+            transitionAppear: true,
+            transitionLeave: true,
+            transitionEnter: true
+        }, programNodes);
+
         return React.DOM.ul({
             className: 'program-list-result'
-        }, programNodes);
+        }, animationElement);
     }
 });
