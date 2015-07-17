@@ -18,7 +18,7 @@ var dataArray = [
 var options = {
         title: 'Top Trending Searches',
         width: '100%',
-        height: 800,
+        height: 400,
         bar: {groupWidth: '95%'},
         legend: { position: 'none' },
         animation:{
@@ -31,10 +31,14 @@ var options = {
 module.exports = React.createClass({
   getRandomColor:function() {
     var letters = '0123456789ABCDEF'.split('');
+    // var letters = '01234567'.split('');
     var color = '#';
-    for (var i = 0; i < 6; i++ ) {
+    for (var i = 0; i < 4; i++ ) {
         color += letters[Math.floor(Math.random() * 16)];
     }
+
+    color += 'FF';
+    console.log(color);
     return color;
   },    
   formatData: function(data){

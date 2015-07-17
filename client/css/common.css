@@ -350,3 +350,8 @@
 .program-fa-stacked-play-icon{
   font-size: 10px;
 }
+
+.ui-exp-coll{
+  height:100%;
+  overflow: auto;
+}
