@@ -22,8 +22,9 @@
 }
 
 #app-content{
+  overflow-x: hidden;
   margin-top: 73px;
-  overflow: hidden;
+  overflow-y: auto;
   height: calc(100% - 73px);
 }
 
