@@ -6,8 +6,10 @@ var React = require('react'),
     AppAction = require('../action/appAction'),
     LazyLoadImg = require('../component/image'),
     Player = require('../component/player'),
+    ExpandedMention = require('../component/expandedMention'),
     TimeAgo = require('react-timeago'),
-    Constants = require('../constant/appConstant');
+    Constants = require('../constant/appConstant'),
+    Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
     getSnippetText: function(snippets) {
@@ -37,6 +39,9 @@ var Mention = React.createClass({
             isPlaying: false
         };
     },
+    onExpand: function() {
+        this.props.onExpand(this.props.data);
+    },
     render: function() {
 
         var airDate = React.DOM.i({
@@ -46,30 +51,39 @@ var Mention = React.createClass({
         }));
 
         //program info
-        // var expandIcon = React.DOM.span({className:'fa-stack fa-lg'},
-        //   React.DOM.i({className:'fa fa-circle fa-stack-2x'}),
-        //   React.DOM.i({className:'fa a-expand fa-stack-1x fa-inverse'}));
-        var expandIcon = React.DOM.i({
-            className: 'fa fa-plus-circle program-card-play-icon clickable',
-            onClick: this.onCloseClick
-        });
+        var expandIcon = React.DOM.span({
+                className: 'fa-stack program-card-play-icon icon-prop icon-prop-animation program-fa-stacked-play-icon clickable',
+                onClick: this.onExpand
+            },
+            React.DOM.i({
+                className: 'fa fa-circle fa-stack-2x'
+            }),
+            React.DOM.i({
+                className: 'fa fa-expand fa-stack-1x fa-inverse'
+            }));
+        /*var expandIcon = React.DOM.i({
+            className: 'fa fa-plus-circle program-card-play-icon icon-prop icon-prop-animation clickable',
+            onClick: this.props.onExpand.bind(null,this.props.data)
+        });*/
+
+
 
         var playIcon, mentionContainer;
         if (this.state.isPlaying) {
             playIcon = React.DOM.i({
-                className: 'fa fa-times-circle program-card-play-icon clickable',
+                className: 'fa fa-times-circle program-card-play-icon icon-prop icon-prop-animation clickable',
                 onClick: this.onCloseClick
             });
             mentionContainer = React.DOM.div({
                 className: 'program-list-mention-player'
             }, React.createElement(Player, {
-                src: this.props.data.fileLocation,
+                src: Utils.mediaUrl(this.props.data),
                 poster: this.props.data.programLiveImage,
                 fileType: this.props.data.fileType
             }));
         } else {
             playIcon = React.DOM.i({
-                className: 'fa fa-play-circle program-card-play-icon clickable',
+                className: 'fa fa-play-circle program-card-play-icon icon-prop icon-prop-animation clickable',
                 onClick: this.onPlayClick
             });
             //add mention snippet
@@ -89,15 +103,15 @@ var Mention = React.createClass({
         //media type
         var mediaType;
 
-        if (this.props.mediaSourceTypeId === 2) {
+        if (this.props.data.mediaSourceTypeId === 2) {
             mediaType = React.DOM.i({
                 className: 'fa fa-video-camera program-card-icon'
             });
-        } else if (this.props.mediaSourceTypeId === 3) {
+        } else if (this.props.data.mediaSourceTypeId === 3) {
             mediaType = React.DOM.i({
                 className: 'fa fa-youtube-play program-card-icon'
             });
-        } else if (this.props.mediaSourceTypeId === 4) {
+        } else if (this.props.data.mediaSourceTypeId === 4) {
             mediaType = React.DOM.i({
                 className: 'fa fa-rss program-card-icon'
             });
@@ -124,34 +138,96 @@ var Mention = React.createClass({
 var ProgramRow = React.createClass({
     scrollIndex: 0,
     onScrollLeft: function(event) {
+        var cardWidth = 321;
+        var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
+        var parentWidth = parentContainer.offsetWidth;
+        var curPos = (cardWidth * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth/cardWidth);
+
+        if(viewableCards >= this.props.data.length){
+            return;
+        }else if (this.scrollIndex - viewableCards < 0){
+            this.scrollIndex = 0;
+        }else{
+            this.scrollIndex -= viewableCards - 1;
+        }
+
         // console.log(event);
         this.scrollIndex--;
         if (this.scrollIndex < 0) {
             this.scrollIndex = 0;
         }
-        this.refs.mentionList.getDOMNode().style.left = -1 * (321 * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(321*this.scrollIndex)}, 300);
+        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
+        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     onScrollRight: function(event) {
         // console.log(event);
-        this.scrollIndex++;
-        if (this.scrollIndex > this.props.data.length) {
-            this.scrollIndex = this.props.data.length;
+        var cardWidth = 321;
+        var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
+        var parentWidth = parentContainer.offsetWidth;
+        var curPos = (cardWidth * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth/cardWidth);
+
+        // this.scrollIndex++;
+        if(viewableCards >= this.props.data.length){
+            return;
+        }else if(viewableCards + this.scrollIndex >= this.props.data.length){
+            this.scrollIndex = this.props.data.length - viewableCards;
+        }else{
+            this.scrollIndex += viewableCards - 1;
         }
 
-        this.refs.mentionList.getDOMNode().style.left = -1 * (321 * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(321*this.scrollIndex)}, 300);
+        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
+        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
+    },
+    getInitialState: function() {
+        return {
+            isExpanding: false
+        };
+    },
+    onExpand: function(mention) {
+        var context = this;
+        $(React.findDOMNode(this.refs.mentionList)).animate({
+            opacity: 0
+        }, 200, 'linear');
+
+        $(this.getDOMNode()).animate({
+                height: 354
+            }, 200, 'linear',
+            function() {
+                context.setState({
+                    isExpanding: true,
+                    expandMention: mention
+                });
+            });
+    },
+    onCloseExpand: function() {
+        var context = this
+        $(React.findDOMNode(this.refs.mentionList)).animate({
+            opacity: 1
+        }, 200, 'linear');
+        $(this.getDOMNode()).animate({
+                height: 219
+            }, 200, 'linear',
+            function() {
+                context.setState({
+                    isExpanding: false,
+                    expandMention: null
+                });
+            });
+
     },
     render: function() {
         var mentionNodes = this.props.data.map(function(mention) {
             return React.DOM.div({
                 className: 'program-card-container'
             }, React.createElement(Mention, {
-                data: mention
+                data: mention,
+                onExpand: this.onExpand,
             }), React.DOM.div({
                 className: 'program-card-spacer'
             }));
-        });
+        }, this);
 
         //referenced mention
         var refmention = this.props.data[0];
@@ -196,20 +272,36 @@ var ProgramRow = React.createClass({
 
         var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
             className: 'scroll-animation',
-            style: {
-                left: 0
+            style: !this.state.isExpanding ? {
+                left: 0,
+                display: 'inline-block'
+            } : {
+                left: 0,
+                display: 'none'
             },
             transitionName: 'component',
             transitionAppear: true,
             transitionLeave: true,
             transitionEnter: true,
-            ref: 'mentionList'
+            ref: 'mentionList',
+            hidden: this.state.isExpanding
         }, mentionNodes);
+
+        var expandedMention = React.createElement(ExpandedMention, {
+            style: this.state.isExpanding ? {
+                display: 'inline-block'
+            } : {
+                display: 'none'
+            },
+            data: this.state.expandMention,
+            onClose: this.onCloseExpand
+        });
+
         var container = React.DOM.li({
-            className: 'program-list-row background-color-animation'
+            className: this.state.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation'
         }, programContainer, React.DOM.div({
             className: 'program-list-mention-container'
-        }, animationElement), leftArrow, rightArrow);
+        }, animationElement, expandedMention), leftArrow, rightArrow);
 
         return container;
     }
@@ -323,8 +415,15 @@ module.exports = React.createClass({
             });
         });
 
+        var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
+            transitionName: 'component',
+            transitionAppear: true,
+            transitionLeave: true,
+            transitionEnter: true
+        }, programNodes);
+
         return React.DOM.ul({
             className: 'program-list-result'
-        }, programNodes);
+        }, animationElement);
     }
 });

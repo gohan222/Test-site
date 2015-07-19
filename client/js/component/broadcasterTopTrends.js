@@ -16,11 +16,11 @@ var dataArray = [
          ['Platinum', 21.45, 'color: #e5e4e2' ] // CSS-style declaration
       ];
 var options = {
-        title: "Top Trending Searches",
+        title: 'Top Trending Searches',
         width: '100%',
-        height: 800,
-        bar: {groupWidth: "95%"},
-        legend: { position: "none" },
+        height: 400,
+        bar: {groupWidth: '95%'},
+        legend: { position: 'none' },
         animation:{
           duration: 1000,
           easing: 'out',
@@ -31,10 +31,14 @@ var options = {
 module.exports = React.createClass({
   getRandomColor:function() {
     var letters = '0123456789ABCDEF'.split('');
+    // var letters = '01234567'.split('');
     var color = '#';
-    for (var i = 0; i < 6; i++ ) {
+    for (var i = 0; i < 4; i++ ) {
         color += letters[Math.floor(Math.random() * 16)];
     }
+
+    color += 'FF';
+    console.log(color);
     return color;
   },    
   formatData: function(data){
@@ -49,7 +53,7 @@ module.exports = React.createClass({
     for (var i = 0; i < data.length; i++) {
       var searchTerms = data[i];
       formatData.push([searchTerms['term'], parseInt(searchTerms['count']), this.getRandomColor()]);
-    };
+    }
 
     return formatData;
   },

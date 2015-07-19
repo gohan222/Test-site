@@ -22,7 +22,10 @@
 }
 
 #app-content{
+  overflow-x: hidden;
   margin-top: 73px;
+  overflow-y: auto;
+  height: calc(100% - 73px);
 }
 
 .app-menuItem{
@@ -86,7 +89,7 @@
   padding: 0px 20px 0px 20px;
   display: inline-block;
   vertical-align: top;
-  width: calc(100% - 200px);
+  width: calc(100% - 190px);
   line-height: 1.375;
   overflow: hidden;
 }
@@ -133,12 +136,20 @@
 }
 
 .program-list-row{
+  height: 219px;
   border-bottom: 1px #CCCCCC solid;
   white-space: nowrap;
 }
 
 .program-list-row:hover{
   background-color: #fff6e0;
+}
+
+.program-list-row-active{
+  /*height: 354px;*/
+  background-color: #ECECEC;
+  border-bottom: 1px #CCCCCC solid;
+  white-space: nowrap;
 }
 
 .program-card:hover{
@@ -175,6 +186,7 @@
 }
 
 .program-card{
+  background-color: #ffffff;
   display: inline-block;
   padding: 10px;
   margin: 10px 5px 10px 5px;
@@ -208,6 +220,14 @@
   float:right;
   font-size: 20px;
   margin-left: 5px;
+}
+
+.program-card-close-expand-icon{
+  position: absolute;
+  top: 5px;
+  right: 0px;
+  color: #cccccc;
+  font-size: 20px;
 }
 
 .program-card-spacer{
@@ -271,11 +291,67 @@
 }
 
 .program-player-img{
-  height: calc(100% - 31px);
   width: 100%;
   display: inline-block;
 }
 
 .program-player-control{
+  width: 100%;
+  position: absolute;
   display: inherit;
+  bottom: 0px;
+}
+
+.program-video-control{
+  width:100%;
+}
+
+.program-player-container{
+  width:100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.program-expand-mention{
+  overflow: hidden;
+  height: 353px;
+}
+
+.program-expanded-left{
+  width: 447px;
+  padding: 17px 10px 17px 10px;
+  display: inline-block;
+}
+
+.program-expanded-right{
+  display: inline-block;
+  padding: 17px 20px 17px 20px;
+  vertical-align: top;
+  white-space: normal;
+  width: calc(100% - 447px);
+  font-size: 16px;
+}
+
+.program-expand-media-container{
+  height: 275px;
+}
+
+.program-expand-social-container{
+  height: 44px;
+  width: 100%;
+  background-color: #ffffff;
+  padding: 13px 10px 0px 10px;
+}
+
+.program-expand-social-container > i{
+  font-size: 16px;
+}
+
+.program-fa-stacked-play-icon{
+  font-size: 10px;
+}
+
+.ui-exp-coll{
+  height:100%;
+  overflow: auto;
 }

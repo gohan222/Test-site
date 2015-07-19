@@ -28,6 +28,8 @@ var topTrends = [];
 var trends = [];
 var filterDays = 1;
 var percentComplete = 0;
+var curTranscript;
+var curTranscriptId;
 
 
 function updateSearchResults(results){
@@ -76,6 +78,14 @@ function updateFilter(results){
 
 function updateProgress(results){
   percentComplete = results;
+}
+
+function updateTranscript(results){
+  curTranscript = results;
+}
+
+function updateTranscriptId(results){
+  curTranscriptId = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -130,6 +140,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeProgress: function() {
     this.emit(Constants.CHANGE_PROGRESS_EVENT);
+  },
+
+  emitChangeTranscript: function() {
+    this.emit(Constants.CHANGE_TRANSCRIPT_EVENT);
   },
 
   /**
@@ -187,6 +201,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_PROGRESS_EVENT, callback);
   },
 
+  addChangeTranscriptListener: function(callback) {
+    this.on(Constants.CHANGE_TRANSCRIPT_EVENT, callback);
+  },
+
   
   /**
    * @param {function} callback
@@ -241,6 +259,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeProgressListener: function(callback) {
     this.removeListener(Constants.CHANGE_PROGRESS_EVENT, callback);
+  },
+
+  removeChangeTranscriptListener: function(callback) {
+    this.removeListener(Constants.CHANGE_TRANSCRIPT_EVENT, callback);
   },
 
   getSearchResults: function(){
@@ -312,6 +334,14 @@ var AppStore = assign({}, EventEmitter.prototype, {
     return percentComplete*100;
   },
 
+  getTranscript: function(){
+    return curTranscript;
+  },
+
+  getTranscriptId: function(){
+    return curTranscriptId;
+  },
+
 });
 
 // Register callback to handle all updates
@@ -369,6 +399,11 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_UPDATE_PROGRESS:
       updateProgress(action.data);
       AppStore.emitChangeProgress();
+      break;
+    case Constants.ACTION_GET_TRANSCRIPT:
+      updateTranscript(action.data);
+      updateTranscriptId(action.id);
+      AppStore.emitChangeTranscript();
       break;
     default:
       // no op

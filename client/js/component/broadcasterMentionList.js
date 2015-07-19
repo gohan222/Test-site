@@ -1,3 +1,5 @@
+'use strict';
+
 var AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
     LazyLoadImg = require('../component/image'),
@@ -12,7 +14,7 @@ var Mention = React.createClass({
 
         for (var i = 0; i < snippets.length; i++) {
             text += snippets[i].text;
-        };
+        }
 
         return text;
     },

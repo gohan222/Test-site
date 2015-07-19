@@ -8,6 +8,7 @@ var cluster = require('cluster'),
     logger = require('./logger/logger'),
     session = require('express-session'),
     bodyParser = require('body-parser'),
+    log4js = require('log4js'),
     RedisStore = require('connect-redis')(session);
 
 
@@ -47,19 +48,18 @@ function startServer(application) {
     application.use(bodyParser.json()); // for parsing application/json
     application.use(bodyParser.urlencoded({
         extended: false
-    })); // for parsing application/x-www-form-urlencoded
-    // application.engine('dust', cons.dust);
-    // application.set('view engine', 'dust');
-    // application.set('views', __dirname + '/view');
+    })); 
 
     //apply static location
-    application.use(express.static('client'));
+    var oneYear = 31536000000;
+    application.use(express.static('client',{ maxAge: oneYear }));
 
-    // middleware specific to this router
-    application.use(function UrlLog(req, res, next) {
-        logger.info(req.method + ' ' + req.originalUrl);
-        next();
-    });
+    
+    application.use(log4js.connectLogger(logger, {
+        level: log4js.levels.INFO,
+        format: ':remote-addr - - ":method :url" http-status: :status ":referrer" response-time: :response-time ms'
+    }));
+    
 
 
     application.use(function(req, res, next) {
@@ -149,20 +149,20 @@ if (cluster.isMaster) {
         // console.log(css);
         logger.info('version: ' + stats.hash);
         config.hash = stats.hash;
-        
+
         var jsonStats = stats.toJson();
-        if (jsonStats.errors.length > 0){
+        if (jsonStats.errors.length > 0) {
             logger.error(jsonStats.errors);
             return;
         }
-        if (jsonStats.warnings.length > 0){
+        if (jsonStats.warnings.length > 0) {
             logger.warn(jsonStats.warnings);
         }
-        if(err){
+        if (err) {
             logger.error(err);
             return;
         }
-        
+
         startServer(app);
 
     });

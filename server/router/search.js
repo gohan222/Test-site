@@ -20,6 +20,21 @@ router.get('/', function(req, res) {
   }, res);
 });
 
+router.get('/transcript/:id', function(req, res) {
+
+  var options = {
+    url: urlParser.parse(req.url).query,
+    id:req.params.id
+  };
+
+  service.getTranscript(options, function(err, result, response) {
+    if (response) {
+      res.setHeader('Content-Type', 'application/json');
+      response.send(result);
+    }
+  }, res);
+});
+
 router.get('/program', function(req, res) {
 
   var options = {

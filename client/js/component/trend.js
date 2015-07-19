@@ -11,11 +11,10 @@ var buttonGroup = [{view: Constants.VIEW_TOP_TRENDS_LIST ,icon: 'glyphicon glyph
 module.exports = React.createClass({
   render: function() {
 
-    var leftView = React.DOM.div({className:'ui-exp-coll min-height'}, React.createElement(Filter,{app: this.props.app , buttonGroup: buttonGroup}), React.createElement(BroadcasterViewContainer));
-    var columnView = React.DOM.div({className:''},leftView);
-
+    var view = React.DOM.div({className:'ui-exp-coll'}, React.createElement(Filter,{app: this.props.app , buttonGroup: buttonGroup}), React.createElement(BroadcasterViewContainer));
+    
     return React.DOM.div({className:'contain active'},
-      columnView
+      view
       );
   }
 });
