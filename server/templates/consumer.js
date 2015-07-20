@@ -1,6 +1,7 @@
 var React = require('react'),
     Utils = require('../utils'),
     Search = require('../../client/js/component/search'),
+    config = require('../config'),
     Header = require('../../client/js/component/consumerHeader');
 
 module.exports = {
@@ -35,12 +36,12 @@ module.exports = {
                 type: 'text/javascript'
             }),
             React.DOM.script({
-                src: 'http://localhost:9090/socket.io/socket.io.js',
+                src: '/socket.io/socket.io.js',
                 type: 'text/javascript'
             }),
             React.DOM.script({
                 dangerouslySetInnerHTML: {
-                    __html: 'var socket = io.connect(\'http://localhost:9090\'); socket.on(\'news\', function (data) { console.log(data); setInterval(function(){socket.emit(\'my other event\', { my: \'data\' });},500);});'
+                    __html: 'var SOCKET = io.connect(\'' + config.domain + ':'+ config.port +'\');'
                 }
             })
         )))

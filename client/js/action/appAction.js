@@ -14,6 +14,7 @@
 var AppDispatcher = require('../dispatcher/appDispatcher');
 var AppConstant = require('../constant/appConstant');
 var AppService = require('../service/search');
+var AppServiceSocket = require('../socket/search');
 var AppServiceUser = require('../service/user');
 var AppServiceAnalytics = require('../service/analytics');
 
@@ -38,12 +39,21 @@ var appAction = {
     },
 
     searchInit: function(searchTerms) {
-        AppService.getSearch(searchTerms, function(data) {
-            AppDispatcher.dispatch({
-                actionType: AppConstant.ACTION_SEARCH_INIT,
-                data: data
+        if (SOCKET) {
+            AppServiceSocket.search(searchTerms, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_SEARCH_INIT,
+                    data: data
+                });
             });
-        }, true, this.sendProgress);
+        } else {
+            AppService.getSearch(searchTerms, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_SEARCH_INIT,
+                    data: data
+                });
+            }, true, this.sendProgress);
+        }
     },
 
     changeSearchTerm: function(searchTerms) {
@@ -129,7 +139,7 @@ var appAction = {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_GET_TRANSCRIPT,
                 data: data,
-                id:id
+                id: id
             });
         });
     },

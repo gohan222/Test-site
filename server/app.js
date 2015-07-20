@@ -24,7 +24,7 @@ function startServer() {
     var express = require('express'),
         app = express();
     var server = require('http').createServer(app),
-        io = require('socket.io').listen(server),
+        sio = require('socket.io').listen(server),
         sticky = require('sticky-session');
 
     sticky(server).listen(config.port, function() {
@@ -39,24 +39,7 @@ function startServer() {
         logger.info('redis disconnect: ' + err);
     });
 
-    io.on('connection', function(socket) {
-        console.log('This process is pid ' + process.pid);
-        console.log('is master: ' + cluster.isMaster);
-        console.log('socket');
-
-        //init socket handlers.
-        socket.emit('news', {
-            hello: 'world'
-        });
-        socket.on('my other event', function(data) {
-            console.log('This process is pid ' + process.pid);
-            console.log('is master: ' + cluster.isMaster);
-            console.log(data);
-        });
-    });
-
-
-    app.use(session({
+    var sessionMiddleware = session({
         store: new RedisStore({
             host: 'localhost',
             port: 6379,
@@ -69,7 +52,13 @@ function startServer() {
         cookie: {
             maxAge: 1000000
         }
-    }));
+    });
+
+
+    app.use(sessionMiddleware);
+    sio.use(function(socket, next) {
+        sessionMiddleware(socket.request, socket.request.res, next);
+    });
 
     // assign the dust engine to .dust files
     app.use(bodyParser.json()); // for parsing app/json
@@ -114,6 +103,10 @@ function startServer() {
     app.use('/', require('./router/mention'));
     app.use('/analytics', require('./router/analytics'));
 
+    sio.on('connection', function(socket) {
+        require('./socket/search')(socket);
+    });
+
     // app.listen(config.port);
 };
 
@@ -135,7 +128,7 @@ if (cluster.isMaster) {
 
     sticky(server).listen(config.port, function() {
         console.log('is master: ' + cluster.isMaster);
-        console.log('server started on '+config.port+' port');
+        console.log('server started on ' + config.port + ' port');
     });
 
     cluster.on('exit', function(worker) {

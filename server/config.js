@@ -57,6 +57,10 @@ if (config.has('searchDomain')) {
   settings.searchDomain = config.get('searchDomain');
 }
 
+if (config.has('domain')) {
+  settings.domain = config.get('domain');
+}
+
 settings.sfUrlCallback = settings.redirectUri + '/confirmation';
 settings.oauthUrl = settings.sfOAuthUrl + '?client_id=' + settings.clientId + '&response_type=code&redirect_uri=' + settings.sfUrlCallback;
 
