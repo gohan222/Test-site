@@ -20,7 +20,17 @@ if (workers <= 0) {
     workers = 1;
 }
 
-function startServer(application) {
+function startServer() {
+    var express = require('express'),
+        app = express();
+    var server = require('http').createServer(app),
+        io = require('socket.io').listen(server),
+        sticky = require('sticky-session');
+
+    sticky(server).listen(config.port, function() {
+        console.log('server started on ' + config.port + ' port');
+    });
+
     var client = redis.createClient();
     client.on('connect', function() {
         logger.info('redis connected');
@@ -29,7 +39,24 @@ function startServer(application) {
         logger.info('redis disconnect: ' + err);
     });
 
-    application.use(session({
+    io.on('connection', function(socket) {
+        console.log('This process is pid ' + process.pid);
+        console.log('is master: ' + cluster.isMaster);
+        console.log('socket');
+
+        //init socket handlers.
+        socket.emit('news', {
+            hello: 'world'
+        });
+        socket.on('my other event', function(data) {
+            console.log('This process is pid ' + process.pid);
+            console.log('is master: ' + cluster.isMaster);
+            console.log(data);
+        });
+    });
+
+
+    app.use(session({
         store: new RedisStore({
             host: 'localhost',
             port: 6379,
@@ -45,24 +72,26 @@ function startServer(application) {
     }));
 
     // assign the dust engine to .dust files
-    application.use(bodyParser.json()); // for parsing application/json
-    application.use(bodyParser.urlencoded({
+    app.use(bodyParser.json()); // for parsing app/json
+    app.use(bodyParser.urlencoded({
         extended: false
-    })); 
+    }));
 
     //apply static location
     var oneYear = 31536000000;
-    application.use(express.static('client',{ maxAge: oneYear }));
+    app.use(express.static('client', {
+        maxAge: oneYear
+    }));
 
-    
-    application.use(log4js.connectLogger(logger, {
+
+    app.use(log4js.connectLogger(logger, {
         level: log4js.levels.INFO,
         format: ':remote-addr - - ":method :url" http-status: :status ":referrer" response-time: :response-time ms'
     }));
-    
 
 
-    application.use(function(req, res, next) {
+
+    app.use(function(req, res, next) {
         if (!req.session) {
             return next(new Error('redis session not connected.')) // handle error
         }
@@ -71,33 +100,43 @@ function startServer(application) {
 
     //web apis
     //can return redirects and html.
-    application.use('/', require('./router/searchPage'));
+    app.use('/', require('./router/searchPage'));
 
     //app apis
     //should return data and status codes.
-    application.use('/search', require('./router/search'));
+    app.use('/search', require('./router/search'));
 
     //app apis
     // should return data and status codes.
 
-    application.use('/user', require('./router/user'));
+    app.use('/user', require('./router/user'));
 
-    application.use('/', require('./router/mention'));
-    application.use('/analytics', require('./router/analytics'));
+    app.use('/', require('./router/mention'));
+    app.use('/analytics', require('./router/analytics'));
 
-    application.listen(config.port);
+    // app.listen(config.port);
 };
 
 if (cluster.isMaster) {
 
-    logger.info('environment: ' + process.env.NODE_ENV);
+    /*logger.info('environment: ' + process.env.NODE_ENV);
     logger.info('port: ' + config.port);
     logger.info('start cluster with %s workers', workers);
 
     for (var i = 0; i < workers; ++i) {
         var worker = cluster.fork().process;
         logger.debug('worker %s started.', worker.pid);
-    }
+    }*/
+
+    //sticky session on master to start cluster process
+    var express = require('express')();
+    var server = require('http').createServer(express);
+    var sticky = require('sticky-session');
+
+    sticky(server).listen(config.port, function() {
+        console.log('is master: ' + cluster.isMaster);
+        console.log('server started on '+config.port+' port');
+    });
 
     cluster.on('exit', function(worker) {
         logger.info('worker %s died. restart...', worker.process.pid);
@@ -106,10 +145,7 @@ if (cluster.isMaster) {
 
 } else {
 
-    var express = require('express'),
-        cons = require('consolidate'),
-        app = express(),
-        ExtractTextPlugin = require("extract-text-webpack-plugin"),
+    var ExtractTextPlugin = require("extract-text-webpack-plugin"),
         compilerSettings = {
             entry: {
                 consumer: './client/js/view/consumerPage.js',
@@ -163,7 +199,7 @@ if (cluster.isMaster) {
             return;
         }
 
-        startServer(app);
+        startServer();
 
     });
 }

@@ -13,9 +13,11 @@ module.exports = {
                     className: 'content-container'
                 },
                 React.DOM.div({
-                    id: 'app-header'
-                },
-                React.createElement(Header,{user:options.user})),
+                        id: 'app-header'
+                    },
+                    React.createElement(Header, {
+                        user: options.user
+                    })),
                 React.DOM.div({
                     id: 'app-content'
                 }, React.createElement(Search))
@@ -25,12 +27,21 @@ module.exports = {
             }),
             React.DOM.script({
                 dangerouslySetInnerHTML: {
-                    __html: 'var APP = ' + Utils.safeStringify(options ? options : {} ) + ';'
+                    __html: 'var APP = ' + Utils.safeStringify(options ? options : {}) + ';'
                 }
             }),
             React.DOM.script({
                 src: 'dist/consumer.' + options.hash + '.js',
                 type: 'text/javascript'
+            }),
+            React.DOM.script({
+                src: 'http://localhost:9090/socket.io/socket.io.js',
+                type: 'text/javascript'
+            }),
+            React.DOM.script({
+                dangerouslySetInnerHTML: {
+                    __html: 'var socket = io.connect(\'http://localhost:9090\'); socket.on(\'news\', function (data) { console.log(data); setInterval(function(){socket.emit(\'my other event\', { my: \'data\' });},500);});'
+                }
             })
         )))
 
