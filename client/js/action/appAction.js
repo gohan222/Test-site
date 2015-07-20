@@ -39,7 +39,7 @@ var appAction = {
     },
 
     searchInit: function(searchTerms) {
-        if (SOCKET) {
+        if (typeof SOCKET !== 'undefined') {
             AppServiceSocket.search(searchTerms, function(data) {
                 AppDispatcher.dispatch({
                     actionType: AppConstant.ACTION_SEARCH_INIT,
@@ -91,12 +91,21 @@ var appAction = {
         var list = programIds.split(',');
 
         for (var i = 0; i < list.length; i++) {
-            AppService.getSearchByProgramId(list[i], searchTerms, function(data) {
-                AppDispatcher.dispatch({
-                    actionType: AppConstant.ACTION_PROGRAM_SEARCH,
-                    data: data
+            if (typeof SOCKET !== 'undefined') {
+                AppServiceSocket.searchByProgramId(list[i],searchTerms, function(data) {
+                    AppDispatcher.dispatch({
+                        actionType: AppConstant.ACTION_PROGRAM_SEARCH,
+                        data: data
+                    });
                 });
-            }, true, this.sendProgress);
+            } else {
+                AppService.getSearchByProgramId(list[i], searchTerms, function(data) {
+                    AppDispatcher.dispatch({
+                        actionType: AppConstant.ACTION_PROGRAM_SEARCH,
+                        data: data
+                    });
+                }, true, this.sendProgress);
+            }
         }
 
 

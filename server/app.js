@@ -104,8 +104,15 @@ function startServer() {
     app.use('/analytics', require('./router/analytics'));
 
     sio.on('connection', function(socket) {
+        logger.info('user connected');
+        
         require('./socket/search')(socket);
+        
+        socket.on('disconnect', function() {
+            logger.info('user disconnected');
+        });
     });
+
 
     // app.listen(config.port);
 };

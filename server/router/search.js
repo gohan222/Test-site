@@ -7,12 +7,13 @@ var express = require('express'),
 
 // define the about route
 router.get('/', function(req, res) {
-
+  logger.debug('search request: ' + req.url);
   var options = {
     url: urlParser.parse(req.url).query
   };
-
+  
   service.getSearchResults(options, function(err, result, response) {
+    logger.debug('search response: ' + req.url);  
     if (response) {
       res.setHeader('Content-Type', 'application/json');
       response.send(result);
@@ -36,13 +37,14 @@ router.get('/transcript/:id', function(req, res) {
 });
 
 router.get('/program', function(req, res) {
-
+  logger.debug('searchByProgramId request: ' + req.query.programId + ', ' + req.query.searchTerms);
   var options = {
     programIds : req.query.programIds,
     searchTerms : req.query.q
   };
 
   service.getSearchByPrograms(options, function(err, result, response) {
+    logger.debug('searchByProgramId response: ' + req.query.programId + ', ' + req.query.searchTerms);
     if (response) {
       res.setHeader('Content-Type', 'application/json');
       response.send(result);
