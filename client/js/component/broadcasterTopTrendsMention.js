@@ -223,7 +223,7 @@ var ProgramRow = React.createClass({
             opacity: 1
         }, 200, 'linear');
         $(this.getDOMNode()).animate({
-                height: 219
+                height: 340
             }, 200, 'linear',
             function() {
                 context.setState({
