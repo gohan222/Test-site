@@ -12,17 +12,23 @@ module.exports = {
     },
     searchByProgramId: function(programId, searchTerms, callback) {
         console.log('request searchByProgramId: ' + programId + ', ' + searchTerms);
-        /*SOCKET.on('searchByProgramId', function(msg) {
-            console.log('response searchByProgramId: ' + programId + ', ' + searchTerms);
-            if (callback) {
-                callback.apply(this, [msg]);
-            }
-        });*/
         SOCKET.emit('searchByProgramId', {
             searchTerms: searchTerms,
             programId: programId
         }, function(data){
         	console.log('response searchByProgramId: ' + programId + ', ' + searchTerms);
+            if (callback) {
+                callback.apply(this, [data]);
+            }
+        });
+    },
+    searchTopTrends:function(searchTerm, days, callback){
+    	console.log('request searchTopTrends: ' + searchTerm + ', ' + days);
+    	SOCKET.emit('searchTopTrends', {
+            searchTerm: searchTerm,
+            days: days
+        }, function(data){
+        	console.log('response searchTopTrends: ' + searchTerm + ', ' + days);
             if (callback) {
                 callback.apply(this, [data]);
             }

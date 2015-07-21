@@ -92,7 +92,7 @@ var appAction = {
 
         for (var i = 0; i < list.length; i++) {
             if (typeof SOCKET !== 'undefined') {
-                AppServiceSocket.searchByProgramId(list[i],searchTerms, function(data) {
+                AppServiceSocket.searchByProgramId(list[i], searchTerms, function(data) {
                     AppDispatcher.dispatch({
                         actionType: AppConstant.ACTION_PROGRAM_SEARCH,
                         data: data
@@ -135,6 +135,27 @@ var appAction = {
                 data: data
             });
         });
+    },
+
+    getTopTrendsMention: function(trends, filter) {
+        for (var i = 0; i < trends.length; i++) {
+            if (typeof SOCKET !== 'undefined') {
+                AppServiceSocket.searchTopTrends(trends[i], filter, function(data) {
+                    AppDispatcher.dispatch({
+                        actionType: AppConstant.ACTION_GET_TOP_TRENDS_MENTION,
+                        data: data
+                    });
+                });
+
+            } else {
+                AppService.searchTopTrends(trends[i], filter, function(data) {
+                    AppDispatcher.dispatch({
+                        actionType: AppConstant.ACTION_GET_TOP_TRENDS_MENTION,
+                        data: data
+                    });
+                }, true, this.sendProgress);
+            }
+        };
     },
     updateFilter: function(days) {
         AppDispatcher.dispatch({

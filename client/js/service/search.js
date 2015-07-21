@@ -155,5 +155,8 @@ module.exports = {
                 callback.apply(this,[data]);
             }
         });
+    },
+    searchTopTrends:function(searchTerm, days, callback){
+
     }
 }
