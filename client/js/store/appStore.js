@@ -30,6 +30,7 @@ var filterDays = 1;
 var percentComplete = 0;
 var curTranscript;
 var curTranscriptId;
+var topTrendMention;
 
 
 function updateSearchResults(results){
@@ -88,6 +89,10 @@ function updateTranscriptId(results){
   curTranscriptId = results;
 }
 
+function updateTopTrendMention(results){
+  topTrendMention = results;
+}
+
 var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
@@ -144,6 +149,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeTranscript: function() {
     this.emit(Constants.CHANGE_TRANSCRIPT_EVENT);
+  },
+
+  emitChangeTopTrendMention: function() {
+    this.emit(Constants.CHANGE_TOP_TREND_MENTION_EVENT);
   },
 
   /**
@@ -205,6 +214,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_TRANSCRIPT_EVENT, callback);
   },
 
+  addChangeTopTrendMentionListener: function(callback) {
+    this.on(Constants.CHANGE_TOP_TREND_MENTION_EVENT, callback);
+  },
+
+  
+
   
   /**
    * @param {function} callback
@@ -264,6 +279,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
   removeChangeTranscriptListener: function(callback) {
     this.removeListener(Constants.CHANGE_TRANSCRIPT_EVENT, callback);
   },
+
+  removeChangeTopTrendMentionListener: function(callback) {
+    this.removeListener(Constants.CHANGE_TOP_TREND_MENTION_EVENT, callback);
+  },
+
+  
 
   getSearchResults: function(){
     return searchResults.records;
@@ -342,6 +363,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     return curTranscriptId;
   },
 
+  getTopTrendMention:function(){
+    return topTrendMention;
+  }
+
 });
 
 // Register callback to handle all updates
@@ -404,6 +429,10 @@ AppDispatcher.register(function(action) {
       updateTranscript(action.data);
       updateTranscriptId(action.id);
       AppStore.emitChangeTranscript();
+      break;
+    case Constants.ACTION_GET_TOP_TRENDS_MENTION:
+      updateTopTrendMention(action.data);
+      AppStore.emitChangeTopTrendMention();
       break;
     default:
       // no op

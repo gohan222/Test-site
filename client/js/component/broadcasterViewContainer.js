@@ -4,6 +4,7 @@ var React = require('react'),
 Constants = require('../constant/appConstant'),
 AppStore = require('../store/appStore'),
 BroadcasterTopTrends = require('../component/broadcasterTopTrends'),
+BroadcasterTopTrendsMention = require('../component/broadcasterTopTrendsMention'),
 BroadcasterTrendSearchTerm = require('../component/broadcasterTrendSearchTerm');
 
 module.exports = React.createClass({
@@ -25,7 +26,7 @@ module.exports = React.createClass({
     if(this.state.view === Constants.VIEW_TRENDING_SEARCH_TERMS_LIST){
       viewElem = React.createElement(BroadcasterTrendSearchTerm);
     }else{
-      viewElem = React.createElement(BroadcasterTopTrends);
+      viewElem = React.DOM.div(null, React.createElement(BroadcasterTopTrends), React.createElement(BroadcasterTopTrendsMention));
     }
     return viewElem;
   }

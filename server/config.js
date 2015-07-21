@@ -5,6 +5,10 @@ if (config.has('port')) {
   settings.port = config.get('port');
 }
 
+if (config.has('wsPort')) {
+  settings.wsPort = config.get('wsPort');
+}
+
 if (config.has('redirectUri')) {
   settings.redirectUri = config.get('redirectUri');
 }
@@ -55,6 +59,10 @@ if (config.has('analyticsUrl')) {
 
 if (config.has('searchDomain')) {
   settings.searchDomain = config.get('searchDomain');
+}
+
+if (config.has('socketDomain')) {
+  settings.socketDomain = config.get('socketDomain');
 }
 
 settings.sfUrlCallback = settings.redirectUri + '/confirmation';

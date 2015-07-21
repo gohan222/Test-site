@@ -35,7 +35,7 @@ var dataArray = {
 var options = {
         title: "Trending Searches",
         width: '100%',
-        height: 800,
+        height: 400,
         bar: {groupWidth: "95%"},
         legend: { position: "right" },
         animation:{

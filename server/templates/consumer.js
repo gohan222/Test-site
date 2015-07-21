@@ -1,6 +1,7 @@
 var React = require('react'),
     Utils = require('../utils'),
     Search = require('../../client/js/component/search'),
+    config = require('../config'),
     Header = require('../../client/js/component/consumerHeader');
 
 module.exports = {
@@ -13,9 +14,11 @@ module.exports = {
                     className: 'content-container'
                 },
                 React.DOM.div({
-                    id: 'app-header'
-                },
-                React.createElement(Header,{user:options.user})),
+                        id: 'app-header'
+                    },
+                    React.createElement(Header, {
+                        user: options.user
+                    })),
                 React.DOM.div({
                     id: 'app-content'
                 }, React.createElement(Search))
@@ -25,12 +28,21 @@ module.exports = {
             }),
             React.DOM.script({
                 dangerouslySetInnerHTML: {
-                    __html: 'var APP = ' + Utils.safeStringify(options ? options : {} ) + ';'
+                    __html: 'var APP = ' + Utils.safeStringify(options ? options : {}) + ';'
                 }
             }),
             React.DOM.script({
                 src: 'dist/consumer.' + options.hash + '.js',
                 type: 'text/javascript'
+            }),
+            React.DOM.script({
+                src: 'js/vendor/socket.io.js',
+                type: 'text/javascript'
+            }),
+            React.DOM.script({
+                dangerouslySetInnerHTML: {
+                    __html: 'var SOCKET = io.connect(\'' + config.socketDomain +'\');'
+                }
             })
         )))
 

@@ -14,6 +14,7 @@
 var AppDispatcher = require('../dispatcher/appDispatcher');
 var AppConstant = require('../constant/appConstant');
 var AppService = require('../service/search');
+var AppServiceSocket = require('../socket/search');
 var AppServiceUser = require('../service/user');
 var AppServiceAnalytics = require('../service/analytics');
 
@@ -38,12 +39,21 @@ var appAction = {
     },
 
     searchInit: function(searchTerms) {
-        AppService.getSearch(searchTerms, function(data) {
-            AppDispatcher.dispatch({
-                actionType: AppConstant.ACTION_SEARCH_INIT,
-                data: data
+        if (typeof SOCKET !== 'undefined') {
+            AppServiceSocket.search(searchTerms, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_SEARCH_INIT,
+                    data: data
+                });
             });
-        }, true, this.sendProgress);
+        } else {
+            AppService.getSearch(searchTerms, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_SEARCH_INIT,
+                    data: data
+                });
+            }, true, this.sendProgress);
+        }
     },
 
     changeSearchTerm: function(searchTerms) {
@@ -81,12 +91,21 @@ var appAction = {
         var list = programIds.split(',');
 
         for (var i = 0; i < list.length; i++) {
-            AppService.getSearchByProgramId(list[i], searchTerms, function(data) {
-                AppDispatcher.dispatch({
-                    actionType: AppConstant.ACTION_PROGRAM_SEARCH,
-                    data: data
+            if (typeof SOCKET !== 'undefined') {
+                AppServiceSocket.searchByProgramId(list[i], searchTerms, function(data) {
+                    AppDispatcher.dispatch({
+                        actionType: AppConstant.ACTION_PROGRAM_SEARCH,
+                        data: data
+                    });
                 });
-            }, true, this.sendProgress);
+            } else {
+                AppService.getSearchByProgramId(list[i], searchTerms, function(data) {
+                    AppDispatcher.dispatch({
+                        actionType: AppConstant.ACTION_PROGRAM_SEARCH,
+                        data: data
+                    });
+                }, true, this.sendProgress);
+            }
         }
 
 
@@ -117,6 +136,27 @@ var appAction = {
             });
         });
     },
+
+    getTopTrendsMention: function(trends, filter) {
+        for (var i = 0; i < trends.length; i++) {
+            if (typeof SOCKET !== 'undefined') {
+                AppServiceSocket.searchTopTrends(trends[i], filter, function(data) {
+                    AppDispatcher.dispatch({
+                        actionType: AppConstant.ACTION_GET_TOP_TRENDS_MENTION,
+                        data: data
+                    });
+                });
+
+            } else {
+                AppService.searchTopTrends(trends[i], filter, function(data) {
+                    AppDispatcher.dispatch({
+                        actionType: AppConstant.ACTION_GET_TOP_TRENDS_MENTION,
+                        data: data
+                    });
+                }, true, this.sendProgress);
+            }
+        };
+    },
     updateFilter: function(days) {
         AppDispatcher.dispatch({
             actionType: AppConstant.ACTION_UPDATE_FILTER,
@@ -129,7 +169,7 @@ var appAction = {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_GET_TRANSCRIPT,
                 data: data,
-                id:id
+                id: id
             });
         });
     },

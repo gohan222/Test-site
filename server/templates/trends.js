@@ -2,6 +2,7 @@ var React = require('react'),
     Utils = require('../utils'),
     Trend = require('../../client/js/component/trend'),
     Header = require('../../client/js/component/header'),
+    config = require('../config'),
     Hamburger = require('../../client/js/component/hamburger');
 
 module.exports = {
@@ -34,6 +35,15 @@ module.exports = {
             React.DOM.script({
                 src: 'dist/broadcaster.' + options.hash + '.js',
                 type: 'text/javascript'
+            }),
+            React.DOM.script({
+                src: 'js/vendor/socket.io.js',
+                type: 'text/javascript'
+            }),
+            React.DOM.script({
+                dangerouslySetInnerHTML: {
+                    __html: 'var SOCKET = io.connect(\'' + config.socketDomain +'\');'
+                }
             })
         )))
 
