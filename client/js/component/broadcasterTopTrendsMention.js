@@ -235,7 +235,7 @@ var ProgramRow = React.createClass({
     },
     render: function() {
 
-        if(!this.props.data || !this.props.data.records || this.props.data.records.length === 0){
+        if(!this.props.data){
           return React.DOM.div();
         }
 
