@@ -3,13 +3,14 @@ var service = require('../service/search'),
 
 module.exports = function(socket) {
     socket.on('search', function(data, callback) {
-        logger.debug('search request: ' + data);
+        logger.debug('search request: ' + data.searchTerms + ', ' + data.startDate + ', ' + data.endDate);
+
         var options = {
-            url: 'confidence=12&includeSnippet=true&limit=25&offset=0&q=' + data
+            url: 'confidence=12&includeSnippet=true&limit=25&offset=0&q=' + data.searchTerms + '&startDate=' + data.startDate + '&endDate=' + data.endDate
         };
 
         service.getSearchResults(options, function(err, result, response) {
-            logger.debug('search response: ' + data);
+            logger.debug('search response: ' + data.searchTerms + ', ' + data.startDate + ', ' + data.endDate);
 
             callback(JSON.parse(result));
         });
@@ -39,18 +40,13 @@ module.exports = function(socket) {
     });
 
     socket.on('searchTopTrends', function(data, callback) {
-        logger.debug('searchTopTrends request: ' + data.searchTerm + ', ' + data.days);
-        var todayDate = new Date();
-        var endDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
-        todayDate.setDate(todayDate.getDate() - data.days);
-        var startDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
-
+        logger.debug('searchTopTrends request: ' + data.searchTerm + ', ' + data.startDate + ', ' + data.endDate);
         var options = {
-            url: 'confidence=12&includeSnippet=true&limit=25&offset=0&q=' + data.searchTerm + '&startDate=' + startDate + '&endDate=' + endDate
+            url: 'confidence=12&includeSnippet=true&limit=25&offset=0&q=' + data.searchTerm + '&startDate=' + data.startDate + '&endDate=' + data.endDate
         };
 
         service.getSearchResults(options, function(err, result, response) {
-            logger.debug('searchTopTrends response: ' + data.searchTerm + ', ' + data.days);
+            logger.debug('searchTopTrends response: ' + data.searchTerm + ', ' + data.startDate + ', ' + data.endDate);
             var resBody = JSON.parse(result);
 
             callback({

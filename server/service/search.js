@@ -7,12 +7,7 @@ var COLLECTION_RELATED_TOPIC_URI
 
 var searchService = {
     getSearchResults: function(options, callback, res) {
-        var todayDate = new Date();
-        var endDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
-        todayDate.setDate(todayDate.getDate() - 14);
-        var startDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
-
-        request.get(config.searchUrl + '?' + options.url + '&startDate=' + startDate + '&endDate=' + endDate, function(error, response, body) {
+        request.get(config.searchUrl + '?' + options.url, function(error, response, body) {
             if (!error && response.statusCode === 200) {
                 if (callback) {
                     callback.apply(this, [null, body, res]);

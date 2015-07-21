@@ -5,11 +5,14 @@ var $ = require('jquery');
 module.exports = {
     getSearch: function(searchTerms, callback, isSendProgress, callbackProgress) {
         //give arbitray display of progress
-		
+		var todayDate = new Date();
+        var endDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
+        todayDate.setDate(todayDate.getDate() - 14);
+        var startDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
         $.ajax({
             type: 'GET', // 'POST' here so that _upload_ progress _also_ makes sense; 
             // Change to 'GET' if you need. 
-            url: 'search?confidence=12&includeSnippet=true&limit=25&offset=0&q=' + searchTerms,
+            url: 'search?confidence=12&includeSnippet=true&limit=25&offset=0&q=' + searchTerms + '&startDate=' + startDate + '&endDate=' + endDate,
             data: {},
             success: function(data) {
                 if (callback) {
@@ -79,15 +82,14 @@ module.exports = {
         });
     },
     getSearchByProgramId: function(programIds, searchTerms, callback, isSendProgress, callbackProgress) {
-        /*$.get('search/program?q=' + searchTerms + '&programIds=' + programIds, function(data, status) {
-            if (callback) {
-                callback.apply(this, [data]);
-            }
-        });*/
+        var todayDate = new Date();
+        var endDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
+        todayDate.setDate(todayDate.getDate() - 14);
+        var startDate = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
 		$.ajax({
             type: 'GET', // 'POST' here so that _upload_ progress _also_ makes sense; 
             // Change to 'GET' if you need. 
-            url: 'search/program?q=' + searchTerms + '&programIds=' + programIds,
+            url: 'search/program?q=' + searchTerms + '&programIds=' + programIds + '&startDate=' + startDate + '&endDate=' + endDate,
             data: {},
             success: function(data) {
                 if (callback) {
