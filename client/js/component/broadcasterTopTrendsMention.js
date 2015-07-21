@@ -320,6 +320,7 @@ module.exports = React.createClass({
     onChange: function() {
         var topTrends = AppStore.getTopTrends();
         var trendsList = [];
+        this.sortData = [];
         for (var i = 0; i < topTrends.length; i++) {
             trendsList.push(topTrends[i].term);
             this.sortData.push({searchTerm: topTrends[i].term, records:[]});
