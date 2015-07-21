@@ -154,7 +154,7 @@ var Mention = React.createClass({
 var ProgramRow = React.createClass({
     scrollIndex: 0,
     onScrollLeft: function(event) {
-        var cardWidth = 321;
+        var cardWidth = 280;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
         var curPos = (cardWidth * this.scrollIndex);
@@ -178,7 +178,7 @@ var ProgramRow = React.createClass({
     },
     onScrollRight: function(event) {
         // console.log(event);
-        var cardWidth = 321;
+        var cardWidth = 280;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
         var curPos = (cardWidth * this.scrollIndex);

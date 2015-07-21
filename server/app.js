@@ -13,12 +13,7 @@ var cluster = require('cluster'),
 
 
 //rquirement for sf secuirty review for static files.
-var workers = process.env.WORKERS || require('os').cpus().length - 1;
-
-//gurantee one worker
-if (workers <= 0) {
-    workers = 1;
-}
+var workers = process.env.WORKERS || require('os').cpus().length;
 
 function startServer() {
     var express = require('express'),
@@ -105,9 +100,9 @@ function startServer() {
 
     sio.on('connection', function(socket) {
         logger.info('user connected');
-        
+
         require('./socket/search')(socket);
-        
+
         socket.on('disconnect', function() {
             logger.info('user disconnected');
         });
@@ -117,34 +112,7 @@ function startServer() {
     // app.listen(config.port);
 };
 
-if (cluster.isMaster) {
-
-    /*logger.info('environment: ' + process.env.NODE_ENV);
-    logger.info('port: ' + config.port);
-    logger.info('start cluster with %s workers', workers);
-
-    for (var i = 0; i < workers; ++i) {
-        var worker = cluster.fork().process;
-        logger.debug('worker %s started.', worker.pid);
-    }*/
-
-    //sticky session on master to start cluster process
-    var express = require('express')();
-    var server = require('http').createServer(express);
-    var sticky = require('sticky-session');
-
-    sticky(server).listen(config.port, function() {
-        console.log('is master: ' + cluster.isMaster);
-        console.log('server started on ' + config.port + ' port');
-    });
-
-    cluster.on('exit', function(worker) {
-        logger.info('worker %s died. restart...', worker.process.pid);
-        cluster.fork();
-    });
-
-} else {
-
+function preprocess(callback) {
     var ExtractTextPlugin = require("extract-text-webpack-plugin"),
         compilerSettings = {
             entry: {
@@ -199,8 +167,50 @@ if (cluster.isMaster) {
             return;
         }
 
-        startServer();
+        // startServer();
+        if (callback) {
+            callback.apply(this, []);
+        }
 
+    });
+};
+
+if (cluster.isMaster) {
+
+    /*logger.info('environment: ' + process.env.NODE_ENV);
+    logger.info('port: ' + config.port);
+    logger.info('start cluster with %s workers', workers);
+
+    for (var i = 0; i < workers; ++i) {
+        var worker = cluster.fork().process;
+        logger.debug('worker %s started.', worker.pid);
+    }*/
+
+    //sticky session on master to start cluster process
+    var express = require('express')();
+    var server = require('http').createServer(express);
+    var sticky = require('sticky-session');
+
+    sticky(server).listen(config.port, function() {
+        console.log('is master: ' + cluster.isMaster);
+        console.log('server started on ' + config.port + ' port');
+    });
+
+    cluster.on('exit', function(worker) {
+        logger.info('worker %s died. restart...', worker.process.pid);
+        cluster.fork();
+    });
+
+    //if there is only one core available then master has to handle workload
+    if (workers === 1) {
+        preprocess(function() {
+            startServer();
+        });
+    }
+
+} else {
+    preprocess(function() {
+        startServer();
     });
 }
 

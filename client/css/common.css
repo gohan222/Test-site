@@ -430,7 +430,7 @@
   margin: 10px 5px 10px 5px;
   border: solid 1px #ffffff;
   height: 320px;
-  width: 310px;
+  width: 270px;
 }
 
 .trend-mention-air-date{
@@ -471,7 +471,7 @@
 .trend-card-spacer{
   border-right: 1px solid #cccccc;
   display: inline-block;
-  height: 165px;
+  height: 280px;
   margin: auto;
 }
 
@@ -507,7 +507,7 @@
   height: 48px;
   top: 150px;
   position: absolute;
-  left: 205px;
+  left: 240px;
   display: inline-block;
   opacity: 0;
   text-align: center;
@@ -634,7 +634,7 @@
 }
 
 .trend-avtr2{
-  margin: 10px 0px 0px 100px;
+  margin: 10px 0px 0px 80px;
   width: 88px;
   height: 88px;
   border-radius: 100%;
@@ -648,10 +648,12 @@
 .trend-title2{
   font-size: 14px;
   /* height: 100%; */
-  width: 285px;
+  width: 257px;
   /* vertical-align: top; */
   text-align: center;
   margin-top: 10px;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
 .trend-title3{
