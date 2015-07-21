@@ -37,12 +37,12 @@ module.exports = {
                 type: 'text/javascript'
             }),
             React.DOM.script({
-                src: '/socket.io/socket.io.js',
+                src: 'js/vendor/socket.io.js',
                 type: 'text/javascript'
             }),
             React.DOM.script({
                 dangerouslySetInnerHTML: {
-                    __html: 'var SOCKET = io.connect(\'' + config.domain + ':'+ config.port +'\');'
+                    __html: 'var SOCKET = io.connect(\'' + config.socketDomain +'\');'
                 }
             })
         )))

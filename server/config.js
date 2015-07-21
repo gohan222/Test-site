@@ -57,8 +57,8 @@ if (config.has('searchDomain')) {
   settings.searchDomain = config.get('searchDomain');
 }
 
-if (config.has('domain')) {
-  settings.domain = config.get('domain');
+if (config.has('socketDomain')) {
+  settings.socketDomain = config.get('socketDomain');
 }
 
 settings.sfUrlCallback = settings.redirectUri + '/confirmation';

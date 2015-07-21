@@ -647,9 +647,7 @@
 
 .trend-title2{
   font-size: 14px;
-  /* height: 100%; */
   width: 257px;
-  /* vertical-align: top; */
   text-align: center;
   margin-top: 10px;
   overflow-x: hidden;
@@ -658,9 +656,7 @@
 
 .trend-title3{
   font-size: 20px;
-  /* height: 100%; */
   width: 285px;
-  /* vertical-align: top; */
   text-align: center;
   margin-top: 160px;
 }

@@ -201,13 +201,6 @@ if (cluster.isMaster) {
         cluster.fork();
     });
 
-    //if there is only one core available then master has to handle workload
-    if (workers === 1) {
-        preprocess(function() {
-            startServer();
-        });
-    }
-
 } else {
     preprocess(function() {
         startServer();
