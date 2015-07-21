@@ -654,9 +654,3 @@ body.modal-open {overflow: hidden;}
 .coll-cover-style{
 	width:100%;
 }
-
-.prog-avtr-style{
-	height:100%;
-	clip-path: circle(43px at 43px 43px);
-	-webkit-clip-path: circle(43px at 43px 43px);
-}

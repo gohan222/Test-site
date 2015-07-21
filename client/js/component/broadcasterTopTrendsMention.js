@@ -45,14 +45,14 @@ var Mention = React.createClass({
     render: function() {
 
         var airDate = React.DOM.i({
-            className: 'program-mention-air-date'
+            className: 'trend-mention-air-date'
         }, React.createElement(TimeAgo, {
             date: this.props.data.mediaStartTime
         }));
 
         //program info
         var expandIcon = React.DOM.span({
-                className: 'fa-stack program-card-play-icon icon-prop icon-prop-animation program-fa-stacked-play-icon clickable',
+                className: 'fa-stack trend-card-play-icon icon-prop icon-prop-animation trend-fa-stacked-play-icon clickable',
                 onClick: this.onExpand
             },
             React.DOM.i({
@@ -62,20 +62,36 @@ var Mention = React.createClass({
                 className: 'fa fa-expand fa-stack-1x fa-inverse'
             }));
         /*var expandIcon = React.DOM.i({
-            className: 'fa fa-plus-circle program-card-play-icon icon-prop icon-prop-animation clickable',
+            className: 'fa fa-plus-circle trend-card-play-icon icon-prop icon-prop-animation clickable',
             onClick: this.props.onExpand.bind(null,this.props.data)
         });*/
+        var backgroundImage = React.DOM.div({
+                className: 'trend-avtr2'
+            },
+            React.createElement(LazyLoadImg, {
+                src: this.props.data.programLiveImage,
+                className: 'trend-avtr-style'
+            }));
+        var programName = React.DOM.div({
+            className: 'm5 bold'
+        }, React.DOM.a(null, this.props.data.programName));
+        var programNameContainer = React.DOM.div({
+            className: 'trend-title2'
+        }, programName);
 
+        var programContainer = React.DOM.div({
+            className: 'trend-container'
+        }, backgroundImage, programNameContainer)
 
 
         var playIcon, mentionContainer;
         if (this.state.isPlaying) {
             playIcon = React.DOM.i({
-                className: 'fa fa-times-circle program-card-play-icon icon-prop icon-prop-animation clickable',
+                className: 'fa fa-times-circle trend-card-play-icon icon-prop icon-prop-animation clickable',
                 onClick: this.onCloseClick
             });
             mentionContainer = React.DOM.div({
-                className: 'program-list-mention-player'
+                className: 'trend-list-mention-player'
             }, React.createElement(Player, {
                 src: Utils.mediaUrl(this.props.data),
                 poster: this.props.data.programLiveImage,
@@ -83,19 +99,19 @@ var Mention = React.createClass({
             }));
         } else {
             playIcon = React.DOM.i({
-                className: 'fa fa-play-circle program-card-play-icon icon-prop icon-prop-animation clickable',
+                className: 'fa fa-play-circle trend-card-play-icon icon-prop icon-prop-animation clickable',
                 onClick: this.onPlayClick
             });
             //add mention snippet
             mentionContainer = React.DOM.p({
-                className: 'program-list-mention-text'
+                className: 'trend-list-mention-text'
             }, React.DOM.span({
                 className: 'cur-point ui-snip-text'
             }, this.getSnippetText(this.props.data.mentionSnippet)));
         }
 
         var iconContainer = React.DOM.div({
-                className: 'program-card-icon-container program-card-icon-animation'
+                className: 'trend-card-icon-container trend-card-icon-animation'
             },
             expandIcon, playIcon)
 
@@ -105,19 +121,19 @@ var Mention = React.createClass({
 
         if (this.props.data.mediaSourceTypeId === 2) {
             mediaType = React.DOM.i({
-                className: 'fa fa-video-camera program-card-icon'
+                className: 'fa fa-video-camera trend-card-icon'
             });
         } else if (this.props.data.mediaSourceTypeId === 3) {
             mediaType = React.DOM.i({
-                className: 'fa fa-youtube-play program-card-icon'
+                className: 'fa fa-youtube-play trend-card-icon'
             });
         } else if (this.props.data.mediaSourceTypeId === 4) {
             mediaType = React.DOM.i({
-                className: 'fa fa-rss program-card-icon'
+                className: 'fa fa-rss trend-card-icon'
             });
         } else {
             mediaType = React.DOM.i({
-                className: 'fa fa-microphone program-card-icon'
+                className: 'fa fa-microphone trend-card-icon'
             });
         }
 
@@ -127,8 +143,8 @@ var Mention = React.createClass({
             iconContainer);
 
         var holder = React.DOM.div({
-            className: 'program-card program-card-animation clickable'
-        }, mentionContainer, footer);
+            className: 'trend-card trend-card-animation clickable'
+        },programContainer, mentionContainer, footer);
 
 
         return holder;
@@ -225,55 +241,42 @@ var ProgramRow = React.createClass({
 
         var mentionNodes = this.props.data.records.map(function(mention) {
             return React.DOM.div({
-                className: 'program-card-container'
+                className: 'trend-card-container'
             }, React.createElement(Mention, {
                 data: mention,
                 onExpand: this.onExpand,
             }), React.DOM.div({
-                className: 'program-card-spacer'
+                className: 'trend-card-spacer'
             }));
         }, this);
 
-        //referenced mention
-        var refmention = this.props.data.records[0];
-
-        //program info
-        var programInfo = React.DOM.div();
-        var backgroundImage = React.DOM.div({
-                className: 'prog-avtr2'
-            },
-            React.createElement(LazyLoadImg, {
-                src: refmention.programLiveImage,
-                className: 'prog-avtr-style'
-            }));
-
         //add porgram name
         var leftArrow = React.DOM.div({
-            className: 'prog-left-arrow animation-1 clickable',
+            className: 'trend-left-arrow animation-1 clickable',
             onClick: this.onScrollLeft
         }, React.DOM.div({
-            className: 'prog-arrow-background'
+            className: 'trend-arrow-background'
         }), React.DOM.i({
             className: 'fa fa-chevron-left'
         }));
         var rightArrow = React.DOM.div({
-            className: 'prog-right-arrow animation-1 clickable',
+            className: 'trend-right-arrow animation-1 clickable',
             onClick: this.onScrollRight
         }, React.DOM.div({
-            className: 'prog-arrow-background'
+            className: 'trend-arrow-background'
         }), React.DOM.i({
             className: 'fa fa-chevron-right'
         }));
         var programName = React.DOM.div({
             className: 'm5 bold'
-        }, React.DOM.a(null, refmention.programName));
+        }, React.DOM.a(null, this.props.data.searchTerm));
         var programNameContainer = React.DOM.div({
-            className: 'prog-title2'
+            className: 'trend-title3'
         }, programName);
 
         var programContainer = React.DOM.div({
-            className: 'program-container'
-        }, backgroundImage, programNameContainer)
+            className: 'trend-container'
+        }, programNameContainer)
 
         var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
             className: 'scroll-animation',
@@ -303,9 +306,9 @@ var ProgramRow = React.createClass({
         });
 
         var container = React.DOM.li({
-            className: this.state.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation'
+            className: this.state.isExpanding ? 'trend-list-row-active background-color-animation' : 'trend-list-row background-color-animation'
         }, programContainer, React.DOM.div({
-            className: 'program-list-mention-container'
+            className: 'trend-list-mention-container'
         }, animationElement, expandedMention), leftArrow, rightArrow);
 
         return container;
@@ -366,7 +369,7 @@ module.exports = React.createClass({
         }, programNodes);
 
         return React.DOM.ul({
-            className: 'program-list-result'
+            className: 'trend-list-result'
         }, animationElement);
     }
 });
