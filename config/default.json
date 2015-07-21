@@ -1,6 +1,7 @@
 {
   "port": 9090,
-  "socketDomain": "http://localhost:9090",
+  "wsPort": 8080,
+  "socketDomain": "http://localhost:8080",
   "searchDomain":"https://core.veritone.com",
   "searchUrl":"https://core.veritone.com/search",
   "collectionUrl":"http://services.dev-puma.veritone.com/cn-collection-mgmt",

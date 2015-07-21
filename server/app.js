@@ -18,12 +18,12 @@ var workers = process.env.WORKERS || require('os').cpus().length;
 function startServer() {
     var express = require('express'),
         app = express();
-    var server = require('http').createServer(app),
+    var server = require('http').createServer(),
         sio = require('socket.io').listen(server),
         sticky = require('sticky-session');
 
-    sticky(server).listen(config.port, function() {
-        console.log('server started on ' + config.port + ' port');
+    sticky(server).listen(config.wsPort, function() {
+        console.log('server started on ' + config.wsPort + ' port');
     });
 
     var client = redis.createClient();
@@ -109,7 +109,7 @@ function startServer() {
     });
 
 
-    // app.listen(config.port);
+    app.listen(config.port);
 };
 
 function preprocess(callback) {
@@ -191,9 +191,9 @@ if (cluster.isMaster) {
     var server = require('http').createServer(express);
     var sticky = require('sticky-session');
 
-    sticky(server).listen(config.port, function() {
+    sticky(server).listen(config.wsPort, function() {
         console.log('is master: ' + cluster.isMaster);
-        console.log('server started on ' + config.port + ' port');
+        console.log('server started on ' + config.wsPort + ' port');
     });
 
     cluster.on('exit', function(worker) {

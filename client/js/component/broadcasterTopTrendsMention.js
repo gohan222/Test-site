@@ -69,7 +69,7 @@ var Mention = React.createClass({
                 className: 'trend-avtr2'
             },
             React.createElement(LazyLoadImg, {
-                src: this.props.data.programLiveImage,
+                src: this.props.data.programImage,
                 className: 'trend-avtr-style'
             }));
         var programName = React.DOM.div({

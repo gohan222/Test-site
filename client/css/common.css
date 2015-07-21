@@ -609,7 +609,7 @@
   overflow: hidden;
   display: block;
   vertical-align: top;
-  height: calc(100% - 16px);
+  height: calc(100% - 150px);
 }
 
 .trend-list-mention-container{
