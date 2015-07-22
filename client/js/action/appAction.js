@@ -164,6 +164,13 @@ var appAction = {
         });
     },
 
+    filterTopMention:function(index) {
+        AppDispatcher.dispatch({
+            actionType: AppConstant.ACTION_FILTER_TOP_TRENDS_MENTION,
+            data: index
+        });
+    },
+
     getTranscript: function(id, startTime, endTime) {
         AppService.getTranscript(id, startTime, endTime, function(data) {
             AppDispatcher.dispatch({

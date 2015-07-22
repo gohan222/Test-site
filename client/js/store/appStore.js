@@ -31,6 +31,7 @@ var percentComplete = 0;
 var curTranscript;
 var curTranscriptId;
 var topTrendMention;
+var filterTopTrendMention;
 
 
 function updateSearchResults(results){
@@ -93,6 +94,10 @@ function updateTopTrendMention(results){
   topTrendMention = results;
 }
 
+function updateFilterTopTrendMention(results){
+  filterTopTrendMention = results;
+}
+
 var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
@@ -153,6 +158,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeTopTrendMention: function() {
     this.emit(Constants.CHANGE_TOP_TREND_MENTION_EVENT);
+  },
+
+  emitChangeFilterTopTrendMention:function(){
+    this.emit(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT);
   },
 
   /**
@@ -218,7 +227,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_TOP_TREND_MENTION_EVENT, callback);
   },
 
-  
+  addChangeFilterTopTrendMentionListener: function(callback) {
+    this.on(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
+  },  
 
   
   /**
@@ -284,7 +295,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.removeListener(Constants.CHANGE_TOP_TREND_MENTION_EVENT, callback);
   },
 
-  
+  removeChangeFilterTopTrendMentionListener: function(callback) {
+    this.removeListener(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
+  },
 
   getSearchResults: function(){
     return searchResults.records;
@@ -365,8 +378,11 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getTopTrendMention:function(){
     return topTrendMention;
-  }
+  },
 
+  getFilterTopTrendMention:function(){
+    return filterTopTrendMention;
+  }
 });
 
 // Register callback to handle all updates
@@ -433,6 +449,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_GET_TOP_TRENDS_MENTION:
       updateTopTrendMention(action.data);
       AppStore.emitChangeTopTrendMention();
+      break;
+    case Constants.ACTION_FILTER_TOP_TRENDS_MENTION:
+      updateFilterTopTrendMention(action.data);
+      AppStore.emitChangeFilterTopTrendMention();
       break;
     default:
       // no op

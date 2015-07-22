@@ -316,6 +316,13 @@ var ProgramRow = React.createClass({
 });
 
 module.exports = React.createClass({
+    onChangeFilterTopTrendMention:function(){
+      var index = AppStore.getFilterTopTrendMention();
+
+      this.setState({
+            data: index >= 0 ? [this.sortData[index]] : this.sortData
+        });      
+    },
     sortData: [],
     onChange: function() {
         var topTrends = AppStore.getTopTrends();
@@ -342,15 +349,19 @@ module.exports = React.createClass({
         }
       }
 
-      this.setState({data:this.sortData});
+      var index = AppStore.getFilterTopTrendMention();
+
+      this.setState({data: index >= 0 ? [this.sortData[index]] : this.sortData});
     },
     componentDidMount: function() {
         AppStore.addChangeTopTrendsListener(this.onChange);
         AppStore.addChangeTopTrendMentionListener(this.onChangeTopTrend);
+        AppStore.addChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
     },
     componentWillUnmount: function() {
         AppStore.removeChangeTopTrendsListener(this.onChange);
         AppStore.removeChangeTopTrendMentionListener(this.onChangeTopTrend);
+        AppStore.removeChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
     },
     getInitialState:function(){
       return {data: []};
