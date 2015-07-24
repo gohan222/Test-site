@@ -248,8 +248,7 @@
 }
 
 .exp-column-container{
-  height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
   white-space: nowrap;
 }
 
@@ -360,8 +359,8 @@
 }
 
 .ui-exp-coll{
-  height:100%;
-  overflow: auto;
+  /*height:100%;
+  overflow: auto;*/
 }
 
 /**
