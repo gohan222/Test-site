@@ -2,6 +2,7 @@
 
 var React = require('react'),
     $ = require('jquery'),
+    PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
     LazyLoadImg = require('../component/image'),
@@ -12,6 +13,7 @@ var React = require('react'),
     Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
+    // mixins: [PureRenderMixin],
     getSnippetText: function(snippets) {
         var text = '';
         if (!snippets) {
@@ -152,6 +154,7 @@ var Mention = React.createClass({
 });
 
 var ProgramRow = React.createClass({
+    // mixins: [PureRenderMixin],
     scrollIndex: 0,
     onScrollLeft: function(event) {
         var cardWidth = 280;
@@ -316,6 +319,7 @@ var ProgramRow = React.createClass({
 });
 
 module.exports = React.createClass({
+    // mixins: [PureRenderMixin],
     onChangeFilterTopTrendMention:function(){
       var index = AppStore.getFilterTopTrendMention();
 

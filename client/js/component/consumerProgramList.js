@@ -2,6 +2,7 @@
 
 var React = require('react'),
     $ = require('jquery'),
+    PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
     LazyLoadImg = require('../component/image'),
@@ -9,21 +10,11 @@ var React = require('react'),
     ExpandedMention = require('../component/expandedMention'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
+    Immutable = require('immutable'),
     Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
-    getSnippetText: function(snippets) {
-        var text = '';
-        if (!snippets) {
-            return text;
-        }
-
-        for (var i = 0; i < snippets.length; i++) {
-            text += snippets[i].text;
-        };
-
-        return text;
-    },
+    mixins: [PureRenderMixin],
     onPlayClick: function(event) {
         this.setState({
             isPlaying: true
@@ -47,7 +38,7 @@ var Mention = React.createClass({
         var airDate = React.DOM.i({
             className: 'program-mention-air-date'
         }, React.createElement(TimeAgo, {
-            date: this.props.data.mediaStartTime
+            date: this.props.data.get('mediaStartTime')
         }));
 
         //program info
@@ -78,8 +69,8 @@ var Mention = React.createClass({
                 className: 'program-list-mention-player'
             }, React.createElement(Player, {
                 src: Utils.mediaUrl(this.props.data),
-                poster: this.props.data.programLiveImage,
-                fileType: this.props.data.fileType
+                poster: this.props.data.get('programLiveImage'),
+                fileType: this.props.data.get('fileType')
             }));
         } else {
             playIcon = React.DOM.i({
@@ -91,7 +82,7 @@ var Mention = React.createClass({
                 className: 'program-list-mention-text'
             }, React.DOM.span({
                 className: 'cur-point ui-snip-text'
-            }, this.getSnippetText(this.props.data.mentionSnippet)));
+            }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
         }
 
         var iconContainer = React.DOM.div({
@@ -103,15 +94,15 @@ var Mention = React.createClass({
         //media type
         var mediaType;
 
-        if (this.props.data.mediaSourceTypeId === 2) {
+        if (this.props.data.get('mediaSourceTypeId') === 2) {
             mediaType = React.DOM.i({
                 className: 'fa fa-video-camera program-card-icon'
             });
-        } else if (this.props.data.mediaSourceTypeId === 3) {
+        } else if (this.props.data.get('mediaSourceTypeId') === 3) {
             mediaType = React.DOM.i({
                 className: 'fa fa-youtube-play program-card-icon'
             });
-        } else if (this.props.data.mediaSourceTypeId === 4) {
+        } else if (this.props.data.get('mediaSourceTypeId') === 4) {
             mediaType = React.DOM.i({
                 className: 'fa fa-rss program-card-icon'
             });
@@ -136,6 +127,7 @@ var Mention = React.createClass({
 });
 
 var ProgramRow = React.createClass({
+    mixins: [PureRenderMixin],
     scrollIndex: 0,
     onScrollLeft: function(event) {
         var cardWidth = 321;
@@ -144,7 +136,7 @@ var ProgramRow = React.createClass({
         var curPos = (cardWidth * this.scrollIndex);
         var viewableCards = Math.floor(parentWidth/cardWidth);
 
-        if(viewableCards >= this.props.data.length){
+        if(viewableCards >= this.props.data.size){
             return;
         }else if (this.scrollIndex - viewableCards < 0){
             this.scrollIndex = 0;
@@ -169,10 +161,10 @@ var ProgramRow = React.createClass({
         var viewableCards = Math.floor(parentWidth/cardWidth);
 
         // this.scrollIndex++;
-        if(viewableCards >= this.props.data.length){
+        if(viewableCards >= this.props.data.size){
             return;
-        }else if(viewableCards + this.scrollIndex >= this.props.data.length){
-            this.scrollIndex = this.props.data.length - viewableCards;
+        }else if(viewableCards + this.scrollIndex >= this.props.data.size){
+            this.scrollIndex = this.props.data.size - viewableCards;
         }else{
             this.scrollIndex += viewableCards - 1;
         }
@@ -218,6 +210,10 @@ var ProgramRow = React.createClass({
 
     },
     render: function() {
+        if(!this.props.data || this.props.data.size === 0){
+            return React.DOM.span();
+        }
+
         var mentionNodes = this.props.data.map(function(mention) {
             return React.DOM.div({
                 className: 'program-card-container'
@@ -230,7 +226,7 @@ var ProgramRow = React.createClass({
         }, this);
 
         //referenced mention
-        var refmention = this.props.data[0];
+        var refmention = this.props.data.get(0);
 
         //program info
         var programInfo = React.DOM.div();
@@ -238,7 +234,7 @@ var ProgramRow = React.createClass({
                 className: 'prog-avtr2'
             },
             React.createElement(LazyLoadImg, {
-                src: refmention.programLiveImage,
+                src: refmention.get('programLiveImage'),
                 className: 'prog-avtr-style'
             }));
 
@@ -261,7 +257,7 @@ var ProgramRow = React.createClass({
         }));
         var programName = React.DOM.div({
             className: 'm5 bold'
-        }, React.DOM.a(null, refmention.programName));
+        }, React.DOM.a(null, refmention.get('programName')));
         var programNameContainer = React.DOM.div({
             className: 'prog-title2'
         }, programName);
@@ -308,22 +304,23 @@ var ProgramRow = React.createClass({
 });
 
 module.exports = React.createClass({
+    mixins: [PureRenderMixin],
     sortedResult: null,
     sortData: function(mentions) {
         var hash = {};
-        var collection = [];
+        var collection = Immutable.List.of();
 
         if (!mentions) {
             return collection;
         }
 
-        for (var i = 0; i < mentions.length; i++) {
-            var mention = mentions[i];
-            if (!hash[mention.programId]) {
-                hash[mention.programId] = [mention];
-                collection.push(hash[mention.programId]);
+        for (var i = 0; i < mentions.size; i++) {
+            var mention = mentions.get(i);
+            if (!hash[mention.get('programId')]) {
+                hash[mention.get('programId')] = Immutable.List.of(mention);
+                collection = collection.push(hash[mention.get('programId')]);
             } else {
-                hash[mention.programId].push(mention);
+                hash[mention.get('programId')] = hash[mention.get('programId')].push(mention);
             }
         };
 
@@ -331,12 +328,12 @@ module.exports = React.createClass({
     },
     getProgramSearches: function(sortedMention) {
         var programIds = '';
-        for (var i = 0; i < sortedMention.length; i++) {
-            var mention = sortedMention[i][0];
+        for (var i = 0; i < sortedMention.size; i++) {
+            var mention = sortedMention.get(i).get(0);
             if (!programIds) {
-                programIds = mention.programId;
+                programIds = mention.get('programId');
             } else {
-                programIds += ',' + mention.programId;
+                programIds += ',' + mention.get('programId');
             }
         };
 
@@ -361,28 +358,31 @@ module.exports = React.createClass({
         var programSearchResult = AppStore.getProgramsSearch();
         var context = this;
         // this.sortedResult = this.sortData(programSearchResult);
-        if (!programSearchResult || programSearchResult.length === 0) {
+        if (!programSearchResult || programSearchResult.size === 0) {
             return;
         }
 
         // var mention = programSearchResult[0],
         // mentionsList = null;
-        for (var i = 0; i < programSearchResult.length; i++) {
-            var psr = programSearchResult[i];
-            for (var i = 0; i < this.sortedResult.length; i++) {
-                if (this.sortedResult[i][0].programId === psr.programId) {
-                    this.sortedResult[i] = psr.records;
+        for (var i = 0; i < programSearchResult.size; i++) {
+            var psr = programSearchResult.get(i);
+            for (var i = 0; i < this.sortedResult.size; i++) {
+                if (this.sortedResult.get(i).get(0).get('programId') === psr.get('programId')) {
+                    this.sortedResult = this.sortedResult.set(i,psr.get('records'));
                     break;
                 }
             };
         };
 
-
-        setTimeout(function() {
-            context.setState({
+        this.setState({
                 data: context.sortedResult
             });
-        }, 500);
+
+        // setTimeout(function() {
+        //     context.setState({
+        //         data: context.sortedResult
+        //     });
+        // }, 100);
 
         // AppAction.sendProgress(0);
     },

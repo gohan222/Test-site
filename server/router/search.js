@@ -37,14 +37,14 @@ router.get('/transcript/:id', function(req, res) {
 });
 
 router.get('/program', function(req, res) {
-  logger.debug('searchByProgramId request: ' + req.query.programId + ', ' + req.query.searchTerms);
+  logger.debug('searchByProgramId request: ' + req.query.programIds + ', ' + req.query.q);
   var options = {
     programIds : req.query.programIds,
     searchTerms : req.query.q
   };
 
   service.getSearchByPrograms(options, function(err, result, response) {
-    logger.debug('searchByProgramId response: ' + req.query.programId + ', ' + req.query.searchTerms);
+    logger.debug('searchByProgramId response: ' + req.query.programIds + ', ' + req.query.q);
     if (response) {
       res.setHeader('Content-Type', 'application/json');
       response.send(result);

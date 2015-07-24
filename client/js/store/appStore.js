@@ -14,28 +14,29 @@
 var AppDispatcher = require('../dispatcher/appDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var Constants = require('../constant/appConstant');
+var Immutable = require('immutable');
 var assign = require('object-assign');
 
-var searchResults = [];
-var relatedTopics = [];
-var relatedCollections = [];
-var searchTerms = '';
+var searchResults = null;
+var relatedTopics = null;
+var relatedCollections = null;
+var searchTerms = null;
 var user = null;
-var currentView = '';
-var programSearchResult;
-var mentions = [];
-var topTrends = [];
-var trends = [];
-var filterDays = 1;
-var percentComplete = 0;
-var curTranscript;
-var curTranscriptId;
-var topTrendMention;
-var filterTopTrendMention;
+var currentView = null;
+var programSearchResult = null;
+var mentions  = null;
+var topTrends = null;
+var trends  = null;
+var filterDays  = null;
+var percentComplete  = null;
+var curTranscript  = null;
+var curTranscriptId  = null;
+var topTrendMention  = null;
+var filterTopTrendMention  = null;
 
 
 function updateSearchResults(results){
-  searchResults = results;
+  searchResults = Immutable.fromJS(results);
 }
 
 function updateRelatedTopics(results){
@@ -59,7 +60,7 @@ function updateView(results){
 }
 
 function updateProgramSearch(results){
-  programSearchResult = results;
+  programSearchResult = Immutable.fromJS(results);
 }
 
 function updateMentions(results){
@@ -300,7 +301,12 @@ var AppStore = assign({}, EventEmitter.prototype, {
   },
 
   getSearchResults: function(){
-    return searchResults.records;
+    if(searchResults){
+      return searchResults.get('records');  
+    }else{
+      return [];
+    }
+    
   },
   
   getSearchTerms: function(){
@@ -309,7 +315,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getSearchResultsCount: function(){
     if (searchResults){
-      return searchResults.totalRecords;
+      return searchResults.get('totalRecords');
     }else{
       return 0;
     }
@@ -341,7 +347,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getProgramsSearch: function(){
     if(programSearchResult){
-      return programSearchResult.records;  
+      return programSearchResult.get('records');  
     }else{
       return null;
     }
