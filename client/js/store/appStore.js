@@ -32,7 +32,7 @@ var percentComplete  = null;
 var curTranscript  = null;
 var curTranscriptId  = null;
 var topTrendMention  = null;
-var filterTopTrendMention  = null;
+var filterTopTrendMention  = -1;
 
 
 function updateSearchResults(results){
@@ -68,7 +68,7 @@ function updateMentions(results){
 }
 
 function updateTopTrends(results){
-  topTrends = results;
+  topTrends = Immutable.fromJS(results);
 }
 
 function updateTrends(results){
@@ -92,7 +92,7 @@ function updateTranscriptId(results){
 }
 
 function updateTopTrendMention(results){
-  topTrendMention = results;
+  topTrendMention = Immutable.fromJS(results);
 }
 
 function updateFilterTopTrendMention(results){

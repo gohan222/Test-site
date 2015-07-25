@@ -10,22 +10,11 @@ var React = require('react'),
     ExpandedMention = require('../component/expandedMention'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
+    Immutable = require('immutable'),
     Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
-    // mixins: [PureRenderMixin],
-    getSnippetText: function(snippets) {
-        var text = '';
-        if (!snippets) {
-            return text;
-        }
-
-        for (var i = 0; i < snippets.length; i++) {
-            text += snippets[i].text;
-        };
-
-        return text;
-    },
+    mixins: [PureRenderMixin],
     onPlayClick: function(event) {
         this.setState({
             isPlaying: true
@@ -49,7 +38,7 @@ var Mention = React.createClass({
         var airDate = React.DOM.i({
             className: 'trend-mention-air-date'
         }, React.createElement(TimeAgo, {
-            date: this.props.data.mediaStartTime
+            date: this.props.data.get('mediaStartTime')
         }));
 
         //program info
@@ -71,12 +60,12 @@ var Mention = React.createClass({
                 className: 'trend-avtr2'
             },
             React.createElement(LazyLoadImg, {
-                src: this.props.data.programImage,
+                src: this.props.data.get('programImage'),
                 className: 'trend-avtr-style'
             }));
         var programName = React.DOM.div({
             className: 'm5 bold'
-        }, React.DOM.a(null, this.props.data.programName));
+        }, React.DOM.a(null, this.props.data.get('programName')));
         var programNameContainer = React.DOM.div({
             className: 'trend-title2'
         }, programName);
@@ -96,8 +85,8 @@ var Mention = React.createClass({
                 className: 'trend-list-mention-player'
             }, React.createElement(Player, {
                 src: Utils.mediaUrl(this.props.data),
-                poster: this.props.data.programLiveImage,
-                fileType: this.props.data.fileType
+                poster: this.props.data.get('programLiveImage'),
+                fileType: this.props.data.get('fileType')
             }));
         } else {
             playIcon = React.DOM.i({
@@ -109,7 +98,7 @@ var Mention = React.createClass({
                 className: 'trend-list-mention-text'
             }, React.DOM.span({
                 className: 'cur-point ui-snip-text'
-            }, this.getSnippetText(this.props.data.mentionSnippet)));
+            }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
         }
 
         var iconContainer = React.DOM.div({
@@ -121,15 +110,15 @@ var Mention = React.createClass({
         //media type
         var mediaType;
 
-        if (this.props.data.mediaSourceTypeId === 2) {
+        if (this.props.data.get('mediaSourceTypeId') === 2) {
             mediaType = React.DOM.i({
                 className: 'fa fa-video-camera trend-card-icon'
             });
-        } else if (this.props.data.mediaSourceTypeId === 3) {
+        } else if (this.props.data.get('mediaSourceTypeId') === 3) {
             mediaType = React.DOM.i({
                 className: 'fa fa-youtube-play trend-card-icon'
             });
-        } else if (this.props.data.mediaSourceTypeId === 4) {
+        } else if (this.props.data.get('mediaSourceTypeId') === 4) {
             mediaType = React.DOM.i({
                 className: 'fa fa-rss trend-card-icon'
             });
@@ -154,7 +143,7 @@ var Mention = React.createClass({
 });
 
 var ProgramRow = React.createClass({
-    // mixins: [PureRenderMixin],
+    mixins: [PureRenderMixin],
     scrollIndex: 0,
     onScrollLeft: function(event) {
         var cardWidth = 280;
@@ -242,7 +231,7 @@ var ProgramRow = React.createClass({
           return React.DOM.div();
         }
 
-        var mentionNodes = this.props.data.records.map(function(mention) {
+        var mentionNodes = this.props.data.get('records').map(function(mention) {
             return React.DOM.div({
                 className: 'trend-card-container'
             }, React.createElement(Mention, {
@@ -272,7 +261,7 @@ var ProgramRow = React.createClass({
         }));
         var programName = React.DOM.div({
             className: 'm5 bold'
-        }, React.DOM.a(null, this.props.data.searchTerm));
+        }, React.DOM.a(null, this.props.data.get('searchTerm')));
         var programNameContainer = React.DOM.div({
             className: 'trend-title3'
         }, programName);
@@ -319,7 +308,7 @@ var ProgramRow = React.createClass({
 });
 
 module.exports = React.createClass({
-    // mixins: [PureRenderMixin],
+    mixins: [PureRenderMixin],
     onChangeFilterTopTrendMention:function(){
       var index = AppStore.getFilterTopTrendMention();
 
@@ -327,14 +316,14 @@ module.exports = React.createClass({
             data: index >= 0 ? [this.sortData[index]] : this.sortData
         });      
     },
-    sortData: [],
+    sortData: Immutable.List.of(),
     onChange: function() {
         var topTrends = AppStore.getTopTrends();
         var trendsList = [];
-        this.sortData = [];
-        for (var i = 0; i < topTrends.length; i++) {
-            trendsList.push(topTrends[i].term);
-            this.sortData.push({searchTerm: topTrends[i].term, records:[]});
+        this.sortData = Immutable.List.of();
+        for (var i = 0; i < topTrends.size; i++) {
+            trendsList.push(topTrends.get(i).get('term'));
+            this.sortData = this.sortData.push( Immutable.fromJS({searchTerm: topTrends.get(i).get('term'), records:[]}));
         };
 
         AppAction.getTopTrendsMention(trendsList, AppStore.getFilter());
@@ -345,17 +334,18 @@ module.exports = React.createClass({
     },
     onChangeTopTrend:function(){
       var topTrendMention = AppStore.getTopTrendMention();
-      for (var i = 0; i < this.sortData.length; i++) {
-        var topTrend = this.sortData[i];
-        if(topTrend.searchTerm === topTrendMention.searchTerm){
-          topTrend.records = topTrendMention.records;
+      for (var i = 0; i < this.sortData.size; i++) {
+        var topTrend = this.sortData.get(i);
+        if(topTrend.get('searchTerm') === topTrendMention.get('searchTerm')){
+          topTrend = topTrend.set('records', topTrendMention.get('records'));
+          this.sortData = this.sortData.set(i, topTrend);
           break;
         }
       }
 
       var index = AppStore.getFilterTopTrendMention();
 
-      this.setState({data: index >= 0 ? [this.sortData[index]] : this.sortData});
+      this.setState({data: index >= 0 ? [this.sortData.get(index)] : this.sortData});
     },
     componentDidMount: function() {
         AppStore.addChangeTopTrendsListener(this.onChange);

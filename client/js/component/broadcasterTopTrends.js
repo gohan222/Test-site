@@ -62,15 +62,15 @@ module.exports = React.createClass({
     formatData: function(data) {
         var formatData = [];
 
-        if (!data || data.length === 0) {
+        if (!data || data.size === 0) {
             return formatData;
         }
 
         formatData.push(metaData);
 
-        for (var i = 0; i < data.length; i++) {
-            var searchTerms = data[i];
-            formatData.push([searchTerms['term'], parseInt(searchTerms['count']), this.getRandomColor()]);
+        for (var i = 0; i < data.size; i++) {
+            var searchTerms = data.get(i);
+            formatData.push([searchTerms.get('term'), parseInt(searchTerms.get('count')), this.getRandomColor()]);
         }
 
         return formatData;

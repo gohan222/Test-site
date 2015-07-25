@@ -11,12 +11,12 @@ var React = require('react'),
 module.exports = React.createClass({
     getSnippetText: function(snippets) {
         var text = '';
-        if (!snippets || !snippets.textFragments) {
+        if (!snippets || !snippets.get('textFragments')) {
             return text;
         }
 
-        for (var i = 0; i < snippets.textFragments.length; i++) {
-            text += snippets.textFragments[i].text;
+        for (var i = 0; i < snippets.get('textFragments').size; i++) {
+            text += snippets.get('textFragments').get(i).get('text');
         };
 
         return text;
@@ -45,7 +45,7 @@ module.exports = React.createClass({
     componentWillReceiveProps: function(nextProps) {
         // console.log('componentWillReceiveProps');  
         if (nextProps.data && this.props.data != nextProps.data) {
-            AppAction.getTranscript(nextProps.data.mediaId, nextProps.data.mentionSnippet[0].startTime, nextProps.data.mentionSnippet[nextProps.data.mentionSnippet.length - 1].endTime);
+            AppAction.getTranscript(nextProps.data.get('mediaId'), nextProps.data.get('mentionSnippet').get(0).get('startTime'), nextProps.data.get('mentionSnippet').get(nextProps.data.get('mentionSnippet').size - 1).get('endTime'));
         }
     },
     componentDidUpdate: function() {
@@ -64,8 +64,8 @@ module.exports = React.createClass({
 
         var player = React.createElement(Player, {
             src: Utils.mediaUrl(this.props.data),
-            poster: this.props.data.programLiveImage,
-            fileType: this.props.data.fileType
+            poster: this.props.data.get('programLiveImage'),
+            fileType: this.props.data.get('fileType')
         });
 
         var socialContainer = React.DOM.div({
@@ -74,7 +74,7 @@ module.exports = React.createClass({
             React.DOM.i({
                 className: 'program-mention-air-date'
             }, React.createElement(TimeAgo, {
-                date: this.props.data.mediaStartTime
+                date: this.props.data.get('mediaStartTime')
             })), React.DOM.i({
                 className: 'fa fa-envelope-o program-card-play-icon icon-prop icon-prop-animation clickable'
             }),
