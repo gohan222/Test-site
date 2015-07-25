@@ -86,27 +86,27 @@ var appAction = {
             data: view
         });
     },
-    getSearchByProgramId: function(programIds, searchTerms) {
+    getSearchByProgramId: function(programId, searchTerms) {
 
-        var list = programIds.split(',');
+        // var list = programIds.split(',');
 
-        for (var i = 0; i < list.length; i++) {
+        // for (var i = 0; i < list.length; i++) {
             if (typeof SOCKET !== 'undefined') {
-                AppServiceSocket.searchByProgramId(list[i], searchTerms, function(data) {
+                AppServiceSocket.searchByProgramId(programId, searchTerms, function(data) {
                     AppDispatcher.dispatch({
                         actionType: AppConstant.ACTION_PROGRAM_SEARCH,
                         data: data
                     });
                 });
             } else {
-                AppService.getSearchByProgramId(list[i], searchTerms, function(data) {
+                AppService.getSearchByProgramId(programId, searchTerms, function(data) {
                     AppDispatcher.dispatch({
                         actionType: AppConstant.ACTION_PROGRAM_SEARCH,
                         data: data
                     });
                 }, true, this.sendProgress);
             }
-        }
+        // }
 
 
     },

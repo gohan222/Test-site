@@ -11,12 +11,12 @@ var React = require('react'),
 module.exports = React.createClass({
     getSnippetText: function(snippets) {
         var text = '';
-        if (!snippets || !snippets.get('textFragments')) {
+        if (!snippets || !snippets.get('textFragments').size > 0) {
             return text;
         }
-
-        for (var i = 0; i < snippets.get('textFragments').size; i++) {
-            text += snippets.get('textFragments').get(i).get('text');
+        var textFragments = snippets.get('textFragments');
+        for (var i = 0; i < textFragments.size; i++) {
+            text += textFragments.get(i).get('text');
         };
 
         return text;
@@ -30,7 +30,7 @@ module.exports = React.createClass({
         });
     },
     onChangeTranscript: function() {
-        if (this.props.data && AppStore.getTranscriptId() === this.props.data.mediaId) {
+        if (this.props.data && AppStore.getTranscriptId() === this.props.data.get('mediaId')) {
             this.setState({
                 transcript: this.getSnippetText(AppStore.getTranscript())
             });

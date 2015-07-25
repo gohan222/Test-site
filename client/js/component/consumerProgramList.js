@@ -136,7 +136,7 @@ var ProgramRow = React.createClass({
         var curPos = (cardWidth * this.scrollIndex);
         var viewableCards = Math.floor(parentWidth/cardWidth);
 
-        if(viewableCards >= this.props.data.size){
+        if(viewableCards >= this.state.data.size){
             return;
         }else if (this.scrollIndex - viewableCards < 0){
             this.scrollIndex = 0;
@@ -161,10 +161,10 @@ var ProgramRow = React.createClass({
         var viewableCards = Math.floor(parentWidth/cardWidth);
 
         // this.scrollIndex++;
-        if(viewableCards >= this.props.data.size){
+        if(viewableCards >= this.state.data.size){
             return;
-        }else if(viewableCards + this.scrollIndex >= this.props.data.size){
-            this.scrollIndex = this.props.data.size - viewableCards;
+        }else if(viewableCards + this.scrollIndex >= this.state.data.size){
+            this.scrollIndex = this.state.data.size - viewableCards;
         }else{
             this.scrollIndex += viewableCards - 1;
         }
@@ -174,6 +174,7 @@ var ProgramRow = React.createClass({
     },
     getInitialState: function() {
         return {
+            data: this.props.data,
             isExpanding: false
         };
     },
@@ -209,12 +210,32 @@ var ProgramRow = React.createClass({
             });
 
     },
+    onProgramSearchResult: function() {
+        var programSearchResult = AppStore.getProgramsSearch();
+        
+        var currentMention = this.state.data.get(0);
+        var newMention = programSearchResult.get(0);
+        if(currentMention.get('programId') === newMention.get('programId')){
+            this.setState({
+            data: newMention.get('records')
+        });
+        }
+    },
+    componentDidMount: function() {
+        AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
+
+        var mention = this.state.data.get(0);
+        AppAction.getSearchByProgramId(mention.get('programId'), AppStore.getSearchTerms());
+    },
+    componentWillUnmount: function() {
+        AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
+    },
     render: function() {
-        if(!this.props.data || this.props.data.size === 0){
+        if(!this.state.data || this.state.data.size === 0){
             return React.DOM.span();
         }
 
-        var mentionNodes = this.props.data.map(function(mention) {
+        var mentionNodes = this.state.data.map(function(mention) {
             return React.DOM.div({
                 className: 'program-card-container'
             }, React.createElement(Mention, {
@@ -226,7 +247,7 @@ var ProgramRow = React.createClass({
         }, this);
 
         //referenced mention
-        var refmention = this.props.data.get(0);
+        var refmention = this.state.data.get(0);
 
         //program info
         var programInfo = React.DOM.div();
@@ -326,7 +347,7 @@ module.exports = React.createClass({
 
         return collection;
     },
-    getProgramSearches: function(sortedMention) {
+    /*getProgramSearches: function(sortedMention) {
         var programIds = '';
         for (var i = 0; i < sortedMention.size; i++) {
             var mention = sortedMention.get(i).get(0);
@@ -338,67 +359,35 @@ module.exports = React.createClass({
         };
 
         AppAction.getSearchByProgramId(programIds, AppStore.getSearchTerms());
-    },
+    },*/
     onChange: function() {
         //first we remove the data before adding new list to animation the draw.
         this.sortedResult = this.sortData(AppStore.getSearchResults());
         this.setState({
             data: this.sortedResult
         });
-        this.getProgramSearches(this.sortedResult);
+        // this.getProgramSearches(this.sortedResult);
         // AppAction.sendProgress(0);
     },
     onSearchTermChange: function() {
         this.setState({
-            data: []
+            data: Immutable.List.of()
         });
         AppAction.searchInit(AppStore.getSearchTerms());
-    },
-    onProgramSearchResult: function() {
-        var programSearchResult = AppStore.getProgramsSearch();
-        var context = this;
-        // this.sortedResult = this.sortData(programSearchResult);
-        if (!programSearchResult || programSearchResult.size === 0) {
-            return;
-        }
-
-        // var mention = programSearchResult[0],
-        // mentionsList = null;
-        for (var i = 0; i < programSearchResult.size; i++) {
-            var psr = programSearchResult.get(i);
-            for (var i = 0; i < this.sortedResult.size; i++) {
-                if (this.sortedResult.get(i).get(0).get('programId') === psr.get('programId')) {
-                    this.sortedResult = this.sortedResult.set(i,psr.get('records'));
-                    break;
-                }
-            };
-        };
-
-        this.setState({
-                data: context.sortedResult
-            });
-
-        // setTimeout(function() {
-        //     context.setState({
-        //         data: context.sortedResult
-        //     });
-        // }, 100);
-
-        // AppAction.sendProgress(0);
     },
     componentDidMount: function() {
         AppStore.addChangeListener(this.onChange);
         AppStore.addChangeSearchTermListener(this.onSearchTermChange);
-        AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
+        // AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
 
-        if (this.state.searchTerms) {
-            AppAction.searchInit(this.state.searchTerms);
-        }
+        // if (this.state.searchTerms) {
+        //     AppAction.searchInit(this.state.searchTerms);
+        // }
     },
     componentWillUnmount: function() {
         AppStore.removeChangeListener(this.onChange);
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
-        AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
+        // AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
     },
     getInitialState: function() {
         this.sortedResult = this.sortData(AppStore.getSearchResults());

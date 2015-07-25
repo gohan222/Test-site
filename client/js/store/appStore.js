@@ -84,7 +84,7 @@ function updateProgress(results){
 }
 
 function updateTranscript(results){
-  curTranscript = results;
+  curTranscript = Immutable.fromJS(results);
 }
 
 function updateTranscriptId(results){
