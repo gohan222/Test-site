@@ -49,6 +49,10 @@ module.exports = function(socket) {
             logger.debug('searchTopTrends response: ' + data.searchTerm + ', ' + data.startDate + ', ' + data.endDate);
             var resBody = JSON.parse(result);
 
+            if(err || !resBody){
+                resBody = {records:[]};
+            }
+
             callback({
                 searchTerm: data.searchTerm,
                 records: resBody.records

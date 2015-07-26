@@ -145,6 +145,19 @@ var Mention = React.createClass({
 var ProgramRow = React.createClass({
     mixins: [PureRenderMixin],
     scrollIndex: 0,
+    onChangeFilterTopTrendMention:function(){
+      this.setState({
+            show: AppStore.getFilterTopTrendMention() === -1 || AppStore.getFilterTopTrendMention() === this.props.index
+        });      
+    },
+    onChangeTopTrend:function(){
+      var topTrendMention = AppStore.getTopTrendMention();
+      var topTrend = this.state.data;
+      if(this.state.data.get('searchTerm') === topTrendMention.get('searchTerm')){
+        topTrend = topTrend.set('records', topTrendMention.get('records'));
+        this.setState({data: topTrend});
+      }
+    },
     onScrollLeft: function(event) {
         var cardWidth = 280;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
@@ -190,6 +203,9 @@ var ProgramRow = React.createClass({
     },
     getInitialState: function() {
         return {
+            data: this.props.data,
+            index: this.props.index,
+            show: AppStore.getFilterTopTrendMention() === -1 || AppStore.getFilterTopTrendMention() === this.props.index,
             isExpanding: false
         };
     },
@@ -225,13 +241,26 @@ var ProgramRow = React.createClass({
             });
 
     },
+    componentDidMount: function() {
+        // AppStore.addChangeTopTrendsListener(this.onChange);
+        AppStore.addChangeTopTrendMentionListener(this.onChangeTopTrend);
+        AppStore.addChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
+
+        //init the data
+        AppAction.getTopTrendsMention(this.state.data.get('searchTerm'), AppStore.getFilter());
+    },
+    componentWillUnmount: function() {
+        // AppStore.removeChangeTopTrendsListener(this.onChange);
+        AppStore.removeChangeTopTrendMentionListener(this.onChangeTopTrend);
+        AppStore.removeChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
+    },
     render: function() {
 
-        if(!this.props.data){
-          return React.DOM.div();
+        if(!this.state.data || !this.state.show){
+          return React.DOM.span();
         }
 
-        var mentionNodes = this.props.data.get('records').map(function(mention) {
+        var mentionNodes = this.state.data.get('records').map(function(mention) {
             return React.DOM.div({
                 className: 'trend-card-container'
             }, React.createElement(Mention, {
@@ -261,7 +290,7 @@ var ProgramRow = React.createClass({
         }));
         var programName = React.DOM.div({
             className: 'm5 bold'
-        }, React.DOM.a(null, this.props.data.get('searchTerm')));
+        }, React.DOM.a(null, this.state.data.get('searchTerm')));
         var programNameContainer = React.DOM.div({
             className: 'trend-title3'
         }, programName);
@@ -309,13 +338,6 @@ var ProgramRow = React.createClass({
 
 module.exports = React.createClass({
     mixins: [PureRenderMixin],
-    onChangeFilterTopTrendMention:function(){
-      var index = AppStore.getFilterTopTrendMention();
-
-      this.setState({
-            data: index >= 0 ? [this.sortData[index]] : this.sortData
-        });      
-    },
     sortData: Immutable.List.of(),
     onChange: function() {
         var topTrends = AppStore.getTopTrends();
@@ -326,13 +348,11 @@ module.exports = React.createClass({
             this.sortData = this.sortData.push( Immutable.fromJS({searchTerm: topTrends.get(i).get('term'), records:[]}));
         };
 
-        AppAction.getTopTrendsMention(trendsList, AppStore.getFilter());
-
         this.setState({
             data: this.sortData
         });
     },
-    onChangeTopTrend:function(){
+    /*onChangeTopTrend:function(){
       var topTrendMention = AppStore.getTopTrendMention();
       for (var i = 0; i < this.sortData.size; i++) {
         var topTrend = this.sortData.get(i);
@@ -346,24 +366,25 @@ module.exports = React.createClass({
       var index = AppStore.getFilterTopTrendMention();
 
       this.setState({data: index >= 0 ? [this.sortData.get(index)] : this.sortData});
-    },
+    },*/
     componentDidMount: function() {
         AppStore.addChangeTopTrendsListener(this.onChange);
-        AppStore.addChangeTopTrendMentionListener(this.onChangeTopTrend);
-        AppStore.addChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
+        // AppStore.addChangeTopTrendMentionListener(this.onChangeTopTrend);
+        // AppStore.addChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
     },
     componentWillUnmount: function() {
         AppStore.removeChangeTopTrendsListener(this.onChange);
-        AppStore.removeChangeTopTrendMentionListener(this.onChangeTopTrend);
-        AppStore.removeChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
+        // AppStore.removeChangeTopTrendMentionListener(this.onChangeTopTrend);
+        // AppStore.removeChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
     },
     getInitialState:function(){
       return {data: []};
     },
     render: function() {
-        var programNodes = this.state.data.map(function(mentions) {
+        var programNodes = this.state.data.map(function(mentions, index) {
             return React.createElement(ProgramRow, {
-                data: mentions
+                data: mentions,
+                index: index
             });
         });
 
