@@ -165,7 +165,7 @@ var ProgramRow = React.createClass({
         var curPos = (cardWidth * this.scrollIndex);
         var viewableCards = Math.floor(parentWidth/cardWidth);
 
-        if(viewableCards >= this.props.data.size){
+        if(viewableCards >= this.state.data.get('records').size){
             return;
         }else if (this.scrollIndex - viewableCards < 0){
             this.scrollIndex = 0;
@@ -190,10 +190,10 @@ var ProgramRow = React.createClass({
         var viewableCards = Math.floor(parentWidth/cardWidth);
 
         // this.scrollIndex++;
-        if(viewableCards >= this.props.data.size){
+        if(viewableCards >= this.state.data.get('records').size){
             return;
-        }else if(viewableCards + this.scrollIndex >= this.props.data.length){
-            this.scrollIndex = this.props.data.length - viewableCards;
+        }else if(viewableCards + this.scrollIndex >= this.state.data.get('records').size){
+            this.scrollIndex = this.state.data.get('records').size - viewableCards;
         }else{
             this.scrollIndex += viewableCards - 1;
         }
