@@ -11,6 +11,7 @@ var React = require('react'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
     Immutable = require('immutable'),
+    ReactMotion = require('react-motion'),
     Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
@@ -134,13 +135,13 @@ var ProgramRow = React.createClass({
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
         var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth/cardWidth);
+        var viewableCards = Math.floor(parentWidth / cardWidth);
 
-        if(viewableCards >= this.state.data.size){
+        if (viewableCards >= this.state.data.size) {
             return;
-        }else if (this.scrollIndex - viewableCards < 0){
+        } else if (this.scrollIndex - viewableCards < 0) {
             this.scrollIndex = 0;
-        }else{
+        } else {
             this.scrollIndex -= viewableCards - 1;
         }
 
@@ -149,7 +150,11 @@ var ProgramRow = React.createClass({
         if (this.scrollIndex < 0) {
             this.scrollIndex = 0;
         }
-        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
+
+        this.setState({
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+        });
+        // this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
         // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     onScrollRight: function(event) {
@@ -158,24 +163,29 @@ var ProgramRow = React.createClass({
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
         var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth/cardWidth);
+        var viewableCards = Math.floor(parentWidth / cardWidth);
 
         // this.scrollIndex++;
-        if(viewableCards >= this.state.data.size){
+        if (viewableCards >= this.state.data.size) {
             return;
-        }else if(viewableCards + this.scrollIndex >= this.state.data.size){
+        } else if (viewableCards + this.scrollIndex >= this.state.data.size) {
             this.scrollIndex = this.state.data.size - viewableCards;
-        }else{
+        } else {
             this.scrollIndex += viewableCards - 1;
         }
 
-        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
+        this.setState({
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+        });
+
+        // this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
         // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     getInitialState: function() {
         return {
             data: this.props.data,
-            isExpanding: false
+            isExpanding: false,
+            scrollPosition: 0
         };
     },
     onExpand: function(mention) {
@@ -212,13 +222,13 @@ var ProgramRow = React.createClass({
     },
     onProgramSearchResult: function() {
         var programSearchResult = AppStore.getProgramsSearch();
-        
+
         var currentMention = this.state.data.get(0);
         var newMention = programSearchResult.get(0);
-        if(currentMention.get('programId') === newMention.get('programId')){
+        if (currentMention.get('programId') === newMention.get('programId')) {
             this.setState({
-            data: newMention.get('records')
-        });
+                data: newMention.get('records')
+            });
         }
     },
     componentDidMount: function() {
@@ -231,7 +241,7 @@ var ProgramRow = React.createClass({
         AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
     },
     render: function() {
-        if(!this.state.data || this.state.data.size === 0){
+        if (!this.state.data || this.state.data.size === 0) {
             return React.DOM.span();
         }
 
@@ -287,23 +297,6 @@ var ProgramRow = React.createClass({
             className: 'program-container'
         }, backgroundImage, programNameContainer)
 
-        var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
-            className: 'scroll-animation',
-            style: !this.state.isExpanding ? {
-                left: 0,
-                display: 'inline-block'
-            } : {
-                left: 0,
-                display: 'none'
-            },
-            transitionName: 'component',
-            transitionAppear: true,
-            transitionLeave: true,
-            transitionEnter: true,
-            ref: 'mentionList',
-            hidden: this.state.isExpanding
-        }, mentionNodes);
-
         var expandedMention = React.createElement(ExpandedMention, {
             style: this.state.isExpanding ? {
                 display: 'inline-block'
@@ -314,11 +307,37 @@ var ProgramRow = React.createClass({
             onClose: this.onCloseExpand
         });
 
+        var motion = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                left: {
+                    val: this.state.scrollPosition,
+                    config: [200, 50]
+                },
+                isExpanding: this.state.isExpanding
+            },
+            ref: 'mentionList'
+        }, function(props) {
+            return React.createElement(React.addons.CSSTransitionGroup, {
+                style: !props.isExpanding ? {
+                    left: props.left.val,
+                    display: 'inline-block'
+                } : {
+                    left: 0,
+                    display: 'none'
+                },
+                transitionName: 'component',
+                transitionAppear: true,
+                transitionLeave: true,
+                transitionEnter: true,
+                hidden: props.isExpanding
+            }, mentionNodes);
+        });
+
         var container = React.DOM.li({
             className: this.state.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation'
         }, programContainer, React.DOM.div({
             className: 'program-list-mention-container'
-        }, animationElement, expandedMention), leftArrow, rightArrow);
+        }, motion, expandedMention), leftArrow, rightArrow);
 
         return container;
     }

@@ -11,6 +11,7 @@ var React = require('react'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
     Immutable = require('immutable'),
+    ReactMotion = require('react-motion'),
     Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
@@ -178,7 +179,12 @@ var ProgramRow = React.createClass({
         if (this.scrollIndex < 0) {
             this.scrollIndex = 0;
         }
-        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
+
+        this.setState({
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+        });
+        
+        // this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
         // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     onScrollRight: function(event) {
@@ -198,7 +204,11 @@ var ProgramRow = React.createClass({
             this.scrollIndex += viewableCards - 1;
         }
 
-        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
+        this.setState({
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+        });
+
+        // this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
         // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     getInitialState: function() {
@@ -206,7 +216,8 @@ var ProgramRow = React.createClass({
             data: this.props.data,
             index: this.props.index,
             show: AppStore.getFilterTopTrendMention() === -1 || AppStore.getFilterTopTrendMention() === this.props.index,
-            isExpanding: false
+            isExpanding: false,
+            scrollPosition: 0
         };
     },
     onExpand: function(mention) {
@@ -299,22 +310,31 @@ var ProgramRow = React.createClass({
             className: 'trend-container'
         }, programNameContainer)
 
-        var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
-            className: 'scroll-animation',
-            style: !this.state.isExpanding ? {
-                left: 0,
-                display: 'inline-block'
-            } : {
-                left: 0,
-                display: 'none'
+        var motion = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                left: {
+                    val: this.state.scrollPosition,
+                    config: [200, 50]
+                },
+                isExpanding: this.state.isExpanding
             },
-            transitionName: 'component',
-            transitionAppear: true,
-            transitionLeave: true,
-            transitionEnter: true,
-            ref: 'mentionList',
-            hidden: this.state.isExpanding
-        }, mentionNodes);
+            ref: 'mentionList'
+        }, function(props) {
+            return React.createElement(React.addons.CSSTransitionGroup, {
+                style: !props.isExpanding ? {
+                    left: props.left.val,
+                    display: 'inline-block'
+                } : {
+                    left: 0,
+                    display: 'none'
+                },
+                transitionName: 'component',
+                transitionAppear: true,
+                transitionLeave: true,
+                transitionEnter: true,
+                hidden: props.isExpanding
+            }, mentionNodes);
+        });
 
         var expandedMention = React.createElement(ExpandedMention, {
             style: this.state.isExpanding ? {
@@ -330,7 +350,7 @@ var ProgramRow = React.createClass({
             className: this.state.isExpanding ? 'trend-list-row-active background-color-animation' : 'trend-list-row background-color-animation'
         }, programContainer, React.DOM.div({
             className: 'trend-list-mention-container'
-        }, animationElement, expandedMention), leftArrow, rightArrow);
+        }, motion, expandedMention), leftArrow, rightArrow);
 
         return container;
     }
