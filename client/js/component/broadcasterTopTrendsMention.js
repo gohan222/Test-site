@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react'),
-    $ = require('jquery'),
     PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
@@ -53,10 +52,7 @@ var Mention = React.createClass({
             React.DOM.i({
                 className: 'fa fa-expand fa-stack-1x fa-inverse'
             }));
-        /*var expandIcon = React.DOM.i({
-            className: 'fa fa-plus-circle trend-card-play-icon icon-prop icon-prop-animation clickable',
-            onClick: this.props.onExpand.bind(null,this.props.data)
-        });*/
+        
         var backgroundImage = React.DOM.div({
                 className: 'trend-avtr2'
             },
@@ -136,7 +132,7 @@ var Mention = React.createClass({
 
         var holder = React.DOM.div({
             className: 'trend-card trend-card-animation clickable'
-        },programContainer, mentionContainer, footer);
+        }, programContainer, mentionContainer, footer);
 
 
         return holder;
@@ -146,31 +142,33 @@ var Mention = React.createClass({
 var ProgramRow = React.createClass({
     mixins: [PureRenderMixin],
     scrollIndex: 0,
-    onChangeFilterTopTrendMention:function(){
-      this.setState({
+    onChangeFilterTopTrendMention: function() {
+        this.setState({
             show: AppStore.getFilterTopTrendMention() === -1 || AppStore.getFilterTopTrendMention() === this.props.index
-        });      
+        });
     },
-    onChangeTopTrend:function(){
-      var topTrendMention = AppStore.getTopTrendMention();
-      var topTrend = this.state.data;
-      if(this.state.data.get('searchTerm') === topTrendMention.get('searchTerm')){
-        topTrend = topTrend.set('records', topTrendMention.get('records'));
-        this.setState({data: topTrend});
-      }
+    onChangeTopTrend: function() {
+        var topTrendMention = AppStore.getTopTrendMention();
+        var topTrend = this.state.data;
+        if (this.state.data.get('searchTerm') === topTrendMention.get('searchTerm')) {
+            topTrend = topTrend.set('records', topTrendMention.get('records'));
+            this.setState({
+                data: topTrend
+            });
+        }
     },
     onScrollLeft: function(event) {
         var cardWidth = 280;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
         var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth/cardWidth);
+        var viewableCards = Math.floor(parentWidth / cardWidth);
 
-        if(viewableCards >= this.state.data.get('records').size){
+        if (viewableCards >= this.state.data.get('records').size) {
             return;
-        }else if (this.scrollIndex - viewableCards < 0){
+        } else if (this.scrollIndex - viewableCards < 0) {
             this.scrollIndex = 0;
-        }else{
+        } else {
             this.scrollIndex -= viewableCards - 1;
         }
 
@@ -183,9 +181,7 @@ var ProgramRow = React.createClass({
         this.setState({
             scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
         });
-        
-        // this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
+
     },
     onScrollRight: function(event) {
         // console.log(event);
@@ -193,14 +189,14 @@ var ProgramRow = React.createClass({
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
         var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth/cardWidth);
+        var viewableCards = Math.floor(parentWidth / cardWidth);
 
         // this.scrollIndex++;
-        if(viewableCards >= this.state.data.get('records').size){
+        if (viewableCards >= this.state.data.get('records').size) {
             return;
-        }else if(viewableCards + this.scrollIndex >= this.state.data.get('records').size){
+        } else if (viewableCards + this.scrollIndex >= this.state.data.get('records').size) {
             this.scrollIndex = this.state.data.get('records').size - viewableCards;
-        }else{
+        } else {
             this.scrollIndex += viewableCards - 1;
         }
 
@@ -208,8 +204,6 @@ var ProgramRow = React.createClass({
             scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
         });
 
-        // this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     getInitialState: function() {
         return {
@@ -221,35 +215,16 @@ var ProgramRow = React.createClass({
         };
     },
     onExpand: function(mention) {
-        var context = this;
-        $(React.findDOMNode(this.refs.mentionList)).animate({
-            opacity: 0
-        }, 200, 'linear');
-
-        $(this.getDOMNode()).animate({
-                height: 354
-            }, 200, 'linear',
-            function() {
-                context.setState({
-                    isExpanding: true,
-                    expandMention: mention
-                });
-            });
+        this.setState({
+            isExpanding: true,
+            expandMention: mention
+        });
     },
     onCloseExpand: function() {
-        var context = this
-        $(React.findDOMNode(this.refs.mentionList)).animate({
-            opacity: 1
-        }, 200, 'linear');
-        $(this.getDOMNode()).animate({
-                height: 340
-            }, 200, 'linear',
-            function() {
-                context.setState({
-                    isExpanding: false,
-                    expandMention: null
-                });
-            });
+        this.setState({
+            isExpanding: false,
+            expandMention: null
+        });
 
     },
     componentDidMount: function() {
@@ -267,10 +242,11 @@ var ProgramRow = React.createClass({
     },
     render: function() {
 
-        if(!this.state.data || !this.state.show){
-          return React.DOM.span();
+        if (!this.state.data || !this.state.show) {
+            return React.DOM.span();
         }
 
+        var context = this;
         var mentionNodes = this.state.data.get('records').map(function(mention) {
             return React.DOM.div({
                 className: 'trend-card-container'
@@ -310,47 +286,77 @@ var ProgramRow = React.createClass({
             className: 'trend-container'
         }, programNameContainer)
 
-        var motion = React.createElement(ReactMotion.Spring, {
+        var motionMentions = React.createElement(ReactMotion.Spring, {
             endValue: {
                 left: {
                     val: this.state.scrollPosition,
                     config: [200, 50]
                 },
+                opacity: {
+                    val: this.state.isExpanding ? 0 : 1
+                },
                 isExpanding: this.state.isExpanding
             },
             ref: 'mentionList'
         }, function(props) {
+            var style = {
+                left: props.left.val,
+                opacity: props.opacity.val
+            };
             return React.createElement(React.addons.CSSTransitionGroup, {
-                style: !props.isExpanding ? {
-                    left: props.left.val,
-                    display: 'inline-block'
-                } : {
-                    left: 0,
-                    display: 'none'
-                },
+                style: style,
                 transitionName: 'component',
                 transitionAppear: true,
                 transitionLeave: true,
-                transitionEnter: true,
-                hidden: props.isExpanding
+                transitionEnter: true
             }, mentionNodes);
         });
 
-        var expandedMention = React.createElement(ExpandedMention, {
-            style: this.state.isExpanding ? {
-                display: 'inline-block'
-            } : {
-                display: 'none'
-            },
-            data: this.state.expandMention,
-            onClose: this.onCloseExpand
+        var motionDetailed = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                opacity: {
+                    val: this.state.isExpanding ? 1 : 0
+                }
+            }
+        }, function(props, props2) {
+            var style = {
+                opacity: props.opacity.val,
+            }
+
+            if (props.opacity.val === 0) {
+                style.display = 'none';
+            } else {
+                style.display = 'inline-block';
+            }
+
+            return React.createElement(ExpandedMention, {
+                className: 'trend-expand-mention',
+                style: style,
+                data: context.state.expandMention,
+                onClose: context.onCloseExpand
+            });
+
         });
 
-        var container = React.DOM.li({
-            className: this.state.isExpanding ? 'trend-list-row-active background-color-animation' : 'trend-list-row background-color-animation'
-        }, programContainer, React.DOM.div({
-            className: 'trend-list-mention-container'
-        }, motion, expandedMention), leftArrow, rightArrow);
+        var motionRowContainer = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                height: {
+                    val: this.state.isExpanding ? 354 : 340
+                },
+                isExpanding: this.state.isExpanding
+            }
+        }, function(props) {
+            return React.DOM.li({
+                className: props.isExpanding ? 'trend-list-row-active background-color-animation' : 'trend-list-row background-color-animation',
+                style: {
+                    height: props.height.val
+                }
+            }, programContainer, React.DOM.div({
+                className: 'trend-list-mention-container'
+            }, motionMentions, motionDetailed), leftArrow, rightArrow);
+        });
+
+        var container = motionRowContainer;
 
         return container;
     }
@@ -365,40 +371,26 @@ module.exports = React.createClass({
         this.sortData = Immutable.List.of();
         for (var i = 0; i < topTrends.size; i++) {
             trendsList.push(topTrends.get(i).get('term'));
-            this.sortData = this.sortData.push( Immutable.fromJS({searchTerm: topTrends.get(i).get('term'), records:[]}));
+            this.sortData = this.sortData.push(Immutable.fromJS({
+                searchTerm: topTrends.get(i).get('term'),
+                records: []
+            }));
         };
 
         this.setState({
             data: this.sortData
         });
     },
-    /*onChangeTopTrend:function(){
-      var topTrendMention = AppStore.getTopTrendMention();
-      for (var i = 0; i < this.sortData.size; i++) {
-        var topTrend = this.sortData.get(i);
-        if(topTrend.get('searchTerm') === topTrendMention.get('searchTerm')){
-          topTrend = topTrend.set('records', topTrendMention.get('records'));
-          this.sortData = this.sortData.set(i, topTrend);
-          break;
-        }
-      }
-
-      var index = AppStore.getFilterTopTrendMention();
-
-      this.setState({data: index >= 0 ? [this.sortData.get(index)] : this.sortData});
-    },*/
     componentDidMount: function() {
         AppStore.addChangeTopTrendsListener(this.onChange);
-        // AppStore.addChangeTopTrendMentionListener(this.onChangeTopTrend);
-        // AppStore.addChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
     },
     componentWillUnmount: function() {
         AppStore.removeChangeTopTrendsListener(this.onChange);
-        // AppStore.removeChangeTopTrendMentionListener(this.onChangeTopTrend);
-        // AppStore.removeChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
     },
-    getInitialState:function(){
-      return {data: []};
+    getInitialState: function() {
+        return {
+            data: []
+        };
     },
     render: function() {
         var programNodes = this.state.data.map(function(mentions, index) {

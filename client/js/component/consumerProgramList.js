@@ -313,6 +313,7 @@ var ProgramRow = React.createClass({
             }
 
             return React.createElement(ExpandedMention, {
+                className: 'program-expand-mention',
                 style: style,
                 data: context.state.expandMention,
                 onClose: context.onCloseExpand

@@ -98,7 +98,7 @@ module.exports = React.createClass({
 
 
         return React.DOM.div({
-            className: 'program-expand-mention opacity-animation',
+            className: this.props.className,
             hidden: this.props.hidden
         }, expandMedia, expandTranscript, closeIcon);
     }

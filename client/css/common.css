@@ -546,6 +546,13 @@
 .trend-expand-mention{
   overflow: hidden;
   height: 353px;
+  top: -340px;
+  background-color: #ECECEC;
+}
+
+.trend-expand-mention{
+  overflow: hidden;
+  height: 353px;
 }
 
 .trend-expanded-left{
