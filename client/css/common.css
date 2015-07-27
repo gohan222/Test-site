@@ -322,6 +322,7 @@
 .program-expand-mention{
   overflow: hidden;
   height: 353px;
+  top: -219px;
 }
 
 .program-expanded-left{

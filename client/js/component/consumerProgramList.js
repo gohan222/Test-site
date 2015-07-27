@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react'),
-    $ = require('jquery'),
+    // $ = require('jquery'),
     PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
@@ -185,11 +185,12 @@ var ProgramRow = React.createClass({
         return {
             data: this.props.data,
             isExpanding: false,
-            scrollPosition: 0
+            scrollPosition: 0,
+            expandMention: null
         };
     },
     onExpand: function(mention) {
-        var context = this;
+        /*var context = this;
         $(React.findDOMNode(this.refs.mentionList)).animate({
             opacity: 0
         }, 200, 'linear');
@@ -202,10 +203,14 @@ var ProgramRow = React.createClass({
                     isExpanding: true,
                     expandMention: mention
                 });
-            });
+            });*/
+        this.setState({
+            isExpanding: true,
+            expandMention: mention
+        });
     },
     onCloseExpand: function() {
-        var context = this
+        /*var context = this
         $(React.findDOMNode(this.refs.mentionList)).animate({
             opacity: 1
         }, 200, 'linear');
@@ -217,7 +222,12 @@ var ProgramRow = React.createClass({
                     isExpanding: false,
                     expandMention: null
                 });
-            });
+            });*/
+
+        this.setState({
+            isExpanding: false,
+            expandMention: null
+        });
 
     },
     onProgramSearchResult: function() {
@@ -295,49 +305,93 @@ var ProgramRow = React.createClass({
 
         var programContainer = React.DOM.div({
             className: 'program-container'
-        }, backgroundImage, programNameContainer)
+        }, backgroundImage, programNameContainer);
 
-        var expandedMention = React.createElement(ExpandedMention, {
-            style: this.state.isExpanding ? {
-                display: 'inline-block'
-            } : {
-                display: 'none'
-            },
-            data: this.state.expandMention,
-            onClose: this.onCloseExpand
-        });
-
-        var motion = React.createElement(ReactMotion.Spring, {
+        var motionMentions = React.createElement(ReactMotion.Spring, {
             endValue: {
                 left: {
                     val: this.state.scrollPosition,
                     config: [200, 50]
                 },
+                opacity: {
+                    val: this.state.isExpanding ? 0 : 1
+                },
                 isExpanding: this.state.isExpanding
             },
             ref: 'mentionList'
         }, function(props) {
+            console.log('scroll motion fired');
+
+            var style = {
+                left: props.left.val,
+                opacity: props.opacity.val
+            };
+
+            /*if (props.opacity.val === 0) {
+                style.display = 'none';
+            } else {
+                style.display = 'inline-block';
+            }*/
+
             return React.createElement(React.addons.CSSTransitionGroup, {
-                style: !props.isExpanding ? {
-                    left: props.left.val,
-                    display: 'inline-block'
-                } : {
-                    left: 0,
-                    display: 'none'
-                },
+                style: style,
                 transitionName: 'component',
                 transitionAppear: true,
                 transitionLeave: true,
-                transitionEnter: true,
-                hidden: props.isExpanding
+                transitionEnter: true
             }, mentionNodes);
         });
 
-        var container = React.DOM.li({
-            className: this.state.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation'
-        }, programContainer, React.DOM.div({
-            className: 'program-list-mention-container'
-        }, motion, expandedMention), leftArrow, rightArrow);
+        var motionDetailed = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                opacity: {
+                    val: this.state.isExpanding ? 0 : 1
+                },
+                data: this.state.expandMention,
+                isExpanding: this.state.isExpanding,
+                onClose: this.onCloseExpand
+            }
+        }, function(props) {
+            console.log('expand motion fired');
+            var style = {
+                opacity: props.opacity.val,
+            }
+
+            if (props.opacity.val === 0) {
+                style.display = 'none';
+            } else {
+                style.display = 'inline-block';
+            }
+
+            return React.createElement(ExpandedMention, {
+                style: style,
+                data: props.data,
+                onClose: props.onClose
+            });
+
+        });
+
+        var motionRowContainer = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                height: {
+                    val: this.state.isExpanding ? 354 : 219
+                },
+                isExpanding: this.state.isExpanding
+            }
+        }, function(props) {
+            console.log('expand motion fired');
+            return React.DOM.li({
+                className: props.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation',
+                style: {
+                    height: props.height.val
+                }
+            }, programContainer, React.DOM.div({
+                className: 'program-list-mention-container'
+            }, motionMentions, motionDetailed), leftArrow, rightArrow);
+
+        });
+
+        var container = motionRowContainer;
 
         return container;
     }
