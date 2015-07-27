@@ -156,6 +156,7 @@
   background-color: #ECECEC;
   border-bottom: 1px #CCCCCC solid;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .program-card:hover{
@@ -231,7 +232,7 @@
 .program-card-close-expand-icon{
   position: absolute;
   top: 5px;
-  right: 0px;
+  right: 20px;
   color: #cccccc;
   font-size: 20px;
 }
@@ -320,6 +321,7 @@
 }
 
 .program-expand-mention{
+  width: calc(100% + 21px);
   overflow: hidden;
   height: 353px;
   top: -219px;
@@ -389,6 +391,7 @@
   background-color: #ECECEC;
   border-bottom: 1px #CCCCCC solid;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .trend-card:hover{
@@ -544,6 +547,7 @@
 }
 
 .trend-expand-mention{
+  width: calc(100% + 21px);
   overflow: hidden;
   height: 353px;
   top: -340px;
