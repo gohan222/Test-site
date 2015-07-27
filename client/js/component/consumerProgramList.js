@@ -53,13 +53,7 @@ var Mention = React.createClass({
             React.DOM.i({
                 className: 'fa fa-expand fa-stack-1x fa-inverse'
             }));
-        /*var expandIcon = React.DOM.i({
-            className: 'fa fa-plus-circle program-card-play-icon icon-prop icon-prop-animation clickable',
-            onClick: this.props.onExpand.bind(null,this.props.data)
-        });*/
-
-
-
+        
         var playIcon, mentionContainer;
         if (this.state.isPlaying) {
             playIcon = React.DOM.i({
@@ -145,7 +139,6 @@ var ProgramRow = React.createClass({
             this.scrollIndex -= viewableCards - 1;
         }
 
-        // console.log(event);
         this.scrollIndex--;
         if (this.scrollIndex < 0) {
             this.scrollIndex = 0;
@@ -154,11 +147,9 @@ var ProgramRow = React.createClass({
         this.setState({
             scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
         });
-        // this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     onScrollRight: function(event) {
-        // console.log(event);
+        
         var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
@@ -177,9 +168,6 @@ var ProgramRow = React.createClass({
         this.setState({
             scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
         });
-
-        // this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
     },
     getInitialState: function() {
         return {
@@ -190,40 +178,12 @@ var ProgramRow = React.createClass({
         };
     },
     onExpand: function(mention) {
-        /*var context = this;
-        $(React.findDOMNode(this.refs.mentionList)).animate({
-            opacity: 0
-        }, 200, 'linear');
-
-        $(this.getDOMNode()).animate({
-                height: 354
-            }, 200, 'linear',
-            function() {
-                context.setState({
-                    isExpanding: true,
-                    expandMention: mention
-                });
-            });*/
         this.setState({
             isExpanding: true,
             expandMention: mention
         });
     },
     onCloseExpand: function() {
-        /*var context = this
-        $(React.findDOMNode(this.refs.mentionList)).animate({
-            opacity: 1
-        }, 200, 'linear');
-        $(this.getDOMNode()).animate({
-                height: 219
-            }, 200, 'linear',
-            function() {
-                context.setState({
-                    isExpanding: false,
-                    expandMention: null
-                });
-            });*/
-
         this.setState({
             isExpanding: false,
             expandMention: null
@@ -251,6 +211,7 @@ var ProgramRow = React.createClass({
         AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
     },
     render: function() {
+        var context = this;
         if (!this.state.data || this.state.data.size === 0) {
             return React.DOM.span();
         }
@@ -320,18 +281,10 @@ var ProgramRow = React.createClass({
             },
             ref: 'mentionList'
         }, function(props) {
-            console.log('scroll motion fired');
-
             var style = {
                 left: props.left.val,
                 opacity: props.opacity.val
             };
-
-            /*if (props.opacity.val === 0) {
-                style.display = 'none';
-            } else {
-                style.display = 'inline-block';
-            }*/
 
             return React.createElement(React.addons.CSSTransitionGroup, {
                 style: style,
@@ -341,18 +294,14 @@ var ProgramRow = React.createClass({
                 transitionEnter: true
             }, mentionNodes);
         });
-
+    
         var motionDetailed = React.createElement(ReactMotion.Spring, {
             endValue: {
                 opacity: {
-                    val: this.state.isExpanding ? 0 : 1
-                },
-                data: this.state.expandMention,
-                isExpanding: this.state.isExpanding,
-                onClose: this.onCloseExpand
+                    val: this.state.isExpanding ? 1 : 0
+                } 
             }
-        }, function(props) {
-            console.log('expand motion fired');
+        }, function(props, props2) {
             var style = {
                 opacity: props.opacity.val,
             }
@@ -365,8 +314,8 @@ var ProgramRow = React.createClass({
 
             return React.createElement(ExpandedMention, {
                 style: style,
-                data: props.data,
-                onClose: props.onClose
+                data: context.state.expandMention,
+                onClose: context.onCloseExpand
             });
 
         });
@@ -379,7 +328,6 @@ var ProgramRow = React.createClass({
                 isExpanding: this.state.isExpanding
             }
         }, function(props) {
-            console.log('expand motion fired');
             return React.DOM.li({
                 className: props.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation',
                 style: {
@@ -420,27 +368,13 @@ module.exports = React.createClass({
 
         return collection;
     },
-    /*getProgramSearches: function(sortedMention) {
-        var programIds = '';
-        for (var i = 0; i < sortedMention.size; i++) {
-            var mention = sortedMention.get(i).get(0);
-            if (!programIds) {
-                programIds = mention.get('programId');
-            } else {
-                programIds += ',' + mention.get('programId');
-            }
-        };
-
-        AppAction.getSearchByProgramId(programIds, AppStore.getSearchTerms());
-    },*/
+    
     onChange: function() {
         //first we remove the data before adding new list to animation the draw.
         this.sortedResult = this.sortData(AppStore.getSearchResults());
         this.setState({
             data: this.sortedResult
         });
-        // this.getProgramSearches(this.sortedResult);
-        // AppAction.sendProgress(0);
     },
     onSearchTermChange: function() {
         this.setState({
@@ -451,11 +385,6 @@ module.exports = React.createClass({
     componentDidMount: function() {
         AppStore.addChangeListener(this.onChange);
         AppStore.addChangeSearchTermListener(this.onSearchTermChange);
-        // AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
-
-        // if (this.state.searchTerms) {
-        //     AppAction.searchInit(this.state.searchTerms);
-        // }
     },
     componentWillUnmount: function() {
         AppStore.removeChangeListener(this.onChange);
@@ -464,7 +393,7 @@ module.exports = React.createClass({
     },
     getInitialState: function() {
         this.sortedResult = this.sortData(AppStore.getSearchResults());
-        //this.getProgramSearches(this.sortedResult);
+        
         return {
             data: this.sortedResult,
             searchTerms: AppStore.getSearchTerms()

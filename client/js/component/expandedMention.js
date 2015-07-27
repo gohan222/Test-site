@@ -5,10 +5,11 @@ var React = require('react'),
     TimeAgo = require('react-timeago'),
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
-    $ = require('jquery'),
+    PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     Utils = require('../../../server/utils');
 
 module.exports = React.createClass({
+    mixins: [PureRenderMixin],
     getSnippetText: function(snippets) {
         var text = '';
         if (!snippets || !snippets.get('textFragments').size > 0) {
@@ -22,12 +23,7 @@ module.exports = React.createClass({
         return text;
     },
     onCloseExpand: function() {
-        var context = this;
-        $(this.getDOMNode()).animate({
-            opacity: 0
-        }, 200, 'linear', function() {
-            context.props.onClose();
-        });
+        this.props.onClose();
     },
     onChangeTranscript: function() {
         if (this.props.data && AppStore.getTranscriptId() === this.props.data.get('mediaId')) {
@@ -47,12 +43,6 @@ module.exports = React.createClass({
         if (nextProps.data && this.props.data != nextProps.data) {
             AppAction.getTranscript(nextProps.data.get('mediaId'), nextProps.data.get('mentionSnippet').get(0).get('startTime'), nextProps.data.get('mentionSnippet').get(nextProps.data.get('mentionSnippet').size - 1).get('endTime'));
         }
-    },
-    componentDidUpdate: function() {
-        $(this.getDOMNode()).animate({
-            opacity: 1
-        }, 200, 'linear');
-
     },
     getInitialState: function() {
         return {};
