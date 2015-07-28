@@ -103,7 +103,7 @@ module.exports = React.createClass({
       if(items && items.length > 0){
         AppAction.filterTopMention(this.state.data.columns[items[0].column].label);  
       }else{
-        AppAction.filterTopMention(-1);
+        AppAction.filterTopMention(null);
       }
       
     },

@@ -33,9 +33,11 @@ var appAction = {
     },
 
     toggleHamburger: function() {
-        AppDispatcher.dispatch({
-            actionType: AppConstant.ACTION_TOGGLE_HAMBURGER
-        });
+        setTimeout(function() {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_TOGGLE_HAMBURGER
+            });
+        }, 1);
     },
 
     searchInit: function(searchTerms) {
@@ -57,10 +59,12 @@ var appAction = {
     },
 
     changeSearchTerm: function(searchTerms) {
-        AppDispatcher.dispatch({
-            actionType: AppConstant.ACTION_SEARCH_TERM_CHANGE,
-            data: searchTerms
-        });
+        setTimeout(function() {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_SEARCH_TERM_CHANGE,
+                data: searchTerms
+            });
+        }, 1);
     },
 
     getRelatedTopics: function(searchTerms) {
@@ -81,10 +85,13 @@ var appAction = {
         });
     },
     changeView: function(view) {
-        AppDispatcher.dispatch({
-            actionType: AppConstant.ACTION_CHANGE_VIEW,
-            data: view
-        });
+        setTimeout(function() {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_CHANGE_VIEW,
+                data: view
+            });
+        }, 1);
+
     },
     getSearchByProgramId: function(programId, searchTerms) {
         if (typeof SOCKET !== 'undefined') {
@@ -122,10 +129,12 @@ var appAction = {
         });
     },
     updateTopTrends: function(topTrends) {
-        AppDispatcher.dispatch({
+        setTimeout(function() {
+            AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_UPDATE_TOP_TRENDS,
                 data: topTrends
             });
+        }, 1);
     },
     getTrends: function(searchTerms, days) {
         AppServiceAnalytics.getTrends(searchTerms, days, function(data) {
@@ -137,7 +146,7 @@ var appAction = {
     },
 
     getTopTrendsMention: function(searchTerm, filter) {
-        
+
         if (typeof SOCKET !== 'undefined') {
             AppServiceSocket.searchTopTrends(searchTerm, filter, function(data) {
                 AppDispatcher.dispatch({
@@ -154,20 +163,24 @@ var appAction = {
                 });
             }, true, this.sendProgress);
         }
-    
+
     },
     updateFilter: function(days) {
-        AppDispatcher.dispatch({
-            actionType: AppConstant.ACTION_UPDATE_FILTER,
-            data: days
-        });
+        setTimeout(function() {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_UPDATE_FILTER,
+                data: days
+            });
+        }, 1);
     },
 
-    filterTopMention:function(index) {
-        AppDispatcher.dispatch({
-            actionType: AppConstant.ACTION_FILTER_TOP_TRENDS_MENTION,
-            data: index
-        });
+    filterTopMention: function(index) {
+        setTimeout(function() {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_FILTER_TOP_TRENDS_MENTION,
+                data: index
+            });
+        }, 1);
     },
 
     getTranscript: function(id, startTime, endTime) {

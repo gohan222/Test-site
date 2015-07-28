@@ -24,17 +24,11 @@ module.exports = React.createClass({
     },
     resetViewData: function(){
       //reset filters on view change.
-        setTimeout(function(){
-            AppAction.filterTopMention(null);
-          },1);
+        AppAction.filterTopMention(null);
         if (this.state.view === Constants.VIEW_TRENDING_SEARCH_TERMS_LIST) {
-          setTimeout(function(){
-            AppAction.updateFilter(7);
-          },1);
+          AppAction.updateFilter(7);
         }else{
-          setTimeout(function(){
-            AppAction.updateFilter(1);
-          },1);
+          AppAction.updateFilter(1);
         }
     },
     onChange: function() {
@@ -46,9 +40,7 @@ module.exports = React.createClass({
         //prepopulate the top trends search for the mentions control
         if (this.state.view === Constants.VIEW_TRENDING_SEARCH_TERMS_LIST) {
             var trend = this.parseSearchTerms(AppStore.getSearchTerms());
-            setTimeout(function() {
-                AppAction.updateTopTrends(trend);
-            }, 1);
+            AppAction.updateTopTrends(trend);
         }
 
     },

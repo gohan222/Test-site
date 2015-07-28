@@ -93,9 +93,6 @@ module.exports = React.createClass({
     componentWillUnmount: function() {
         AppStore.removeChangeTopTrendsListener(this.onChange);
         AppStore.removeChangeFilterListener(this.onChangeFilter);
-
-        //reset filter variable
-        AppAction.filterTopMention(-1);
     },
     getInitialState: function() {
         return {};
