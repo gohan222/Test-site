@@ -86,29 +86,22 @@ var appAction = {
             data: view
         });
     },
-    getSearchByProgramId: function(programIds, searchTerms) {
-
-        var list = programIds.split(',');
-
-        for (var i = 0; i < list.length; i++) {
-            if (typeof SOCKET !== 'undefined') {
-                AppServiceSocket.searchByProgramId(list[i], searchTerms, function(data) {
-                    AppDispatcher.dispatch({
-                        actionType: AppConstant.ACTION_PROGRAM_SEARCH,
-                        data: data
-                    });
+    getSearchByProgramId: function(programId, searchTerms) {
+        if (typeof SOCKET !== 'undefined') {
+            AppServiceSocket.searchByProgramId(programId, searchTerms, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_PROGRAM_SEARCH,
+                    data: data
                 });
-            } else {
-                AppService.getSearchByProgramId(list[i], searchTerms, function(data) {
-                    AppDispatcher.dispatch({
-                        actionType: AppConstant.ACTION_PROGRAM_SEARCH,
-                        data: data
-                    });
-                }, true, this.sendProgress);
-            }
+            });
+        } else {
+            AppService.getSearchByProgramId(programId, searchTerms, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_PROGRAM_SEARCH,
+                    data: data
+                });
+            }, true, this.sendProgress);
         }
-
-
     },
 
     getMentions: function() {
@@ -137,30 +130,37 @@ var appAction = {
         });
     },
 
-    getTopTrendsMention: function(trends, filter) {
-        for (var i = 0; i < trends.length; i++) {
-            if (typeof SOCKET !== 'undefined') {
-                AppServiceSocket.searchTopTrends(trends[i], filter, function(data) {
-                    AppDispatcher.dispatch({
-                        actionType: AppConstant.ACTION_GET_TOP_TRENDS_MENTION,
-                        data: data
-                    });
+    getTopTrendsMention: function(searchTerm, filter) {
+        
+        if (typeof SOCKET !== 'undefined') {
+            AppServiceSocket.searchTopTrends(searchTerm, filter, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_GET_TOP_TRENDS_MENTION,
+                    data: data
                 });
+            });
 
-            } else {
-                AppService.searchTopTrends(trends[i], filter, function(data) {
-                    AppDispatcher.dispatch({
-                        actionType: AppConstant.ACTION_GET_TOP_TRENDS_MENTION,
-                        data: data
-                    });
-                }, true, this.sendProgress);
-            }
-        };
+        } else {
+            AppService.searchTopTrends(searchTerm, filter, function(data) {
+                AppDispatcher.dispatch({
+                    actionType: AppConstant.ACTION_GET_TOP_TRENDS_MENTION,
+                    data: data
+                });
+            }, true, this.sendProgress);
+        }
+    
     },
     updateFilter: function(days) {
         AppDispatcher.dispatch({
             actionType: AppConstant.ACTION_UPDATE_FILTER,
             data: days
+        });
+    },
+
+    filterTopMention:function(index) {
+        AppDispatcher.dispatch({
+            actionType: AppConstant.ACTION_FILTER_TOP_TRENDS_MENTION,
+            data: index
         });
     },
 

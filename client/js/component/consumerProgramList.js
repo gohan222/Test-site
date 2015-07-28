@@ -1,7 +1,8 @@
 'use strict';
 
 var React = require('react'),
-    $ = require('jquery'),
+    // $ = require('jquery'),
+    PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
     LazyLoadImg = require('../component/image'),
@@ -9,21 +10,12 @@ var React = require('react'),
     ExpandedMention = require('../component/expandedMention'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
+    Immutable = require('immutable'),
+    ReactMotion = require('react-motion'),
     Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
-    getSnippetText: function(snippets) {
-        var text = '';
-        if (!snippets) {
-            return text;
-        }
-
-        for (var i = 0; i < snippets.length; i++) {
-            text += snippets[i].text;
-        };
-
-        return text;
-    },
+    mixins: [PureRenderMixin],
     onPlayClick: function(event) {
         this.setState({
             isPlaying: true
@@ -47,7 +39,7 @@ var Mention = React.createClass({
         var airDate = React.DOM.i({
             className: 'program-mention-air-date'
         }, React.createElement(TimeAgo, {
-            date: this.props.data.mediaStartTime
+            date: this.props.data.get('mediaStartTime')
         }));
 
         //program info
@@ -61,13 +53,7 @@ var Mention = React.createClass({
             React.DOM.i({
                 className: 'fa fa-expand fa-stack-1x fa-inverse'
             }));
-        /*var expandIcon = React.DOM.i({
-            className: 'fa fa-plus-circle program-card-play-icon icon-prop icon-prop-animation clickable',
-            onClick: this.props.onExpand.bind(null,this.props.data)
-        });*/
-
-
-
+        
         var playIcon, mentionContainer;
         if (this.state.isPlaying) {
             playIcon = React.DOM.i({
@@ -78,8 +64,8 @@ var Mention = React.createClass({
                 className: 'program-list-mention-player'
             }, React.createElement(Player, {
                 src: Utils.mediaUrl(this.props.data),
-                poster: this.props.data.programLiveImage,
-                fileType: this.props.data.fileType
+                poster: this.props.data.get('programLiveImage'),
+                fileType: this.props.data.get('fileType')
             }));
         } else {
             playIcon = React.DOM.i({
@@ -91,7 +77,7 @@ var Mention = React.createClass({
                 className: 'program-list-mention-text'
             }, React.DOM.span({
                 className: 'cur-point ui-snip-text'
-            }, this.getSnippetText(this.props.data.mentionSnippet)));
+            }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
         }
 
         var iconContainer = React.DOM.div({
@@ -103,15 +89,15 @@ var Mention = React.createClass({
         //media type
         var mediaType;
 
-        if (this.props.data.mediaSourceTypeId === 2) {
+        if (this.props.data.get('mediaSourceTypeId') === 2) {
             mediaType = React.DOM.i({
                 className: 'fa fa-video-camera program-card-icon'
             });
-        } else if (this.props.data.mediaSourceTypeId === 3) {
+        } else if (this.props.data.get('mediaSourceTypeId') === 3) {
             mediaType = React.DOM.i({
                 className: 'fa fa-youtube-play program-card-icon'
             });
-        } else if (this.props.data.mediaSourceTypeId === 4) {
+        } else if (this.props.data.get('mediaSourceTypeId') === 4) {
             mediaType = React.DOM.i({
                 className: 'fa fa-rss program-card-icon'
             });
@@ -136,89 +122,101 @@ var Mention = React.createClass({
 });
 
 var ProgramRow = React.createClass({
+    mixins: [PureRenderMixin],
     scrollIndex: 0,
     onScrollLeft: function(event) {
         var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
         var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth/cardWidth);
+        var viewableCards = Math.floor(parentWidth / cardWidth);
 
-        if(viewableCards >= this.props.data.length){
+        if (viewableCards >= this.state.data.size) {
             return;
-        }else if (this.scrollIndex - viewableCards < 0){
+        } else if (this.scrollIndex - viewableCards < 0) {
             this.scrollIndex = 0;
-        }else{
+        } else {
             this.scrollIndex -= viewableCards - 1;
         }
 
-        // console.log(event);
         this.scrollIndex--;
         if (this.scrollIndex < 0) {
             this.scrollIndex = 0;
         }
-        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
+
+        this.setState({
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+        });
     },
     onScrollRight: function(event) {
-        // console.log(event);
+        
         var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
         var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth/cardWidth);
+        var viewableCards = Math.floor(parentWidth / cardWidth);
 
         // this.scrollIndex++;
-        if(viewableCards >= this.props.data.length){
+        if (viewableCards >= this.state.data.size) {
             return;
-        }else if(viewableCards + this.scrollIndex >= this.props.data.length){
-            this.scrollIndex = this.props.data.length - viewableCards;
-        }else{
+        } else if (viewableCards + this.scrollIndex >= this.state.data.size) {
+            this.scrollIndex = this.state.data.size - viewableCards;
+        } else {
             this.scrollIndex += viewableCards - 1;
         }
 
-        this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex) + 'px';
-        // $(this.refs.mentionList.getDOMNode()).animate({left: -1*(cardWidth*this.scrollIndex)}, 400);
+        this.setState({
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+        });
     },
     getInitialState: function() {
         return {
-            isExpanding: false
+            data: this.props.data,
+            isExpanding: false,
+            scrollPosition: 0,
+            expandMention: null
         };
     },
     onExpand: function(mention) {
-        var context = this;
-        $(React.findDOMNode(this.refs.mentionList)).animate({
-            opacity: 0
-        }, 200, 'linear');
-
-        $(this.getDOMNode()).animate({
-                height: 354
-            }, 200, 'linear',
-            function() {
-                context.setState({
-                    isExpanding: true,
-                    expandMention: mention
-                });
-            });
+        this.setState({
+            isExpanding: true,
+            expandMention: mention
+        });
     },
     onCloseExpand: function() {
-        var context = this
-        $(React.findDOMNode(this.refs.mentionList)).animate({
-            opacity: 1
-        }, 200, 'linear');
-        $(this.getDOMNode()).animate({
-                height: 219
-            }, 200, 'linear',
-            function() {
-                context.setState({
-                    isExpanding: false,
-                    expandMention: null
-                });
-            });
+        this.setState({
+            isExpanding: false,
+            expandMention: null
+        });
 
     },
+    onProgramSearchResult: function() {
+        var programSearchResult = AppStore.getProgramsSearch();
+
+        var currentMention = this.state.data.get(0);
+        var newMention = programSearchResult.get(0);
+        if (currentMention.get('programId') === newMention.get('programId')) {
+            this.setState({
+                data: newMention.get('records')
+            });
+        }
+    },
+    componentDidMount: function() {
+        AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
+
+        var mention = this.state.data.get(0);
+        AppAction.getSearchByProgramId(mention.get('programId'), AppStore.getSearchTerms());
+    },
+    componentWillUnmount: function() {
+        AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
+    },
     render: function() {
-        var mentionNodes = this.props.data.map(function(mention) {
+        var context = this;
+        if (!this.state.data || this.state.data.size === 0) {
+            return React.DOM.span();
+        }
+
+        var mentionNodes = this.state.data.map(function(mention) {
             return React.DOM.div({
                 className: 'program-card-container'
             }, React.createElement(Mention, {
@@ -230,7 +228,7 @@ var ProgramRow = React.createClass({
         }, this);
 
         //referenced mention
-        var refmention = this.props.data[0];
+        var refmention = this.state.data.get(0);
 
         //program info
         var programInfo = React.DOM.div();
@@ -238,7 +236,7 @@ var ProgramRow = React.createClass({
                 className: 'prog-avtr2'
             },
             React.createElement(LazyLoadImg, {
-                src: refmention.programLiveImage,
+                src: refmention.get('programLiveImage'),
                 className: 'prog-avtr-style'
             }));
 
@@ -261,148 +259,142 @@ var ProgramRow = React.createClass({
         }));
         var programName = React.DOM.div({
             className: 'm5 bold'
-        }, React.DOM.a(null, refmention.programName));
+        }, React.DOM.a(null, refmention.get('programName')));
         var programNameContainer = React.DOM.div({
             className: 'prog-title2'
         }, programName);
 
         var programContainer = React.DOM.div({
             className: 'program-container'
-        }, backgroundImage, programNameContainer)
+        }, backgroundImage, programNameContainer);
 
-        var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
-            className: 'scroll-animation',
-            style: !this.state.isExpanding ? {
-                left: 0,
-                display: 'inline-block'
-            } : {
-                left: 0,
-                display: 'none'
+        var motionMentions = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                left: {
+                    val: this.state.scrollPosition,
+                    config: [200, 50]
+                },
+                opacity: {
+                    val: this.state.isExpanding ? 0 : 1
+                },
+                isExpanding: this.state.isExpanding
             },
-            transitionName: 'component',
-            transitionAppear: true,
-            transitionLeave: true,
-            transitionEnter: true,
-            ref: 'mentionList',
-            hidden: this.state.isExpanding
-        }, mentionNodes);
+            ref: 'mentionList'
+        }, function(props) {
+            var style = {
+                left: props.left.val,
+                opacity: props.opacity.val
+            };
 
-        var expandedMention = React.createElement(ExpandedMention, {
-            style: this.state.isExpanding ? {
-                display: 'inline-block'
-            } : {
-                display: 'none'
-            },
-            data: this.state.expandMention,
-            onClose: this.onCloseExpand
+            return React.createElement(React.addons.CSSTransitionGroup, {
+                style: style,
+                transitionName: 'component',
+                transitionAppear: true,
+                transitionLeave: true,
+                transitionEnter: true
+            }, mentionNodes);
+        });
+    
+        var motionDetailed = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                opacity: {
+                    val: this.state.isExpanding ? 1 : 0
+                } 
+            }
+        }, function(props, props2) {
+            var style = {
+                opacity: props.opacity.val,
+            }
+
+            if (props.opacity.val === 0) {
+                style.display = 'none';
+            } else {
+                style.display = 'inline-block';
+            }
+
+            return React.createElement(ExpandedMention, {
+                className: 'program-expand-mention',
+                style: style,
+                data: context.state.expandMention,
+                onClose: context.onCloseExpand
+            });
+
         });
 
-        var container = React.DOM.li({
-            className: this.state.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation'
-        }, programContainer, React.DOM.div({
-            className: 'program-list-mention-container'
-        }, animationElement, expandedMention), leftArrow, rightArrow);
+        var motionRowContainer = React.createElement(ReactMotion.Spring, {
+            endValue: {
+                height: {
+                    val: this.state.isExpanding ? 354 : 219
+                },
+                isExpanding: this.state.isExpanding
+            }
+        }, function(props) {
+            return React.DOM.li({
+                className: props.isExpanding ? 'program-list-row-active background-color-animation' : 'program-list-row background-color-animation',
+                style: {
+                    height: props.height.val
+                }
+            }, programContainer, React.DOM.div({
+                className: 'program-list-mention-container'
+            }, motionMentions, motionDetailed), leftArrow, rightArrow);
+
+        });
+
+        var container = motionRowContainer;
 
         return container;
     }
 });
 
 module.exports = React.createClass({
+    mixins: [PureRenderMixin],
     sortedResult: null,
     sortData: function(mentions) {
         var hash = {};
-        var collection = [];
+        var collection = Immutable.List.of();
 
         if (!mentions) {
             return collection;
         }
 
-        for (var i = 0; i < mentions.length; i++) {
-            var mention = mentions[i];
-            if (!hash[mention.programId]) {
-                hash[mention.programId] = [mention];
-                collection.push(hash[mention.programId]);
+        for (var i = 0; i < mentions.size; i++) {
+            var mention = mentions.get(i);
+            if (!hash[mention.get('programId')]) {
+                hash[mention.get('programId')] = Immutable.List.of(mention);
+                collection = collection.push(hash[mention.get('programId')]);
             } else {
-                hash[mention.programId].push(mention);
+                hash[mention.get('programId')] = hash[mention.get('programId')].push(mention);
             }
         };
 
         return collection;
     },
-    getProgramSearches: function(sortedMention) {
-        var programIds = '';
-        for (var i = 0; i < sortedMention.length; i++) {
-            var mention = sortedMention[i][0];
-            if (!programIds) {
-                programIds = mention.programId;
-            } else {
-                programIds += ',' + mention.programId;
-            }
-        };
-
-        AppAction.getSearchByProgramId(programIds, AppStore.getSearchTerms());
-    },
+    
     onChange: function() {
         //first we remove the data before adding new list to animation the draw.
         this.sortedResult = this.sortData(AppStore.getSearchResults());
         this.setState({
             data: this.sortedResult
         });
-        this.getProgramSearches(this.sortedResult);
-        // AppAction.sendProgress(0);
     },
     onSearchTermChange: function() {
         this.setState({
-            data: []
+            data: Immutable.List.of()
         });
         AppAction.searchInit(AppStore.getSearchTerms());
-    },
-    onProgramSearchResult: function() {
-        var programSearchResult = AppStore.getProgramsSearch();
-        var context = this;
-        // this.sortedResult = this.sortData(programSearchResult);
-        if (!programSearchResult || programSearchResult.length === 0) {
-            return;
-        }
-
-        // var mention = programSearchResult[0],
-        // mentionsList = null;
-        for (var i = 0; i < programSearchResult.length; i++) {
-            var psr = programSearchResult[i];
-            for (var i = 0; i < this.sortedResult.length; i++) {
-                if (this.sortedResult[i][0].programId === psr.programId) {
-                    this.sortedResult[i] = psr.records;
-                    break;
-                }
-            };
-        };
-
-
-        setTimeout(function() {
-            context.setState({
-                data: context.sortedResult
-            });
-        }, 500);
-
-        // AppAction.sendProgress(0);
     },
     componentDidMount: function() {
         AppStore.addChangeListener(this.onChange);
         AppStore.addChangeSearchTermListener(this.onSearchTermChange);
-        AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
-
-        if (this.state.searchTerms) {
-            AppAction.searchInit(this.state.searchTerms);
-        }
     },
     componentWillUnmount: function() {
         AppStore.removeChangeListener(this.onChange);
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
-        AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
+        // AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
     },
     getInitialState: function() {
         this.sortedResult = this.sortData(AppStore.getSearchResults());
-        //this.getProgramSearches(this.sortedResult);
+        
         return {
             data: this.sortedResult,
             searchTerms: AppStore.getSearchTerms()

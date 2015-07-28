@@ -5,32 +5,28 @@ var React = require('react'),
     TimeAgo = require('react-timeago'),
     AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
-    $ = require('jquery'),
+    PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     Utils = require('../../../server/utils');
 
 module.exports = React.createClass({
+    mixins: [PureRenderMixin],
     getSnippetText: function(snippets) {
         var text = '';
-        if (!snippets || !snippets.textFragments) {
+        if (!snippets || !snippets.get('textFragments').size > 0) {
             return text;
         }
-
-        for (var i = 0; i < snippets.textFragments.length; i++) {
-            text += snippets.textFragments[i].text;
+        var textFragments = snippets.get('textFragments');
+        for (var i = 0; i < textFragments.size; i++) {
+            text += textFragments.get(i).get('text');
         };
 
         return text;
     },
     onCloseExpand: function() {
-        var context = this;
-        $(this.getDOMNode()).animate({
-            opacity: 0
-        }, 200, 'linear', function() {
-            context.props.onClose();
-        });
+        this.props.onClose();
     },
     onChangeTranscript: function() {
-        if (this.props.data && AppStore.getTranscriptId() === this.props.data.mediaId) {
+        if (this.props.data && AppStore.getTranscriptId() === this.props.data.get('mediaId')) {
             this.setState({
                 transcript: this.getSnippetText(AppStore.getTranscript())
             });
@@ -45,14 +41,8 @@ module.exports = React.createClass({
     componentWillReceiveProps: function(nextProps) {
         // console.log('componentWillReceiveProps');  
         if (nextProps.data && this.props.data != nextProps.data) {
-            AppAction.getTranscript(nextProps.data.mediaId, nextProps.data.mentionSnippet[0].startTime, nextProps.data.mentionSnippet[nextProps.data.mentionSnippet.length - 1].endTime);
+            AppAction.getTranscript(nextProps.data.get('mediaId'), nextProps.data.get('mentionSnippet').get(0).get('startTime'), nextProps.data.get('mentionSnippet').get(nextProps.data.get('mentionSnippet').size - 1).get('endTime'));
         }
-    },
-    componentDidUpdate: function() {
-        $(this.getDOMNode()).animate({
-            opacity: 1
-        }, 200, 'linear');
-
     },
     getInitialState: function() {
         return {};
@@ -64,8 +54,8 @@ module.exports = React.createClass({
 
         var player = React.createElement(Player, {
             src: Utils.mediaUrl(this.props.data),
-            poster: this.props.data.programLiveImage,
-            fileType: this.props.data.fileType
+            poster: this.props.data.get('programLiveImage'),
+            fileType: this.props.data.get('fileType')
         });
 
         var socialContainer = React.DOM.div({
@@ -74,7 +64,7 @@ module.exports = React.createClass({
             React.DOM.i({
                 className: 'program-mention-air-date'
             }, React.createElement(TimeAgo, {
-                date: this.props.data.mediaStartTime
+                date: this.props.data.get('mediaStartTime')
             })), React.DOM.i({
                 className: 'fa fa-envelope-o program-card-play-icon icon-prop icon-prop-animation clickable'
             }),
@@ -108,7 +98,7 @@ module.exports = React.createClass({
 
 
         return React.DOM.div({
-            className: 'program-expand-mention opacity-animation',
+            className: this.props.className,
             hidden: this.props.hidden
         }, expandMedia, expandTranscript, closeIcon);
     }

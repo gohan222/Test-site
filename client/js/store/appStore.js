@@ -14,27 +14,29 @@
 var AppDispatcher = require('../dispatcher/appDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var Constants = require('../constant/appConstant');
+var Immutable = require('immutable');
 var assign = require('object-assign');
 
-var searchResults = [];
-var relatedTopics = [];
-var relatedCollections = [];
-var searchTerms = '';
+var searchResults = null;
+var relatedTopics = null;
+var relatedCollections = null;
+var searchTerms = null;
 var user = null;
-var currentView = '';
-var programSearchResult;
-var mentions = [];
-var topTrends = [];
-var trends = [];
-var filterDays = 1;
-var percentComplete = 0;
-var curTranscript;
-var curTranscriptId;
-var topTrendMention;
+var currentView = null;
+var programSearchResult = null;
+var mentions  = null;
+var topTrends = null;
+var trends  = null;
+var filterDays  = null;
+var percentComplete  = null;
+var curTranscript  = null;
+var curTranscriptId  = null;
+var topTrendMention  = null;
+var filterTopTrendMention  = -1;
 
 
 function updateSearchResults(results){
-  searchResults = results;
+  searchResults = Immutable.fromJS(results);
 }
 
 function updateRelatedTopics(results){
@@ -58,7 +60,7 @@ function updateView(results){
 }
 
 function updateProgramSearch(results){
-  programSearchResult = results;
+  programSearchResult = Immutable.fromJS(results);
 }
 
 function updateMentions(results){
@@ -66,7 +68,7 @@ function updateMentions(results){
 }
 
 function updateTopTrends(results){
-  topTrends = results;
+  topTrends = Immutable.fromJS(results);
 }
 
 function updateTrends(results){
@@ -82,7 +84,7 @@ function updateProgress(results){
 }
 
 function updateTranscript(results){
-  curTranscript = results;
+  curTranscript = Immutable.fromJS(results);
 }
 
 function updateTranscriptId(results){
@@ -90,7 +92,11 @@ function updateTranscriptId(results){
 }
 
 function updateTopTrendMention(results){
-  topTrendMention = results;
+  topTrendMention = Immutable.fromJS(results);
+}
+
+function updateFilterTopTrendMention(results){
+  filterTopTrendMention = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -153,6 +159,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   emitChangeTopTrendMention: function() {
     this.emit(Constants.CHANGE_TOP_TREND_MENTION_EVENT);
+  },
+
+  emitChangeFilterTopTrendMention:function(){
+    this.emit(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT);
   },
 
   /**
@@ -218,7 +228,9 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_TOP_TREND_MENTION_EVENT, callback);
   },
 
-  
+  addChangeFilterTopTrendMentionListener: function(callback) {
+    this.on(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
+  },  
 
   
   /**
@@ -284,10 +296,17 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.removeListener(Constants.CHANGE_TOP_TREND_MENTION_EVENT, callback);
   },
 
-  
+  removeChangeFilterTopTrendMentionListener: function(callback) {
+    this.removeListener(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
+  },
 
   getSearchResults: function(){
-    return searchResults.records;
+    if(searchResults){
+      return searchResults.get('records');  
+    }else{
+      return [];
+    }
+    
   },
   
   getSearchTerms: function(){
@@ -296,7 +315,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getSearchResultsCount: function(){
     if (searchResults){
-      return searchResults.totalRecords;
+      return searchResults.get('totalRecords');
     }else{
       return 0;
     }
@@ -328,7 +347,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getProgramsSearch: function(){
     if(programSearchResult){
-      return programSearchResult.records;  
+      return programSearchResult.get('records');  
     }else{
       return null;
     }
@@ -365,8 +384,11 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getTopTrendMention:function(){
     return topTrendMention;
-  }
+  },
 
+  getFilterTopTrendMention:function(){
+    return filterTopTrendMention;
+  }
 });
 
 // Register callback to handle all updates
@@ -433,6 +455,10 @@ AppDispatcher.register(function(action) {
     case Constants.ACTION_GET_TOP_TRENDS_MENTION:
       updateTopTrendMention(action.data);
       AppStore.emitChangeTopTrendMention();
+      break;
+    case Constants.ACTION_FILTER_TOP_TRENDS_MENTION:
+      updateFilterTopTrendMention(action.data);
+      AppStore.emitChangeFilterTopTrendMention();
       break;
     default:
       // no op

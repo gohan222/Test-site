@@ -11,12 +11,12 @@ router.post('/login', function(req, res) {
     };
 
     service.login(options, function(err, result, response) {
-        if (!err) {
+        if (!err && result && result.kvp) {
             req.session.user = result;
             res.setHeader('Content-Type', 'application/json');
             res.send(result.kvp);
         } else {
-            res.setStatus(500).send(err);
+            res.status(500).send(err);
         }
 
     }, res);

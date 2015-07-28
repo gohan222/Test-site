@@ -13,7 +13,7 @@ module.exports = React.createClass({
 
     var view = React.DOM.div({className:'ui-exp-coll'}, React.createElement(Filter,{app: this.props.app , buttonGroup: buttonGroup}), React.createElement(BroadcasterViewContainer));
     
-    return React.DOM.div({className:'contain active'},
+    return React.DOM.div({className:'active'},
       view
       );
   }
