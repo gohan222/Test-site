@@ -9,6 +9,7 @@ var React = require('react'),
     ExpandedMention = require('../component/expandedMention'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
+    MD5 = require('md5'),
     Immutable = require('immutable'),
     ReactMotion = require('react-motion'),
     Utils = require('../../../server/utils');
@@ -144,7 +145,7 @@ var ProgramRow = React.createClass({
     scrollIndex: 0,
     onChangeFilterTopTrendMention: function() {
         this.setState({
-            show: AppStore.getFilterTopTrendMention() === -1 || AppStore.getFilterTopTrendMention() === this.props.index
+            show: !AppStore.getFilterTopTrendMention() || AppStore.getFilterTopTrendMention() === this.state.data.get('searchTerm')
         });
     },
     onChangeTopTrend: function() {
@@ -209,7 +210,7 @@ var ProgramRow = React.createClass({
         return {
             data: this.props.data,
             index: this.props.index,
-            show: AppStore.getFilterTopTrendMention() === -1 || AppStore.getFilterTopTrendMention() === this.props.index,
+            show: !AppStore.getFilterTopTrendMention() || AppStore.getFilterTopTrendMention() === this.props.data.get('searchTerm'),
             isExpanding: false,
             scrollPosition: 0
         };
@@ -248,7 +249,9 @@ var ProgramRow = React.createClass({
 
         var context = this;
         var mentionNodes = this.state.data.get('records').map(function(mention) {
+            // console.log(Crypto.createHash('md5').update(JSON.stringify(mention)).digest('hex'));
             return React.DOM.div({
+                key: MD5(Utils.generateMentionKey(mention)),
                 className: 'trend-card-container'
             }, React.createElement(Mention, {
                 data: mention,
@@ -395,6 +398,7 @@ module.exports = React.createClass({
     render: function() {
         var programNodes = this.state.data.map(function(mentions, index) {
             return React.createElement(ProgramRow, {
+                key: mentions.get('searchTerm'),
                 data: mentions,
                 index: index
             });

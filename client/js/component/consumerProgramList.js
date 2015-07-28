@@ -12,6 +12,7 @@ var React = require('react'),
     Constants = require('../constant/appConstant'),
     Immutable = require('immutable'),
     ReactMotion = require('react-motion'),
+    MD5 = require('md5'),
     Utils = require('../../../server/utils');
 
 var Mention = React.createClass({
@@ -218,6 +219,7 @@ var ProgramRow = React.createClass({
 
         var mentionNodes = this.state.data.map(function(mention) {
             return React.DOM.div({
+                key: MD5(Utils.generateMentionKey(mention)),
                 className: 'program-card-container'
             }, React.createElement(Mention, {
                 data: mention,
@@ -378,9 +380,6 @@ module.exports = React.createClass({
         });
     },
     onSearchTermChange: function() {
-        this.setState({
-            data: Immutable.List.of()
-        });
         AppAction.searchInit(AppStore.getSearchTerms());
     },
     componentDidMount: function() {
@@ -403,6 +402,7 @@ module.exports = React.createClass({
     render: function() {
         var programNodes = this.state.data.map(function(mentions) {
             return React.createElement(ProgramRow, {
+                key: mentions.get(0).get('programId'),
                 data: mentions
             });
         });

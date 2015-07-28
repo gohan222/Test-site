@@ -58,6 +58,10 @@ var utils = {
         };
 
         return text;
+    },
+    generateMentionKey:function(mention){
+        var modMention = mention.set('transcriptUrl','');
+        return JSON.stringify(modMention);
     }
 }
 
