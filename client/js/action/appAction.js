@@ -121,6 +121,12 @@ var appAction = {
             });
         });
     },
+    updateTopTrends: function(topTrends) {
+        AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_UPDATE_TOP_TRENDS,
+                data: topTrends
+            });
+    },
     getTrends: function(searchTerms, days) {
         AppServiceAnalytics.getTrends(searchTerms, days, function(data) {
             AppDispatcher.dispatch({

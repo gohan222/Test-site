@@ -9,6 +9,7 @@ var React = require('react'),
     ExpandedMention = require('../component/expandedMention'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
+    Crypto = require('crypto'),
     Immutable = require('immutable'),
     ReactMotion = require('react-motion'),
     Utils = require('../../../server/utils');
@@ -131,6 +132,7 @@ var Mention = React.createClass({
             iconContainer);
 
         var holder = React.DOM.div({
+            key: this.props.key,
             className: 'trend-card trend-card-animation clickable'
         }, programContainer, mentionContainer, footer);
 
@@ -248,7 +250,9 @@ var ProgramRow = React.createClass({
 
         var context = this;
         var mentionNodes = this.state.data.get('records').map(function(mention) {
+            // console.log(Crypto.createHash('md5').update(JSON.stringify(mention)).digest('hex'));
             return React.DOM.div({
+                key: Crypto.createHash('md5').update(JSON.stringify(mention)).digest('hex'),
                 className: 'trend-card-container'
             }, React.createElement(Mention, {
                 data: mention,
@@ -347,6 +351,7 @@ var ProgramRow = React.createClass({
             }
         }, function(props) {
             return React.DOM.li({
+                key: context.props.key,
                 className: props.isExpanding ? 'trend-list-row-active background-color-animation' : 'trend-list-row background-color-animation',
                 style: {
                     height: props.height.val
@@ -395,6 +400,7 @@ module.exports = React.createClass({
     render: function() {
         var programNodes = this.state.data.map(function(mentions, index) {
             return React.createElement(ProgramRow, {
+                key: mentions.get('searchTerm'),
                 data: mentions,
                 index: index
             });

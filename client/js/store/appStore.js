@@ -431,6 +431,7 @@ AppDispatcher.register(function(action) {
       updateMentions(action.data);
       AppStore.emitChangeMentions();
       break;
+    case Constants.ACTION_UPDATE_TOP_TRENDS:
     case Constants.ACTION_GET_TOP_TRENDS:
       updateTopTrends(action.data);
       AppStore.emitChangeTopTrends();
