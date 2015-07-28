@@ -22,6 +22,21 @@ module.exports = React.createClass({
 
         return list;
     },
+    resetViewData: function(){
+      //reset filters on view change.
+        setTimeout(function(){
+            AppAction.filterTopMention(null);
+          },1);
+        if (this.state.view === Constants.VIEW_TRENDING_SEARCH_TERMS_LIST) {
+          setTimeout(function(){
+            AppAction.updateFilter(7);
+          },1);
+        }else{
+          setTimeout(function(){
+            AppAction.updateFilter(1);
+          },1);
+        }
+    },
     onChange: function() {
         this.setState({
             view: AppStore.getView()
@@ -52,7 +67,7 @@ module.exports = React.createClass({
     },
     render: function() {
         var viewElem;
-
+        this.resetViewData();
         if (this.state.view === Constants.VIEW_TRENDING_SEARCH_TERMS_LIST) {
             viewElem = React.DOM.div(null, React.createElement(BroadcasterTrendSearchTerm), React.createElement(BroadcasterTopTrendsMention, {
                 key: 'searchTerms'

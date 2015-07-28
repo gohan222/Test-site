@@ -101,13 +101,17 @@ module.exports = React.createClass({
     },
     onSelect: function(chart, items){
       if(items && items.length > 0){
-        AppAction.filterTopMention(items[0].row);  
+        AppAction.filterTopMention(this.state.data.columns[items[0].column].label);  
       }else{
         AppAction.filterTopMention(-1);
       }
       
     },
     onChangeFilter: function() {
+        if(!AppStore.getSearchTerms()){
+          return;
+        }
+
         AppAction.getTrends(AppStore.getSearchTerms(), AppStore.getFilter());
     },
     onChange: function() {
@@ -118,7 +122,11 @@ module.exports = React.createClass({
     },
     onSearchTermChange: function() {
         // this.setState({recordCount: AppStore.getSearchResultsCount() ? AppStore.getSearchResultsCount() : 0});
-        AppAction.getTrends(AppStore.getSearchTerms(), 7);
+        if(!AppStore.getSearchTerms()){
+          return;
+        }
+
+        AppAction.getTrends(AppStore.getSearchTerms(), AppStore.getFilter());
     },
     componentDidMount: function() {
         AppStore.addChangeSearchTermListener(this.onSearchTermChange);

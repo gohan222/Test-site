@@ -132,7 +132,6 @@ var Mention = React.createClass({
             iconContainer);
 
         var holder = React.DOM.div({
-            key: this.props.key,
             className: 'trend-card trend-card-animation clickable'
         }, programContainer, mentionContainer, footer);
 
@@ -146,7 +145,7 @@ var ProgramRow = React.createClass({
     scrollIndex: 0,
     onChangeFilterTopTrendMention: function() {
         this.setState({
-            show: AppStore.getFilterTopTrendMention() === -1 || AppStore.getFilterTopTrendMention() === this.props.index
+            show: !AppStore.getFilterTopTrendMention() || AppStore.getFilterTopTrendMention() === this.state.data.get('searchTerm')
         });
     },
     onChangeTopTrend: function() {
@@ -211,7 +210,7 @@ var ProgramRow = React.createClass({
         return {
             data: this.props.data,
             index: this.props.index,
-            show: AppStore.getFilterTopTrendMention() === -1 || AppStore.getFilterTopTrendMention() === this.props.index,
+            show: !AppStore.getFilterTopTrendMention() || AppStore.getFilterTopTrendMention() === this.props.data.get('searchTerm'),
             isExpanding: false,
             scrollPosition: 0
         };
@@ -351,7 +350,6 @@ var ProgramRow = React.createClass({
             }
         }, function(props) {
             return React.DOM.li({
-                key: context.props.key,
                 className: props.isExpanding ? 'trend-list-row-active background-color-animation' : 'trend-list-row background-color-animation',
                 style: {
                     height: props.height.val

@@ -36,14 +36,10 @@ module.exports = React.createClass({
         }
     }],
     onSelect: function(chart, items){
-      /*console.log("select the chart");
-      console.log(event1);
-      console.log(event2);
-      console.log(event3);*/
       if(items && items.length > 0){
-        AppAction.filterTopMention(items[0].row);  
+        AppAction.filterTopMention( this.state.data[items[0].row+1][0]);  
       }else{
-        AppAction.filterTopMention(-1);
+        AppAction.filterTopMention(null);
       }
       
     },
@@ -92,7 +88,7 @@ module.exports = React.createClass({
         AppStore.addChangeFilterListener(this.onChangeFilter);
 
         //get the new list of trends
-        AppAction.getTopTrends(1);
+        AppAction.getTopTrends(AppStore.getFilter());
     },
     componentWillUnmount: function() {
         AppStore.removeChangeTopTrendsListener(this.onChange);

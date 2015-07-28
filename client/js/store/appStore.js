@@ -32,7 +32,7 @@ var percentComplete  = null;
 var curTranscript  = null;
 var curTranscriptId  = null;
 var topTrendMention  = null;
-var filterTopTrendMention  = -1;
+var filterTopTrendMention  = null;
 
 
 function updateSearchResults(results){
