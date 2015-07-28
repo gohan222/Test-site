@@ -54,6 +54,10 @@
   overflow: hidden;
 }
 
+.ui-au-holder{
+  white-space: normal;
+}
+
 .ui-program-au-holder{
   display: inline-block;
   padding-right: 10px;

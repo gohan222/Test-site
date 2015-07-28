@@ -9,7 +9,7 @@ var React = require('react'),
     ExpandedMention = require('../component/expandedMention'),
     TimeAgo = require('react-timeago'),
     Constants = require('../constant/appConstant'),
-    Crypto = require('crypto'),
+    MD5 = require('md5'),
     Immutable = require('immutable'),
     ReactMotion = require('react-motion'),
     Utils = require('../../../server/utils');
@@ -251,7 +251,7 @@ var ProgramRow = React.createClass({
         var mentionNodes = this.state.data.get('records').map(function(mention) {
             // console.log(Crypto.createHash('md5').update(JSON.stringify(mention)).digest('hex'));
             return React.DOM.div({
-                key: Crypto.createHash('md5').update(JSON.stringify(mention)).digest('hex'),
+                key: MD5(Utils.generateMentionKey(mention)),
                 className: 'trend-card-container'
             }, React.createElement(Mention, {
                 data: mention,

@@ -5,6 +5,7 @@ var AppStore = require('../store/appStore'),
     PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     LazyLoadImg = require('../component/image'),
     Utils = require('../../../server/utils'),
+    MD5 = require('md5'),
     React = require('react/addons');
 
 var Mention = React.createClass({
@@ -63,9 +64,6 @@ module.exports = React.createClass({
         });
     },
     onSearchTermChange: function() {
-        this.setState({
-            data: []
-        });
         AppAction.searchInit(AppStore.getSearchTerms());
     },
     componentDidMount: function() {
@@ -96,6 +94,7 @@ module.exports = React.createClass({
 
         var mentionNodes = this.state.data.map(function(mention) {
             return React.createElement(Mention, {
+                key: MD5(Utils.generateMentionKey(mention)),
                 data: mention
             });
         });
