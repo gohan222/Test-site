@@ -59,7 +59,23 @@ var utils = {
 
         return text;
     },
+    getTextFragment: function(snippets) {
+        var text = '';
+        if (!snippets || !snippets.get('textFragments').size > 0) {
+            return text;
+        }
+        var textFragments = snippets.get('textFragments');
+        for (var i = 0; i < textFragments.size; i++) {
+            text += textFragments.get(i).get('text');
+        };
+
+        return text;
+    },
     generateMentionKey:function(mention){
+        if (!mention){
+            return '';
+        }
+
         var modMention = mention.set('transcriptUrl','');
         return JSON.stringify(modMention);
     }

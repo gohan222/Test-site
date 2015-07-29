@@ -10,39 +10,25 @@ var React = require('react'),
 
 module.exports = React.createClass({
     mixins: [PureRenderMixin],
-    getSnippetText: function(snippets) {
-        var text = '';
-        if (!snippets || !snippets.get('textFragments').size > 0) {
-            return text;
-        }
-        var textFragments = snippets.get('textFragments');
-        for (var i = 0; i < textFragments.size; i++) {
-            text += textFragments.get(i).get('text');
-        };
-
-        return text;
-    },
     onCloseExpand: function() {
         this.props.onClose();
     },
     onChangeTranscript: function() {
         if (this.props.data && AppStore.getTranscriptId() === this.props.data.get('mediaId')) {
             this.setState({
-                transcript: this.getSnippetText(AppStore.getTranscript())
+                transcript: Utils.getTextFragment(AppStore.getTranscript())
             });
         }
     },
     componentDidMount: function() {
         AppStore.addChangeTranscriptListener(this.onChangeTranscript);
+
+        if (this.props.data) {
+            AppAction.getTranscript(this.props.data.get('mediaId'), this.props.data.get('mentionSnippet').get(0).get('startTime'), this.props.data.get('mentionSnippet').get(this.props.data.get('mentionSnippet').size - 1).get('endTime'));
+        }
     },
     componentWillUnmount: function() {
         AppStore.removeChangeTranscriptListener(this.onChangeTranscript);
-    },
-    componentWillReceiveProps: function(nextProps) {
-        // console.log('componentWillReceiveProps');  
-        if (nextProps.data && this.props.data != nextProps.data) {
-            AppAction.getTranscript(nextProps.data.get('mediaId'), nextProps.data.get('mentionSnippet').get(0).get('startTime'), nextProps.data.get('mentionSnippet').get(nextProps.data.get('mentionSnippet').size - 1).get('endTime'));
-        }
     },
     getInitialState: function() {
         return {};
