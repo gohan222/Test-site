@@ -12,7 +12,7 @@ module.exports = {
         $.ajax({
             type: 'GET', // 'POST' here so that _upload_ progress _also_ makes sense; 
             // Change to 'GET' if you need. 
-            url: 'search?confidence=12&includeSnippet=true&limit=25&offset=0&q=' + searchTerms + '&startDate=' + startDate + '&endDate=' + endDate,
+            url: '/search?confidence=12&includeSnippet=true&limit=25&offset=0&q=' + searchTerms + '&startDate=' + startDate + '&endDate=' + endDate,
             data: {},
             success: function(data) {
                 if (callback) {
@@ -68,14 +68,14 @@ module.exports = {
         });
     },
     getRelatedTopics: function(searchTerms, callback) {
-        $.get('search/relatedTopics?q=' + searchTerms, function(data, status) {
+        $.get('/search/relatedTopics?q=' + searchTerms, function(data, status) {
             if (callback) {
                 callback.apply(this, [data]);
             }
         });
     },
     getRelatedCollections: function(searchTerms, callback) {
-        $.get('search/relatedCollections?q=' + searchTerms, function(data, status) {
+        $.get('/search/relatedCollections?q=' + searchTerms, function(data, status) {
             if (callback) {
                 callback.apply(this, [data]);
             }
@@ -89,7 +89,7 @@ module.exports = {
 		$.ajax({
             type: 'GET', // 'POST' here so that _upload_ progress _also_ makes sense; 
             // Change to 'GET' if you need. 
-            url: 'search/program?q=' + searchTerms + '&programIds=' + programIds + '&startDate=' + startDate + '&endDate=' + endDate,
+            url: '/search/program?q=' + searchTerms + '&programIds=' + programIds + '&startDate=' + startDate + '&endDate=' + endDate,
             data: {},
             success: function(data) {
                 if (callback) {
@@ -145,14 +145,14 @@ module.exports = {
         });
     },
     getMentions: function(callback) {
-        $.get('mention', function(data, status) {
+        $.get('/mention', function(data, status) {
             if (callback) {
                 callback.apply(this, [data]);
             }
         });
     },
     getTranscript:function(id,startTime, endTime, callback){
-        $.get('search/transcript/' + id + '?start=' + startTime + '&end=' + endTime,function(data, status){
+        $.get('/search/transcript/' + id + '?start=' + startTime + '&end=' + endTime,function(data, status){
             if(callback){
                 callback.apply(this,[data]);
             }

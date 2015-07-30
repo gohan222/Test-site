@@ -19,7 +19,7 @@ var LeftContainer = React.createClass({
     render: function() {
         //logo
         var img = React.createElement(Img, {
-            src: 'images/consumer-headers-assets/logosearch-button.png',
+            src: '/images/consumer-headers-assets/logosearch-button.png',
             className: 'header-consumer-logo clickable'
         });
         return React.DOM.div({

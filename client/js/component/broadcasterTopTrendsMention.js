@@ -316,6 +316,7 @@ var ProgramRow = React.createClass({
         });
 
         var motionDetailed = React.createElement(ReactMotion.Spring, {
+            key: MD5(Utils.generateMentionKey(this.state.expandMention)),
             endValue: {
                 opacity: {
                     val: this.state.isExpanding ? 1 : 0

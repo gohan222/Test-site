@@ -24,12 +24,23 @@ var CollectionHeader = React.createClass({
 
 module.exports = React.createClass({
   onViewChange: function(){
-    var view = AppStore.getView();
+    /*var view = AppStore.getView();
     if(view === Constants.VIEW_PROGRAM_LIST){
       $('.exp-col1').addClass('exp-col1-expand');
     }else{
       $('.exp-col1').removeClass('exp-col1-expand');
+    }*/
+    this.setState({view:AppStore.getView()});
+  },
+  getInitialState:function(){
+    var view;
+
+    if(!AppStore.getView()){
+      view = this.props.view;
     }
+
+    return {view:view,
+            app: this.props.app};
   },
   componentDidMount: function() {
       AppStore.addChangeViewListener(this.onViewChange);
@@ -38,9 +49,9 @@ module.exports = React.createClass({
       AppStore.removeChangeViewListener(this.onViewChange);
   },
   render: function() {
-
-    var appView = this.props.app === Constants.APP_BROADCASTER ? BroadcasterViewContainer : ConsumerViewContainer
-    var leftView = React.DOM.div({className:'exp-col1 resize-animation ui-exp-coll min-height'}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView));
+    var leftViewStyle = this.state.view === Constants.VIEW_PROGRAM_LIST ? 'exp-col1 exp-col1-expand resize-animation ui-exp-coll min-height' : 'exp-col1 resize-animation ui-exp-coll min-height';
+    var appView = this.state.app === Constants.APP_BROADCASTER ? BroadcasterViewContainer : ConsumerViewContainer
+    var leftView = React.DOM.div({className:leftViewStyle}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView,{view:this.state.view}));
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
     var columnView = React.DOM.div({className:'exp-column-container'},leftView,rightView);
 

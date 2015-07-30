@@ -25,6 +25,6 @@ React.render(
 );
 
 React.render(
-  React.createElement(SearchBody),
+  React.createElement(SearchBody, {view:window.APP.view}),
   document.getElementById('app-content')
 );
