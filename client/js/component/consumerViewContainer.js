@@ -17,7 +17,13 @@ module.exports = React.createClass({
     AppStore.removeChangeViewListener(this.onChange);
   },
   getInitialState: function() {
-    return {view: this.props.view};
+    var view;
+
+    if(!AppStore.getView()){
+      view = this.props.view;
+    }
+
+    return {view: view};
   },
   render: function() {
     var viewElem;

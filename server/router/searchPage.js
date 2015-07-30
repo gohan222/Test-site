@@ -22,12 +22,33 @@ router.get('/', function(req, res){
   res.end(consumerTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
 
+router.get('/:feature/:view', function(req, res, next){
+  res.setHeader('Content-Type', 'text/html');
+  console.log(req.params.feature);
+  console.log(req.params.view);
+
+  switch(req.params.feature){
+    case 'consumer':
+      res.end(consumerTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null, view:req.params.view}));
+      break;
+    case 'trends':
+      res.end(trendsTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null, view:req.params.view}));
+      break;
+    default:
+      next();
+      // res.end(consumerTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null, view:req.params.view}));
+      break;
+  }
+
+  // res.send('Done');
+});
+
 router.get('/logout', function(req, res){
 	req.session.user = null;
   	res.redirect('/');
 });
 
-
+/*
 router.get('/trends', function(req, res){
 	if(!req.session.user){
 		res.redirect('/consumer');
@@ -43,5 +64,5 @@ router.get('/consumer', function(req, res){
 	res.setHeader('Content-Type', 'text/html');
   res.end(consumerTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
 });
-
+*/
 module.exports = router;
