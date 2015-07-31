@@ -15,7 +15,6 @@ view2 = React.createElement(ReactRouter.Route, {
 });
 
 var subRoute = React.createElement(ReactRouter.Route, {
-    path: 'consumer/:view',
     name:'consumer',
     handler: ConsumerViewContainer
 }, view1, view2);

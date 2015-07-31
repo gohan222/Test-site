@@ -4,6 +4,7 @@ var React = require('react'),
 $ = require('jquery'),
 Constants = require('../constant/appConstant'),
 AppStore = require('../store/appStore'),
+AppAction = require('../action/appAction'),
 Filter = require('../component/filter'),
 RelatedTopics = require('../component/relatedTopics'),
 RelatedCollections = require('../component/relatedCollections'),
@@ -22,8 +23,15 @@ var CollectionHeader = React.createClass({
 });
 
 module.exports = React.createClass({
+  mixins: [ ReactRouter.State ],
   onViewChange: function(){
     // this.setState({view:AppStore.getView()});
+  },
+  componentWillMount:function(){
+    //initialize data store before mounting values.
+    if(this.props.query.q){
+      AppAction.changeSearchTerm(this.props.query.q);
+    }
   },
   componentDidMount: function() {
       AppStore.addChangeViewListener(this.onViewChange);
@@ -33,7 +41,7 @@ module.exports = React.createClass({
   },
   render: function() {
     console.log(this.props.params);
-    var leftViewStyle = this.props.params.view === 'program' ? 'exp-col1 exp-col1-expand resize-animation ui-exp-coll min-height' : 'exp-col1 resize-animation ui-exp-coll min-height';
+    var leftViewStyle = this.isActive('/consumer/program') ? 'exp-col1 exp-col1-expand resize-animation ui-exp-coll min-height' : 'exp-col1 resize-animation ui-exp-coll min-height';
     var appView = ReactRouter.RouteHandler;
     var leftView = React.DOM.div({className:leftViewStyle}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView));
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
