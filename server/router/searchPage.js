@@ -26,13 +26,18 @@ router.get('/:feature/:view', function(req, res, next){
   res.setHeader('Content-Type', 'text/html');
   console.log(req.params.feature);
   console.log(req.params.view);
-
+  var options = {hash:config.hash, user:req.session.user ? req.session.user.kvp : null, view:req.params.view, path: req.path};
   switch(req.params.feature){
     case 'consumer':
-      res.end(consumerTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null, view:req.params.view}));
+      consumerTemplates.render(options, function(html){
+        res.end(html);
+      });
       break;
     case 'trends':
-      res.end(trendsTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null, view:req.params.view}));
+      // res.end(trendsTemplates.render(options));
+      trendsTemplates.render(options, function(html){
+        res.end(html);
+      });
       break;
     default:
       next();

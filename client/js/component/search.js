@@ -7,11 +7,10 @@ AppStore = require('../store/appStore'),
 Filter = require('../component/filter'),
 RelatedTopics = require('../component/relatedTopics'),
 RelatedCollections = require('../component/relatedCollections'),
-ConsumerViewContainer = require('../component/consumerViewContainer'),
-BroadcasterViewContainer = require('../component/broadcasterViewContainer');
+ReactRouter = require('react-router');
 
-var buttonGroup = [{view: Constants.VIEW_MENTION_LIST ,icon: 'glyphicon glyphicon-list'},
-                  {view: Constants.VIEW_PROGRAM_LIST ,icon: 'glyphicon glyphicon-align-left'}];
+var buttonGroup = [{view: '/consumer/search' ,icon: 'glyphicon glyphicon-list'},
+                  {view: '/consumer/program' ,icon: 'glyphicon glyphicon-align-left'}];
 
 var CollectionHeader = React.createClass({
   render: function(){
@@ -24,23 +23,7 @@ var CollectionHeader = React.createClass({
 
 module.exports = React.createClass({
   onViewChange: function(){
-    /*var view = AppStore.getView();
-    if(view === Constants.VIEW_PROGRAM_LIST){
-      $('.exp-col1').addClass('exp-col1-expand');
-    }else{
-      $('.exp-col1').removeClass('exp-col1-expand');
-    }*/
-    this.setState({view:AppStore.getView()});
-  },
-  getInitialState:function(){
-    var view;
-
-    if(!AppStore.getView()){
-      view = this.props.view;
-    }
-
-    return {view:view,
-            app: this.props.app};
+    // this.setState({view:AppStore.getView()});
   },
   componentDidMount: function() {
       AppStore.addChangeViewListener(this.onViewChange);
@@ -49,9 +32,10 @@ module.exports = React.createClass({
       AppStore.removeChangeViewListener(this.onViewChange);
   },
   render: function() {
-    var leftViewStyle = this.state.view === Constants.VIEW_PROGRAM_LIST ? 'exp-col1 exp-col1-expand resize-animation ui-exp-coll min-height' : 'exp-col1 resize-animation ui-exp-coll min-height';
-    var appView = this.state.app === Constants.APP_BROADCASTER ? BroadcasterViewContainer : ConsumerViewContainer
-    var leftView = React.DOM.div({className:leftViewStyle}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView,{view:this.state.view}));
+    console.log(this.props.params);
+    var leftViewStyle = this.props.params.view === 'program' ? 'exp-col1 exp-col1-expand resize-animation ui-exp-coll min-height' : 'exp-col1 resize-animation ui-exp-coll min-height';
+    var appView = ReactRouter.RouteHandler;
+    var leftView = React.DOM.div({className:leftViewStyle}, React.createElement(Filter,{buttonGroup: buttonGroup}), React.createElement(appView));
     var rightView = React.DOM.div({className:'exp-col2'}, React.createElement(CollectionHeader), React.createElement(RelatedCollections));
     var columnView = React.DOM.div({className:'exp-column-container'},leftView,rightView);
 
