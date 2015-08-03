@@ -13,13 +13,19 @@ var React = require('react'),
 module.exports = React.createClass({
     mixins: [ReactRouter.State, ReactRouter.Navigation, PureRenderMixin],
     onViewChange : function(){
+        var views = '';
+        if(AppStore.getView() === Constants.VIEW_PROGRAM_LIST){
+            views = 'program';
+        }else{
+            views = 'search';
+        }
 
+
+        if(this.props.params.views !== views){
+            this.transitionTo('consumer', {views: views}, {q: AppStore.getSearchTerms()});
+        }
     },
     onSearchTermChange : function(){
-        console.log('Search Term Change');
-        console.log(this.getPathname());
-        console.log(AppStore.getSearchTerms());
-        console.log(this.props);
         if(this.props.query.q !== AppStore.getSearchTerms()){
             this.transitionTo('consumer', {views: this.props.params.views}, {q: AppStore.getSearchTerms()});
         }
