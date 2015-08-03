@@ -16,19 +16,9 @@ module.exports = {
             rel: 'stylesheet'
         })), React.DOM.body(null,
             React.DOM.div({
-                    className: 'content-container'
+                    id: 'app'
                 },
-                React.DOM.div({
-                        id: 'app-header'
-                    },
-                    React.createElement(Header, {
-                        user: options.user
-                    })),
-                React.DOM.div({
-                    id: 'app-content'
-                }, React.createElement(app, {
-                    view: options.view
-                }))
+                React.createElement(app)
             ),
             React.DOM.div({
                 id: 'app-modal'

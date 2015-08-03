@@ -71,9 +71,11 @@ var MiddleContainer = React.createClass({
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
     },
     getInitialState: function() {
+        var searchTerms = this.props.query && this.props.query.q ? this.props.query.q : AppStore.getSearchTerms();
+
         return {
             data: [],
-            searchTerms: ''
+            searchTerms: searchTerms ? searchTerms : ''
         };
     },
     render: function() {
@@ -248,10 +250,14 @@ module.exports = React.createClass({
                 className: 'header-consumer-right-section',
                 user: this.state.user
             }),
-            middle = React.createElement(MiddleContainer),
+            middle = React.createElement(MiddleContainer, {
+                query: this.props.query
+            }),
             progress = React.createElement(Progress, {
                 percent: this.state.progress,
-                style:{backgroundImage:'linear-gradient(to right, #5ac8fa, #007aff, #34aadc)'}
+                style: {
+                    backgroundImage: 'linear-gradient(to right, #5ac8fa, #007aff, #34aadc)'
+                }
             });
 
         if (this.state.progress >= 100) {

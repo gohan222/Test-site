@@ -2,6 +2,7 @@ var React = require('react'),
 ReactRouter = require('react-router'),
 ConsumerViewContainer = require('../component/consumerViewContainer'),
 SearchBody = require('../component/search'),
+ConsumerApp = require('../component/consumerApp'),
 ProgramList = require('../component/consumerProgramList'),
 MentionList = require('../component/consumerMentionList');
 
@@ -21,7 +22,7 @@ var subRoute = React.createElement(ReactRouter.Route, {
 
 var parentRoute = React.createElement(ReactRouter.Route, {
     path: '/',
-    handler: SearchBody
+    handler: ConsumerApp
 }, subRoute);
 
 var routes = React.createElement(ReactRouter.Route, {

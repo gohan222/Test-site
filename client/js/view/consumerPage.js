@@ -21,8 +21,11 @@ var SearchBody = require('../component/search'),
     ConsumerRouter = require('../router/consumer'),
     React = require('react');
 
-
-React.render(
+ReactRouter.run(ConsumerRouter, ReactRouter.HistoryLocation, function(root) {
+    React.render(React.createElement(root),
+        document.getElementById('app'));
+});
+/*React.render(
     React.createElement(Header, {
         user: window.APP.user
     }),
@@ -32,7 +35,7 @@ React.render(
 ReactRouter.run(ConsumerRouter, ReactRouter.HistoryLocation, function(root) {
     React.render(React.createElement(root),
         document.getElementById('app-content'));
-});
+});*/
 
 /*React.render(
   React.createElement(SearchBody, {view:window.APP.view}),
