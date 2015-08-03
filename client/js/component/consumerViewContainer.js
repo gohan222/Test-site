@@ -3,11 +3,12 @@
 var React = require('react'),
 Constants = require('../constant/appConstant'),
 AppStore = require('../store/appStore'),
-ReactRouter = require('react-router');
+ProgramList = require('../component/consumerProgramList'),
+MentionList = require('../component/consumerMentionList');
 
 module.exports = React.createClass({
   onChange:function(){
-    /*this.setState({view: AppStore.getView()});*/
+    this.setState({view: AppStore.getView()});
   },
   componentDidMount: function() {
     AppStore.addChangeViewListener(this.onChange);
@@ -15,8 +16,25 @@ module.exports = React.createClass({
   componentWillUnmount: function() {
     AppStore.removeChangeViewListener(this.onChange);
   },
+  getInitialState:function() {
+    var view = '';
+
+    if(this.props.params.views){
+      view = this.props.params.views === 'program' ? Constants.VIEW_PROGRAM_LIST : Constants.VIEW_SEARCH_LIST;
+    }else{
+      view = AppStore.getView();
+    }
+
+    return { view: view};
+  },
   render: function() {
-    var viewElem = React.createElement(ReactRouter.RouteHandler);
+    var viewElem;
+
+    if(this.state.view === Constants.VIEW_PROGRAM_LIST){
+      viewElem = React.createElement(ProgramList);
+    }else{
+      viewElem = React.createElement(MentionList);
+    }
     return viewElem;
   }
 });

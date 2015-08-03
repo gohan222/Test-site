@@ -35,7 +35,6 @@ router.get('/:feature/:view', function(req, res, next){
       });
       break;
     case 'trends':
-      // res.end(trendsTemplates.render(options));
       trendsTemplates.render(options, function(html){
         res.end(html);
       });
@@ -54,21 +53,4 @@ router.get('/logout', function(req, res){
   	res.redirect('/');
 });
 
-/*
-router.get('/trends', function(req, res){
-	if(!req.session.user){
-		res.redirect('/consumer');
-		return;
-	}
-  
-  res.setHeader('Content-Type', 'text/html');
-  res.end(trendsTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
-  // res.render('index', merge(headerShare, contentShare, {hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
-});
-
-router.get('/consumer', function(req, res){
-	res.setHeader('Content-Type', 'text/html');
-  res.end(consumerTemplates.render({hash:config.hash, user:req.session.user ? req.session.user.kvp : null}));
-});
-*/
 module.exports = router;

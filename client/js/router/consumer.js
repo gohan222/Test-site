@@ -1,29 +1,12 @@
 var React = require('react'),
 ReactRouter = require('react-router'),
-ConsumerViewContainer = require('../component/consumerViewContainer'),
-SearchBody = require('../component/search'),
-ConsumerApp = require('../component/consumerApp'),
-ProgramList = require('../component/consumerProgramList'),
-MentionList = require('../component/consumerMentionList');
-
-var view1 = React.createElement(ReactRouter.Route, {
-            name: 'search',
-            handler: MentionList
-}),
-view2 = React.createElement(ReactRouter.Route, {
-    name: 'program',
-    handler: ProgramList
-});
-
-var subRoute = React.createElement(ReactRouter.Route, {
-    name:'consumer',
-    handler: ConsumerViewContainer
-}, view1, view2);
+ConsumerApp = require('../component/ConsumerApp');
 
 var parentRoute = React.createElement(ReactRouter.Route, {
-    path: '/',
+    path: '/consumer/:views',
+    name:'consumer',
     handler: ConsumerApp
-}, subRoute);
+});
 
 var routes = React.createElement(ReactRouter.Route, {
     history: ReactRouter.History

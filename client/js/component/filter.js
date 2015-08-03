@@ -4,19 +4,16 @@ var AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
     Constants = require('../constant/appConstant'),
     Bootstrap = require('react-bootstrap'),
-    ReactRouter = require('react-router'),
     React = require('react');
 
 var ViewButton = React.createClass({
-    mixins:[ReactRouter.Navigation],
     getInitialState: function() {
         return {
             recordCount: AppStore.getSearchResultsCount() ? AppStore.getSearchResultsCount() : 0
         };
     },
     changeView: function() {
-        // AppAction.changeView(this.props.view);
-        this.transitionTo(this.props.view);
+        AppAction.changeView(this.props.view);
     },
     render: function() {
         return React.DOM.button({
