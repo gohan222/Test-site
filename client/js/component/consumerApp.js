@@ -22,20 +22,31 @@ module.exports = React.createClass({
 
 
         if (this.props.params.views !== views) {
-            this.transitionTo('consumer', {
-                views: views
-            }, {
-                q: AppStore.getSearchTerms()
-            });
+            try {
+                this.transitionTo('consumer', {
+                    views: views
+                }, {
+                    q: AppStore.getSearchTerms()
+                });
+            } catch (err) {
+                console.log(err);
+            }
+
         }
     },
     onSearchTermChange: function() {
         if (this.props.query.q !== AppStore.getSearchTerms()) {
-            this.transitionTo('consumer', {
-                views: this.props.params.views
-            }, {
-                q: AppStore.getSearchTerms()
-            });
+            //throws error on server.  catch the error
+            try {
+                this.transitionTo('consumer', {
+                    views: this.props.params.views
+                }, {
+                    q: AppStore.getSearchTerms()
+                });
+            } catch (err) {
+                console.log(err);
+            }
+
         }
     },
     componentWillUnmount: function() {

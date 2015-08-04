@@ -14,28 +14,42 @@ module.exports = React.createClass({
     mixins: [ReactRouter.State, ReactRouter.Navigation, PureRenderMixin],
     onViewChange: function() {
         var views = '',
-        query = null;
+            query = null;
         if (AppStore.getView() === Constants.VIEW_TOP_TRENDS_LIST) {
             views = 'trending';
         } else {
             views = 'search';
-            query =  AppStore.getSearchTerms() ? {q: AppStore.getSearchTerms()} : null;
+            query = AppStore.getSearchTerms() ? {
+                q: AppStore.getSearchTerms()
+            } : null;
         }
 
 
         if (this.props.params.views !== views) {
-            this.transitionTo('trends', {
-                views: views
-            }, query);
+            try {
+                this.transitionTo('trends', {
+                    views: views
+                }, query);
+            } catch (err) {
+                console.log(err);
+            }
         }
     },
     onSearchTermChange: function() {
+        console.log('broadcasterApp onSearchTermChange');
+        console.log(AppStore.getSearchTerms());
+        console.log(this.props.query.q);
         if (this.props.query.q !== AppStore.getSearchTerms()) {
-            this.transitionTo('trends', {
-                views: this.props.params.views
-            }, {
-                q: AppStore.getSearchTerms()
-            });
+            //throws error on server.  catch the error
+            try {
+                this.transitionTo('trends', {
+                    views: this.props.params.views
+                }, {
+                    q: AppStore.getSearchTerms()
+                });
+            } catch (err) {
+                console.log(err);
+            }
         }
     },
     componentWillUnmount: function() {
