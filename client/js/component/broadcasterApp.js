@@ -4,8 +4,8 @@ var React = require('react'),
     AppAction = require('../action/appAction'),
     AppStore = require('../store/appStore'),
     Constants = require('../constant/appConstant'),
-    SearchBody = require('../component/search'),
-    Header = require('../component/consumerHeader'),
+    TrendBody = require('../component/trend'),
+    Header = require('../component/header'),
     PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     ReactRouter = require('react-router');
 
@@ -13,25 +13,25 @@ var React = require('react'),
 module.exports = React.createClass({
     mixins: [ReactRouter.State, ReactRouter.Navigation, PureRenderMixin],
     onViewChange: function() {
-        var views = '';
-        if (AppStore.getView() === Constants.VIEW_PROGRAM_LIST) {
-            views = 'program';
+        var views = '',
+        query = null;
+        if (AppStore.getView() === Constants.VIEW_TOP_TRENDS_LIST) {
+            views = 'trending';
         } else {
             views = 'search';
+            query =  AppStore.getSearchTerms() ? {q: AppStore.getSearchTerms()} : null;
         }
 
 
         if (this.props.params.views !== views) {
-            this.transitionTo('consumer', {
+            this.transitionTo('trends', {
                 views: views
-            }, {
-                q: AppStore.getSearchTerms()
-            });
+            }, query);
         }
     },
     onSearchTermChange: function() {
         if (this.props.query.q !== AppStore.getSearchTerms()) {
-            this.transitionTo('consumer', {
+            this.transitionTo('trends', {
                 views: this.props.params.views
             }, {
                 q: AppStore.getSearchTerms()
@@ -42,7 +42,6 @@ module.exports = React.createClass({
         AppStore.removeChangeViewListener(this.onViewChange);
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
     },
-    //invoked when using browser back button.
     componentWillReceiveProps: function(nextProps) {
         var view;
 
@@ -50,10 +49,10 @@ module.exports = React.createClass({
             AppAction.changeSearchTerm(nextProps.query.q);
         }
 
-        if (nextProps.params.views && nextProps.params.views === 'program') {
-            view = Constants.VIEW_PROGRAM_LIST;
+        if (nextProps.params.views && nextProps.params.views === 'trending') {
+            view = Constants.VIEW_TOP_TRENDS_LIST;
         } else if (nextProps.params.views === 'search') {
-            view = Constants.VIEW_MENTION_LIST;
+            view = Constants.VIEW_TRENDING_SEARCH_TERMS_LIST;
         }
 
         if (view && view !== AppStore.getView()) {
@@ -66,10 +65,10 @@ module.exports = React.createClass({
             AppAction.changeSearchTerm(this.props.query.q);
         }
 
-        if (this.props.params.views === 'program') {
-            AppAction.changeView(Constants.VIEW_PROGRAM_LIST);
+        if (this.props.params.views === 'trending') {
+            AppAction.changeView(Constants.VIEW_TOP_TRENDS_LIST);
         } else {
-            AppAction.changeView(Constants.VIEW_SEARCH_LIST);
+            AppAction.changeView(Constants.VIEW_TRENDING_SEARCH_TERMS_LIST);
         }
 
         AppStore.addChangeViewListener(this.onViewChange);
@@ -87,7 +86,7 @@ module.exports = React.createClass({
                 )),
             React.DOM.div({
                 id: 'app-content'
-            }, React.createElement(SearchBody,
+            }, React.createElement(TrendBody,
                 this.props
             ))
         );

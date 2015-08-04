@@ -140,6 +140,10 @@ var RightContainer = React.createClass({
     },
     render: function() {
         //hambergher icon
+        console.log('header props');
+        console.log(this.props);
+        console.log('header state');
+        console.log(this.state);
         var icon = React.DOM.div({className:'header-icon header-app-switcher'}, React.DOM.span({
             className: 'icon-prop animation-2 clickable',
             onClick: this.toggleAppSwitcher

@@ -35,6 +35,7 @@ module.exports = React.createClass({
         this.setState({
             view: AppStore.getView()
         });
+        this.resetViewData();
     },
     onSearchTermChange: function() {
         //prepopulate the top trends search for the mentions control
@@ -59,7 +60,6 @@ module.exports = React.createClass({
     },
     render: function() {
         var viewElem;
-        this.resetViewData();
         if (this.state.view === Constants.VIEW_TRENDING_SEARCH_TERMS_LIST) {
             viewElem = React.DOM.div(null, React.createElement(BroadcasterTrendSearchTerm), React.createElement(BroadcasterTopTrendsMention, {
                 key: 'searchTerms'

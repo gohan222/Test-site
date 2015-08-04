@@ -19,11 +19,16 @@ Header = require('../component/header'),
 Hamburger = require('../component/hamburger'),
 AppStore = require('../store/appStore'),
 AppConstant = require('../constant/appConstant'),
-$ = require('jquery'),
+ReactRouter = require('react-router'),
+BroadcasterRouter = require('../router/broadcaster'),
+// $ = require('jquery'),
 React = require('react');
 
-
-React.render(
+ReactRouter.run(BroadcasterRouter, ReactRouter.HistoryLocation, function(root, state) {
+    React.render(React.createElement(root,{app:AppConstant.APP_BROADCASTER,user:window.APP.user}),
+        document.getElementById('app'));
+});
+/*React.render(
   React.createElement(Header,{user:window.APP.user}),
   document.getElementById('app-header')
 );
@@ -40,4 +45,4 @@ React.render(
 
 AppStore.addToggleHamburgerListener(function(){
   $('.content-container').toggleClass('content-container-show-hamburger');
-});
+});*/

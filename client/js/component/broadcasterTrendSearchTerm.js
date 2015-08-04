@@ -3,6 +3,7 @@
 var AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
     Constants = require('../constant/appConstant'),
+    PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     Chart = require('react-google-charts').Chart,
     React = require('react/addons');
 
@@ -47,6 +48,7 @@ var options = {
 };
 
 module.exports = React.createClass({
+    mixins: [PureRenderMixin],
     formatData: function(data) {
         var formatData = {
                 columns: [],
