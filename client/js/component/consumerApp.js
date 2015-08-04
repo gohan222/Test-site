@@ -42,17 +42,22 @@ module.exports = React.createClass({
         AppStore.removeChangeViewListener(this.onViewChange);
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
     },
+    //invoked when using browser back button.
     componentWillReceiveProps: function(nextProps) {
-        if (this.props.query.q !== nextProps.query.q) {
+        var view;
+
+        if (nextProps.query.q !== AppStore.getSearchTerms()) {
             AppAction.changeSearchTerm(nextProps.query.q);
         }
 
-        if (this.props.params.views !== nextProps.params.views) {
-            if (nextProps.params.views === 'program') {
-                AppAction.changeView(Constants.VIEW_PROGRAM_LIST);
-            } else {
-                AppAction.changeView(Constants.VIEW_SEARCH_LIST);
-            }
+        if (nextProps.params.views === 'program') {
+            view = Constants.VIEW_PROGRAM_LIST;
+        } else if (nextProps.params.views === 'search') {
+            view = Constants.VIEW_MENTION_LIST;
+        }
+
+        if (view && view !== AppStore.getView()) {
+            AppAction.changeView(view);
         }
     },
     componentWillMount: function() {

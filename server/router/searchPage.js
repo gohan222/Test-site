@@ -35,9 +35,13 @@ router.get('/:feature/:view', function(req, res, next){
       });
       break;
     case 'trends':
-      trendsTemplates.render(options, function(html){
+      if(req.session.user){
+        trendsTemplates.render(options, function(html){
         res.end(html);
       });
+      }else{
+        res.redirect('/consumer/search');
+      }
       break;
     default:
       next();
