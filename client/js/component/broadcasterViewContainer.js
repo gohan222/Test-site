@@ -35,7 +35,13 @@ module.exports = React.createClass({
         this.setState({
             view: AppStore.getView()
         });
+        
         this.resetViewData();
+
+        if (AppStore.getView() === Constants.VIEW_TRENDING_SEARCH_TERMS_LIST) {
+            var trend = this.parseSearchTerms(AppStore.getSearchTerms());
+            AppAction.updateTopTrends(trend);
+        }
     },
     onSearchTermChange: function() {
         //prepopulate the top trends search for the mentions control
