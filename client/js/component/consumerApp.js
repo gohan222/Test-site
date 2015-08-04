@@ -12,27 +12,48 @@ var React = require('react'),
 
 module.exports = React.createClass({
     mixins: [ReactRouter.State, ReactRouter.Navigation, PureRenderMixin],
-    onViewChange : function(){
+    onViewChange: function() {
         var views = '';
-        if(AppStore.getView() === Constants.VIEW_PROGRAM_LIST){
+        if (AppStore.getView() === Constants.VIEW_PROGRAM_LIST) {
             views = 'program';
-        }else{
+        } else {
             views = 'search';
         }
 
 
-        if(this.props.params.views !== views){
-            this.transitionTo('consumer', {views: views}, {q: AppStore.getSearchTerms()});
+        if (this.props.params.views !== views) {
+            this.transitionTo('consumer', {
+                views: views
+            }, {
+                q: AppStore.getSearchTerms()
+            });
         }
     },
-    onSearchTermChange : function(){
-        if(this.props.query.q !== AppStore.getSearchTerms()){
-            this.transitionTo('consumer', {views: this.props.params.views}, {q: AppStore.getSearchTerms()});
+    onSearchTermChange: function() {
+        if (this.props.query.q !== AppStore.getSearchTerms()) {
+            this.transitionTo('consumer', {
+                views: this.props.params.views
+            }, {
+                q: AppStore.getSearchTerms()
+            });
         }
     },
     componentWillUnmount: function() {
         AppStore.removeChangeViewListener(this.onViewChange);
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
+    },
+    componentWillReceiveProps: function(nextProps) {
+        if (this.props.query.q !== nextProps.query.q) {
+            AppAction.changeSearchTerm(nextProps.query.q);
+        }
+
+        if (this.props.params.views !== nextProps.params.views) {
+            if (nextProps.params.views === 'program') {
+                AppAction.changeView(Constants.VIEW_PROGRAM_LIST);
+            } else {
+                AppAction.changeView(Constants.VIEW_SEARCH_LIST);
+            }
+        }
     },
     componentWillMount: function() {
         //initialize data store before mounting values.

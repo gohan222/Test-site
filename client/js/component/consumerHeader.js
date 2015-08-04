@@ -67,6 +67,13 @@ var MiddleContainer = React.createClass({
     componentWillUnmount: function() {
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
     },
+    /*componentWillReceiveProps: function(nextProps) {
+        var searchTerms = nextProps.query && nextProps.query.q ? nextProps.query.q : AppStore.getSearchTerms();
+
+        this.setState({
+            searchTerms: searchTerms ? searchTerms : ''
+        });
+    },*/
     getInitialState: function() {
         var searchTerms = this.props.query && this.props.query.q ? this.props.query.q : AppStore.getSearchTerms();
 

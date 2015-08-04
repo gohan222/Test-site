@@ -21,7 +21,7 @@ var SearchBody = require('../component/search'),
     ConsumerRouter = require('../router/consumer'),
     React = require('react');
 
-ReactRouter.run(ConsumerRouter, ReactRouter.HistoryLocation, function(root) {
+ReactRouter.run(ConsumerRouter, ReactRouter.HistoryLocation, function(root, state) {
     React.render(React.createElement(root),
         document.getElementById('app'));
 });

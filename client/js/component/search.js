@@ -50,6 +50,19 @@ module.exports = React.createClass({
     componentWillUnmount: function() {
         AppStore.removeChangeViewListener(this.onViewChange);
     },
+    /*componentWillReceiveProps: function(nextProps) {
+        var view = '';
+
+        if (nextProps.params.views) {
+            view = nextProps.params.views === 'program' ? Constants.VIEW_PROGRAM_LIST : Constants.VIEW_SEARCH_LIST
+        } else {
+            view = AppStore.getView();
+        }
+
+        this.setState({
+            view: view
+        });
+    },*/
     getInitialState: function() {
         var view = '';
 
