@@ -1,6 +1,6 @@
 var React = require('react'),
 ReactRouter = require('react-router'),
-BroadcasterApp = require('../component/BroadcasterApp');
+BroadcasterApp = require('../component/broadcasterApp');
 
 var parentRoute = React.createElement(ReactRouter.Route, {
     path: '/trends/:views',

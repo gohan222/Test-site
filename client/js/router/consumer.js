@@ -1,6 +1,6 @@
 var React = require('react'),
 ReactRouter = require('react-router'),
-ConsumerApp = require('../component/ConsumerApp');
+ConsumerApp = require('../component/consumerApp');
 
 var parentRoute = React.createElement(ReactRouter.Route, {
     path: '/consumer/:views',

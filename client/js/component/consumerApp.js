@@ -13,11 +13,15 @@ var React = require('react'),
 module.exports = React.createClass({
     mixins: [ReactRouter.State, ReactRouter.Navigation, PureRenderMixin],
     onViewChange: function() {
-        var views = '';
+        var views = '',
+            query = null;
         if (AppStore.getView() === Constants.VIEW_PROGRAM_LIST) {
             views = 'program';
         } else {
             views = 'search';
+            query = AppStore.getSearchTerms() ? {
+                q: AppStore.getSearchTerms()
+            } : null;
         }
 
 
@@ -25,13 +29,10 @@ module.exports = React.createClass({
             try {
                 this.transitionTo('consumer', {
                     views: views
-                }, {
-                    q: AppStore.getSearchTerms()
-                });
+                }, query);
             } catch (err) {
                 console.log(err);
             }
-
         }
     },
     onSearchTermChange: function() {

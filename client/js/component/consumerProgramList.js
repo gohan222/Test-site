@@ -54,41 +54,10 @@ var Mention = React.createClass({
             React.DOM.i({
                 className: 'fa fa-expand fa-stack-1x fa-inverse'
             }));
-        
-        var playIcon, mentionContainer;
-        if (this.state.isPlaying) {
-            playIcon = React.DOM.i({
-                className: 'fa fa-times-circle program-card-play-icon icon-prop icon-prop-animation clickable',
-                onClick: this.onCloseClick
-            });
-            mentionContainer = React.DOM.div({
-                className: 'program-list-mention-player'
-            }, React.createElement(Player, {
-                src: Utils.mediaUrl(this.props.data),
-                poster: this.props.data.get('programLiveImage'),
-                fileType: this.props.data.get('fileType')
-            }));
-        } else {
-            playIcon = React.DOM.i({
-                className: 'fa fa-play-circle program-card-play-icon icon-prop icon-prop-animation clickable',
-                onClick: this.onPlayClick
-            });
-            //add mention snippet
-            mentionContainer = React.DOM.p({
-                className: 'program-list-mention-text'
-            }, React.DOM.span({
-                className: 'cur-point ui-snip-text'
-            }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
-        }
 
-        var iconContainer = React.DOM.div({
-                className: 'program-card-icon-container program-card-icon-animation'
-            },
-            expandIcon, playIcon)
-
-
-        //media type
-        var mediaType;
+        var frontCard,
+            backCard,
+            mediaType;
 
         if (this.props.data.get('mediaSourceTypeId') === 2) {
             mediaType = React.DOM.i({
@@ -108,14 +77,68 @@ var Mention = React.createClass({
             });
         }
 
+        if (this.state.isPlaying) {
+            var closeIcon = React.DOM.i({
+                className: 'fa fa-times-circle program-card-play-icon icon-prop icon-prop-animation clickable',
+                onClick: this.onCloseClick
+            });
+
+            var mentionContainer = React.DOM.div({
+                className: 'program-list-mention-player'
+            }, React.createElement(Player, {
+                src: Utils.mediaUrl(this.props.data),
+                poster: this.props.data.get('programLiveImage'),
+                fileType: this.props.data.get('fileType')
+            }));
+
+            var iconContainer = React.DOM.div({
+                    className: 'program-card-icon-container program-card-icon-animation'
+                },
+                expandIcon, closeIcon)
+
+            var footer = React.DOM.div(null,
+                airDate,
+                mediaType,
+                iconContainer);
+
+            backCard = React.DOM.div({
+                className: 'program-card-back back'
+            }, mentionContainer, footer);
+        } else {
+            backCard = React.DOM.span();
+        }
+
+
+
+        var playIcon = React.DOM.i({
+            className: 'fa fa-play-circle program-card-play-icon icon-prop icon-prop-animation clickable',
+            onClick: this.onPlayClick
+        });
+        //add mention snippet
+        var mentionContainer = React.DOM.p({
+            className: 'program-list-mention-text'
+        }, React.DOM.span({
+            className: 'cur-point ui-snip-text'
+        }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
+
+
+        var iconContainer = React.DOM.div({
+                className: 'program-card-icon-container program-card-icon-animation'
+            },
+            expandIcon, playIcon);
+
         var footer = React.DOM.div(null,
             airDate,
             mediaType,
             iconContainer);
 
-        var holder = React.DOM.div({
-            className: 'program-card program-card-animation clickable'
-        }, mentionContainer, footer);
+        frontCard = React.DOM.div({
+                className: 'program-card-front front'
+            }, mentionContainer, footer);
+
+        var holder = React.DOM.div({className: this.state.isPlaying ? 'flip-container-hover' : 'flip-container'}, React.DOM.div({
+            className: 'program-card program-card-animation clickable flipper'
+        }, frontCard, backCard));
 
 
         return holder;
@@ -150,7 +173,7 @@ var ProgramRow = React.createClass({
         });
     },
     onScrollRight: function(event) {
-        
+
         var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
@@ -296,13 +319,13 @@ var ProgramRow = React.createClass({
                 transitionEnter: true
             }, mentionNodes);
         });
-    
+
         var motionDetailed = React.createElement(ReactMotion.Spring, {
             key: MD5(Utils.generateMentionKey(this.state.expandMention)),
             endValue: {
                 opacity: {
                     val: this.state.isExpanding ? 1 : 0
-                } 
+                }
             }
         }, function(props, props2) {
             var style = {
@@ -372,7 +395,7 @@ module.exports = React.createClass({
 
         return collection;
     },
-    
+
     onChange: function() {
         //first we remove the data before adding new list to animation the draw.
         this.sortedResult = this.sortData(AppStore.getSearchResults());
@@ -394,7 +417,7 @@ module.exports = React.createClass({
     },
     getInitialState: function() {
         this.sortedResult = this.sortData(AppStore.getSearchResults());
-        
+
         return {
             data: this.sortedResult,
             searchTerms: AppStore.getSearchTerms()

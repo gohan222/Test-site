@@ -36,9 +36,6 @@ module.exports = React.createClass({
         }
     },
     onSearchTermChange: function() {
-        console.log('broadcasterApp onSearchTermChange');
-        console.log(AppStore.getSearchTerms());
-        console.log(this.props.query.q);
         if (this.props.query.q !== AppStore.getSearchTerms()) {
             //throws error on server.  catch the error
             try {
@@ -90,7 +87,7 @@ module.exports = React.createClass({
     },
     render: function() {
         return React.DOM.div({
-                className: 'content-container'
+                className: 'content-container  animation-3'
             },
             React.DOM.div({
                     id: 'app-header'

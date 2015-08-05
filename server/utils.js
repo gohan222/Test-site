@@ -78,6 +78,19 @@ var utils = {
 
         var modMention = mention.set('transcriptUrl','');
         return JSON.stringify(modMention);
+    },
+    inList:function(item,list){
+        if(!list || !item){
+            return false;
+        }
+
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] === item ){
+                return true;
+            }
+        };
+
+        return false;
     }
 }
 
