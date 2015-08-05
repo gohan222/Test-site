@@ -78,11 +78,6 @@ var Mention = React.createClass({
         }
 
         if (this.state.isPlaying) {
-            var closeIcon = React.DOM.i({
-                className: 'fa fa-times-circle program-card-play-icon icon-prop icon-prop-animation clickable',
-                onClick: this.onCloseClick
-            });
-
             var mentionContainer = React.DOM.div({
                 className: 'program-list-mention-player'
             }, React.createElement(Player, {
@@ -94,7 +89,7 @@ var Mention = React.createClass({
             var iconContainer = React.DOM.div({
                     className: 'program-card-icon-container program-card-icon-animation'
                 },
-                expandIcon, closeIcon)
+                expandIcon)
 
             var footer = React.DOM.div(null,
                 airDate,
@@ -127,16 +122,15 @@ var Mention = React.createClass({
             },
             expandIcon, playIcon);
 
-        var footer = React.DOM.div(null,
-            airDate,
-            mediaType,
-            iconContainer);
-
         frontCard = React.DOM.div({
-                className: 'program-card-front front'
-            }, mentionContainer, footer);
+            className: 'program-card-front front'
+        }, mentionContainer);
 
-        var holder = React.DOM.div({className: this.state.isPlaying ? 'flip-container-hover' : 'flip-container'}, React.DOM.div({
+        var holder = React.DOM.div({
+            className: this.state.isPlaying ? 'flip-container-hover' : 'flip-container',
+            onMouseEnter: this.onPlayClick,
+            onMouseLeave: this.onCloseClick
+        }, React.DOM.div({
             className: 'program-card program-card-animation clickable flipper'
         }, frontCard, backCard));
 
