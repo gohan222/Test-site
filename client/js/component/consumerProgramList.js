@@ -108,6 +108,10 @@ var Mention = React.createClass({
             backCard = React.DOM.span();
         }
 
+        var footer = React.DOM.div(null,
+                airDate,
+                mediaType);
+
         //add mention snippet
         var mentionContainer = React.DOM.p({
             className: 'program-list-mention-text'
@@ -117,7 +121,7 @@ var Mention = React.createClass({
 
         frontCard = React.DOM.div({
             className: 'program-card-front front'
-        }, mentionContainer);
+        }, mentionContainer, footer);
 
         var holder = React.DOM.div({
             className: this.state.isPlaying ? 'flip-container-hover' : 'flip-container',
