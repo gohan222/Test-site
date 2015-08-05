@@ -19,11 +19,17 @@ Header = require('../component/header'),
 Hamburger = require('../component/hamburger'),
 AppStore = require('../store/appStore'),
 AppConstant = require('../constant/appConstant'),
+ReactRouter = require('react-router'),
 $ = require('jquery'),
+BroadcasterRouter = require('../router/broadcaster'),
+// $ = require('jquery'),
 React = require('react');
 
-
-React.render(
+ReactRouter.run(BroadcasterRouter, ReactRouter.HistoryLocation, function(root, state) {
+    React.render(React.createElement(root,{app:AppConstant.APP_BROADCASTER,user:window.APP.user}),
+        document.getElementById('app'));
+});
+/*React.render(
   React.createElement(Header,{user:window.APP.user}),
   document.getElementById('app-header')
 );
@@ -31,7 +37,7 @@ React.render(
 React.render(
   React.createElement(TrendBody, {app:AppConstant.APP_BROADCASTER}),
   document.getElementById('app-content')
-);
+);*/
 
 React.render(
   React.createElement(Hamburger),

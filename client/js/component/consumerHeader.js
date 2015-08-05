@@ -62,18 +62,24 @@ var MiddleContainer = React.createClass({
         AppAction.changeSearchTerm(searchTerms);
     },
     componentDidMount: function() {
-        this.setState({
-            data: AppStore.getSearchResults()
-        });
         AppStore.addChangeSearchTermListener(this.onSearchTermChange);
     },
     componentWillUnmount: function() {
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
     },
+    /*componentWillReceiveProps: function(nextProps) {
+        var searchTerms = nextProps.query && nextProps.query.q ? nextProps.query.q : AppStore.getSearchTerms();
+
+        this.setState({
+            searchTerms: searchTerms ? searchTerms : ''
+        });
+    },*/
     getInitialState: function() {
+        var searchTerms = this.props.query && this.props.query.q ? this.props.query.q : AppStore.getSearchTerms();
+
         return {
             data: [],
-            searchTerms: ''
+            searchTerms: searchTerms ? searchTerms : ''
         };
     },
     render: function() {
@@ -180,7 +186,7 @@ var RightContainer = React.createClass({
                 showAppSwitcher: this.state.showAppSwitcher,
                 appName: 'Trends',
                 appIcon: '6',
-                href: '/trends'
+                href: '/trends/trending'
             }));
             //logo
             img = React.createElement(Img, {
@@ -248,10 +254,14 @@ module.exports = React.createClass({
                 className: 'header-consumer-right-section',
                 user: this.state.user
             }),
-            middle = React.createElement(MiddleContainer),
+            middle = React.createElement(MiddleContainer, {
+                query: this.props.query
+            }),
             progress = React.createElement(Progress, {
                 percent: this.state.progress,
-                style:{backgroundImage:'linear-gradient(to right, #5ac8fa, #007aff, #34aadc)'}
+                style: {
+                    backgroundImage: 'linear-gradient(to right, #5ac8fa, #007aff, #34aadc)'
+                }
             });
 
         if (this.state.progress >= 100) {

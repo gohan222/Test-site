@@ -22,7 +22,7 @@ var RelatedCollection = React.createClass({
     var collectionTextDescription = React.DOM.a(null, React.DOM.p(null, this.props.data.collectionDescription));
     
     //collection owner
-    var backgroundOwnerUrl =  this.props.data.usersPaged.records && this.props.data.usersPaged.records.length > 0 ? this.props.data.usersPaged.records[0].kvp.image : '';
+    var backgroundOwnerUrl =  this.props.data.usersPaged.records && this.props.data.usersPaged.records.length > 0 && this.props.data.usersPaged.records[0].kvp.image ? this.props.data.usersPaged.records[0].kvp.image  : 'https://s3.amazonaws.com/prod-veritone-ugc/cb5e52b4-a986-4e2b-b525-482319df3350%2Favatar%2F4Jm9LlpT8KqoLBlfxI0A_veritone-auth-icon.png';
 
     var backgroundOwnerStyle = {backgroundImage:'url(' + backgroundOwnerUrl + ')',
                            backgroundSize: 'cover' }

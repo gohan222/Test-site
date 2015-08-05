@@ -4,6 +4,7 @@ var AppStore = require('../store/appStore'),
     AppAction = require('../action/appAction'),
     Constants = require('../constant/appConstant'),
     Chart = require('react-google-charts').Chart,
+    PureRenderMixin = require('react/addons').addons.PureRenderMixin,
     React = require('react/addons');
 
 var metaData = ['Search Term', 'Count', {
@@ -27,6 +28,7 @@ var options = {
 };
 
 module.exports = React.createClass({
+    mixins: [PureRenderMixin],
     chartEvents: [{
         eventName: 'onmouseover',
         callback: function(Chart) {

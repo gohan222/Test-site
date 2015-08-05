@@ -31,7 +31,7 @@ module.exports = React.createClass({
     });
     
     //add logo
-    var img = React.createElement(Img,{ className: 'hamburger-logo', src:'images/hamburger-menu-assets/veritone-logo.png'});
+    var img = React.createElement(Img,{ className: 'hamburger-logo', src:'/images/hamburger-menu-assets/veritone-logo.png'});
     var logo = React.DOM.div({className:'hamburger-item-logo'},
       img,
       React.DOM.div(null,'Privacy Policy | Terms and Conditions'),

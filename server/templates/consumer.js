@@ -5,37 +5,20 @@ var React = require('react'),
     AppAction = require('../../client/js/action/appAction'),
     AppStore = require('../../client/js/store/appStore'),
     Constants = require('../../client/js/constant/appConstant'),
+    ReactRouter = require('react-router'),
+    ConsumerRoutes = require('../../client/js/router/consumer'),
     Header = require('../../client/js/component/consumerHeader');
 
 module.exports = {
-    render: function(options) {
-        switch(options.view){
-            case 'search':
-                options.view = Constants.VIEW_MENTION_LIST;
-                break;
-            case 'program':
-                options.view = Constants.VIEW_PROGRAM_LIST;
-                break;
-            default:
-                break;
-        }
-        
+    pageTemplate: function(app, options){
         var html = React.renderToStaticMarkup(React.DOM.html(null, React.DOM.head(null, React.DOM.link({
             href: '/dist/consumer.' + options.hash + '.css',
             rel: 'stylesheet'
         })), React.DOM.body(null,
             React.DOM.div({
-                    className: 'content-container'
+                    id: 'app'
                 },
-                React.DOM.div({
-                        id: 'app-header'
-                    },
-                    React.createElement(Header, {
-                        user: options.user
-                    })),
-                React.DOM.div({
-                    id: 'app-content'
-                }, React.createElement(Search,{view: options.view}))
+                React.createElement(app)
             ),
             React.DOM.div({
                 id: 'app-modal'
@@ -55,11 +38,19 @@ module.exports = {
             }),
             React.DOM.script({
                 dangerouslySetInnerHTML: {
-                    __html: 'var SOCKET = io.connect(\'' + config.socketDomain +'\');'
+                    __html: 'var SOCKET = io.connect(\'' + config.socketDomain + '\');'
                 }
             })
         )))
 
         return html;
+    },
+    render: function(options, callback) {
+        var context = this;
+
+        ReactRouter.run(ConsumerRoutes, options.path, function(root) {
+            var markup = context.pageTemplate(root, options);
+            callback.apply(this,[markup]);
+        });
     }
 };
