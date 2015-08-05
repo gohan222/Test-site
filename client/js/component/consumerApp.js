@@ -12,6 +12,7 @@ var React = require('react'),
 
 module.exports = React.createClass({
     mixins: [ReactRouter.State, ReactRouter.Navigation, PureRenderMixin],
+    scrollTimerId: null,
     onViewChange: function() {
         var views = '',
             query = null;
@@ -87,6 +88,18 @@ module.exports = React.createClass({
         AppStore.addChangeViewListener(this.onViewChange);
         AppStore.addChangeSearchTermListener(this.onSearchTermChange);
     },
+
+    onScroll: function(detail, view){
+        AppAction.updateScroll(true);
+
+        if(this.scrollTimerId){
+            clearTimeout(this.scrollTimerId);
+        }
+        
+        this.scrollTimerId = setTimeout(function(){
+            AppAction.updateScroll(false);
+        },200)
+    },
     render: function() {
         return React.DOM.div({
                 className: 'content-container'
@@ -98,7 +111,8 @@ module.exports = React.createClass({
                     this.props
                 )),
             React.DOM.div({
-                id: 'app-content'
+                id: 'app-content',
+                onScroll: this.onScroll
             }, React.createElement(SearchBody,
                 this.props
             ))

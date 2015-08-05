@@ -212,6 +212,14 @@ var appAction = {
             });
         }, 100);
 
+    },
+    updateScroll: function(isScrolling) {
+        setTimeout(function() {
+            AppDispatcher.dispatch({
+                actionType: AppConstant.ACTION_UPDATE_SCROLL,
+                data: isScrolling
+            });
+        }, 1);
     }
 };
 
