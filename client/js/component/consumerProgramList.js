@@ -18,6 +18,10 @@ var React = require('react'),
 var Mention = React.createClass({
     mixins: [PureRenderMixin],
     onPlayClick: function(event) {
+        if (AppStore.getIsScrolling()) {
+            return;
+        }
+
         this.setState({
             isPlaying: true
         });
@@ -104,24 +108,12 @@ var Mention = React.createClass({
             backCard = React.DOM.span();
         }
 
-
-
-        var playIcon = React.DOM.i({
-            className: 'fa fa-play-circle program-card-play-icon icon-prop icon-prop-animation clickable',
-            onClick: this.onPlayClick
-        });
         //add mention snippet
         var mentionContainer = React.DOM.p({
             className: 'program-list-mention-text'
         }, React.DOM.span({
             className: 'cur-point ui-snip-text'
         }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
-
-
-        var iconContainer = React.DOM.div({
-                className: 'program-card-icon-container program-card-icon-animation'
-            },
-            expandIcon, playIcon);
 
         frontCard = React.DOM.div({
             className: 'program-card-front front'

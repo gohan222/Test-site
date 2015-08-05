@@ -33,6 +33,7 @@ var curTranscript  = null;
 var curTranscriptId  = null;
 var topTrendMention  = null;
 var filterTopTrendMention  = null;
+var isScrolling = false;
 
 
 function updateSearchResults(results){
@@ -97,6 +98,10 @@ function updateTopTrendMention(results){
 
 function updateFilterTopTrendMention(results){
   filterTopTrendMention = results;
+}
+
+function updateScroll(results){
+  isScrolling = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -165,6 +170,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.emit(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT);
   },
 
+  emitUpdateScroll:function(){
+    this.emit(Constants.CHANGE_UPDATE_SCROLL);
+  },
+
   /**
    * @param {function} callback
    */
@@ -230,6 +239,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   addChangeFilterTopTrendMentionListener: function(callback) {
     this.on(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
+  },
+
+  addChangeUpdateScroll: function(callback) {
+    this.on(Constants.CHANGE_UPDATE_SCROLL, callback);
   },  
 
   
@@ -298,6 +311,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   removeChangeFilterTopTrendMentionListener: function(callback) {
     this.removeListener(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
+  },
+
+  removeChangeUpdateFilter: function(callback) {
+    this.removeListener(Constants.CHANGE_UPDATE_SCROLL, callback);
   },
 
   getSearchResults: function(){
@@ -388,6 +405,10 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getFilterTopTrendMention:function(){
     return filterTopTrendMention;
+  },
+
+  getIsScrolling:function(){
+    return isScrolling;
   }
 });
 
@@ -461,6 +482,11 @@ AppDispatcher.register(function(action) {
       updateFilterTopTrendMention(action.data);
       AppStore.emitChangeFilterTopTrendMention();
       break;
+    case Constants.ACTION_UPDATE_SCROLL:
+      updateScroll(action.data);
+      AppStore.emitUpdateScroll();
+      break;
+      
     default:
       // no op
   }
