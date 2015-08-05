@@ -83,7 +83,8 @@ var Mention = React.createClass({
             }, React.createElement(Player, {
                 src: Utils.mediaUrl(this.props.data),
                 poster: this.props.data.get('programLiveImage'),
-                fileType: this.props.data.get('fileType')
+                fileType: this.props.data.get('fileType'),
+                autoPlay:false
             }));
 
             var iconContainer = React.DOM.div({
