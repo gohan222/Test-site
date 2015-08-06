@@ -313,7 +313,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.removeListener(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
   },
 
-  removeChangeUpdateFilter: function(callback) {
+  removeChangeUpdateScroll: function(callback) {
     this.removeListener(Constants.CHANGE_UPDATE_SCROLL, callback);
   },
 

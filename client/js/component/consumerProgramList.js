@@ -33,7 +33,8 @@ var Mention = React.createClass({
     },
     getInitialState: function() {
         return {
-            isPlaying: false
+            isPlaying: false,
+
         };
     },
     onExpand: function() {
@@ -120,7 +121,8 @@ var Mention = React.createClass({
         }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
 
         frontCard = React.DOM.div({
-            className: 'program-card-front front'
+            className: 'program-card-front front',
+            style:{display: this.props.visible ? 'block': 'none'}
         }, mentionContainer, footer);
 
         var holder = React.DOM.div({
@@ -160,6 +162,7 @@ var ProgramRow = React.createClass({
         }
 
         this.setState({
+            cardIndex: this.scrollIndex,
             scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
         });
     },
@@ -181,6 +184,7 @@ var ProgramRow = React.createClass({
         }
 
         this.setState({
+            cardIndex: this.scrollIndex,
             scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
         });
     },
@@ -189,7 +193,9 @@ var ProgramRow = React.createClass({
             data: this.props.data,
             isExpanding: false,
             scrollPosition: 0,
-            expandMention: null
+            expandMention: null,
+            visibleSize: -1,
+            cardIndex: -1
         };
     },
     onExpand: function(mention) {
@@ -216,14 +222,31 @@ var ProgramRow = React.createClass({
             });
         }
     },
+    calcViewableSize: function(){
+        //measure what's the viewable size.
+        var cardWidth = 321;
+        var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
+        var parentWidth = parentContainer.offsetWidth;
+        var curPos = (cardWidth * this.scrollIndex);
+        var viewableCards = Math.ceil(parentWidth / cardWidth);
+        return viewableCards;
+    },
+    onResize: function(){
+        this.setState({visibleSize: this.calcViewableSize()});
+    },
     componentDidMount: function() {
         AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
+        window.addEventListener('resize', this.onResize);
 
         var mention = this.state.data.get(0);
         AppAction.getSearchByProgramId(mention.get('programId'), AppStore.getSearchTerms());
+
+        this.setState({visibleSize: this.calcViewableSize(), cardIndex:0});
+
     },
     componentWillUnmount: function() {
         AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
+        window.removeEventListener('resize', this.onResize);
     },
     render: function() {
         var context = this;
@@ -231,12 +254,13 @@ var ProgramRow = React.createClass({
             return React.DOM.span();
         }
 
-        var mentionNodes = this.state.data.map(function(mention) {
+        var mentionNodes = this.state.data.map(function(mention, index) {
             return React.DOM.div({
                 key: MD5(Utils.generateMentionKey(mention)),
                 className: 'program-card-container'
             }, React.createElement(Mention, {
                 data: mention,
+                visible: this.state.visibleSize >= 0 && this.state.cardIndex >= 0 ? index >= this.state.cardIndex - 1  && index <= this.state.visibleSize + this.state.cardIndex : true,
                 onExpand: this.onExpand,
             }), React.DOM.div({
                 className: 'program-card-spacer'
