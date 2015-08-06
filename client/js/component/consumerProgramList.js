@@ -89,7 +89,7 @@ var Mention = React.createClass({
                 src: Utils.mediaUrl(this.props.data),
                 poster: this.props.data.get('programLiveImage'),
                 fileType: this.props.data.get('fileType'),
-                autoPlay:false
+                autoPlay: false
             }));
 
             var iconContainer = React.DOM.div({
@@ -110,8 +110,8 @@ var Mention = React.createClass({
         }
 
         var footer = React.DOM.div(null,
-                airDate,
-                mediaType);
+            airDate,
+            mediaType);
 
         //add mention snippet
         var mentionContainer = React.DOM.p({
@@ -122,7 +122,9 @@ var Mention = React.createClass({
 
         frontCard = React.DOM.div({
             className: 'program-card-front front',
-            style:{display: this.props.visible ? 'block': 'none'}
+            style: {
+                display: this.props.visible ? 'block' : 'none'
+            }
         }, mentionContainer, footer);
 
         var holder = React.DOM.div({
@@ -222,7 +224,7 @@ var ProgramRow = React.createClass({
             });
         }
     },
-    calcViewableSize: function(){
+    calcViewableSize: function() {
         //measure what's the viewable size.
         var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
@@ -231,8 +233,21 @@ var ProgramRow = React.createClass({
         var viewableCards = Math.ceil(parentWidth / cardWidth);
         return viewableCards;
     },
-    onResize: function(){
-        this.setState({visibleSize: this.calcViewableSize()});
+    onResize: function() {
+
+        if (this.calcViewableSize() !== this.state.visibleSize) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        }
+
+    },
+    componentDidUpdate: function(nextProps) {
+        if (this.props.visible && this.state.visibleSize !== this.calcViewableSize()) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        }
     },
     componentDidMount: function() {
         AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
@@ -241,7 +256,10 @@ var ProgramRow = React.createClass({
         var mention = this.state.data.get(0);
         AppAction.getSearchByProgramId(mention.get('programId'), AppStore.getSearchTerms());
 
-        this.setState({visibleSize: this.calcViewableSize(), cardIndex:0});
+        this.setState({
+            visibleSize: this.calcViewableSize(),
+            cardIndex: 0
+        });
 
     },
     componentWillUnmount: function() {
@@ -260,7 +278,7 @@ var ProgramRow = React.createClass({
                 className: 'program-card-container'
             }, React.createElement(Mention, {
                 data: mention,
-                visible: this.state.visibleSize >= 0 && this.state.cardIndex >= 0 ? index >= this.state.cardIndex - 1  && index <= this.state.visibleSize + this.state.cardIndex : true,
+                visible: this.state.visibleSize >= 0 && this.state.cardIndex >= 0 ? index >= this.state.cardIndex - 1 && index <= this.state.visibleSize + this.state.cardIndex : true,
                 onExpand: this.onExpand,
             }), React.DOM.div({
                 className: 'program-card-spacer'
@@ -376,7 +394,10 @@ var ProgramRow = React.createClass({
                     height: props.height.val
                 }
             }, programContainer, React.DOM.div({
-                className: 'program-list-mention-container'
+                className: 'program-list-mention-container',
+                style: {
+                    display: context.props.visible ? 'inline-block' : 'none'
+                }
             }, motionMentions, motionDetailed), leftArrow, rightArrow);
 
         });
@@ -410,7 +431,13 @@ module.exports = React.createClass({
 
         return collection;
     },
-
+    calcViewableSize: function() {
+        //measure what's the viewable size.
+        var rowHeight = 219;
+        var clientHeight = AppStore.getClientHeight();
+        var viewableCards = Math.ceil(clientHeight / rowHeight);
+        return viewableCards;
+    },
     onChange: function() {
         //first we remove the data before adding new list to animation the draw.
         this.sortedResult = this.sortData(AppStore.getSearchResults());
@@ -421,30 +448,60 @@ module.exports = React.createClass({
     onSearchTermChange: function() {
         AppAction.searchInit(AppStore.getSearchTerms());
     },
+    onScroll: function() {
+        // if (AppStore.getIsScrolling()) {
+        //     return;
+        // }
+
+        var rowHeight = 219;
+        var scrollPos = AppStore.getScrollPos();
+        var rowIndex = isFinite(Math.floor(scrollPos / rowHeight)) ? Math.floor(scrollPos / rowHeight) : 0;
+
+        this.setState({
+            rowIndex: rowIndex,
+            visibleSize: this.calcViewableSize()
+        });
+    },
+    onResize: function() {
+
+        if (this.calcViewableSize() !== this.state.visibleSize) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        }
+
+    },
     componentDidMount: function() {
         AppStore.addChangeListener(this.onChange);
         AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+        AppStore.addChangeUpdateScrollListener(this.onScroll)
+        window.addEventListener('resize', this.onResize);
+
     },
     componentWillUnmount: function() {
         AppStore.removeChangeListener(this.onChange);
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
-        // AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
+        AppStore.removeChangeUpdateScrollListener(this.onScroll);
+        window.removeEventListener('resize', this.onResize);
     },
     getInitialState: function() {
         this.sortedResult = this.sortData(AppStore.getSearchResults());
 
         return {
             data: this.sortedResult,
-            searchTerms: AppStore.getSearchTerms()
+            searchTerms: AppStore.getSearchTerms(),
+            visibleSize: -1,
+            rowIndex: -1
         };
     },
     render: function() {
-        var programNodes = this.state.data.map(function(mentions) {
+        var programNodes = this.state.data.map(function(mentions, index) {
             return React.createElement(ProgramRow, {
                 key: mentions.get(0).get('programId'),
-                data: mentions
+                data: mentions,
+                visible: this.state.visibleSize >= 0 && this.state.rowIndex >= 0 ? index >= this.state.rowIndex - 1 && index <= this.state.visibleSize + this.state.rowIndex : true,
             });
-        });
+        }, this);
 
         var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
             transitionName: 'component',
