@@ -15,6 +15,10 @@ var React = require('react'),
     MD5 = require('md5'),
     Utils = require('../../../server/utils');
 
+var CARD_WIDTH = 321,
+    ROW_HEIGHT= 219,
+    ROW_HEIGHT_EXPANDED = 354;
+
 var Mention = React.createClass({
     mixins: [PureRenderMixin],
     onPlayClick: function(event) {
@@ -33,7 +37,8 @@ var Mention = React.createClass({
     },
     getInitialState: function() {
         return {
-            isPlaying: false
+            isPlaying: false,
+
         };
     },
     onExpand: function() {
@@ -88,7 +93,7 @@ var Mention = React.createClass({
                 src: Utils.mediaUrl(this.props.data),
                 poster: this.props.data.get('programLiveImage'),
                 fileType: this.props.data.get('fileType'),
-                autoPlay:false
+                autoPlay: false
             }));
 
             var iconContainer = React.DOM.div({
@@ -109,8 +114,8 @@ var Mention = React.createClass({
         }
 
         var footer = React.DOM.div(null,
-                airDate,
-                mediaType);
+            airDate,
+            mediaType);
 
         //add mention snippet
         var mentionContainer = React.DOM.p({
@@ -120,7 +125,10 @@ var Mention = React.createClass({
         }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
 
         frontCard = React.DOM.div({
-            className: 'program-card-front front'
+            className: 'program-card-front front',
+            style: {
+                display: this.props.visible ? 'block' : 'none'
+            }
         }, mentionContainer, footer);
 
         var holder = React.DOM.div({
@@ -140,11 +148,10 @@ var ProgramRow = React.createClass({
     mixins: [PureRenderMixin],
     scrollIndex: 0,
     onScrollLeft: function(event) {
-        var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
-        var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth / cardWidth);
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth / CARD_WIDTH);
 
         if (viewableCards >= this.state.data.size) {
             return;
@@ -160,16 +167,16 @@ var ProgramRow = React.createClass({
         }
 
         this.setState({
-            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+            cardIndex: this.scrollIndex,
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (CARD_WIDTH * this.scrollIndex)
         });
     },
     onScrollRight: function(event) {
 
-        var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
-        var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth / cardWidth);
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth / CARD_WIDTH);
 
         // this.scrollIndex++;
         if (viewableCards >= this.state.data.size) {
@@ -181,7 +188,8 @@ var ProgramRow = React.createClass({
         }
 
         this.setState({
-            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+            cardIndex: this.scrollIndex,
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (CARD_WIDTH * this.scrollIndex)
         });
     },
     getInitialState: function() {
@@ -189,7 +197,9 @@ var ProgramRow = React.createClass({
             data: this.props.data,
             isExpanding: false,
             scrollPosition: 0,
-            expandMention: null
+            expandMention: null,
+            visibleSize: -1,
+            cardIndex: -1
         };
     },
     onExpand: function(mention) {
@@ -216,14 +226,47 @@ var ProgramRow = React.createClass({
             });
         }
     },
+    calcViewableSize: function() {
+        //measure what's the viewable size.
+        
+        var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
+        var parentWidth = parentContainer.offsetWidth;
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.ceil(parentWidth / CARD_WIDTH);
+        return viewableCards;
+    },
+    onResize: function() {
+
+        if (this.calcViewableSize() !== this.state.visibleSize) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        }
+
+    },
+    componentDidUpdate: function(nextProps) {
+        if (this.props.visible && this.state.visibleSize !== this.calcViewableSize()) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        }
+    },
     componentDidMount: function() {
         AppStore.addChangeProgramSearchListener(this.onProgramSearchResult);
+        window.addEventListener('resize', this.onResize);
 
         var mention = this.state.data.get(0);
         AppAction.getSearchByProgramId(mention.get('programId'), AppStore.getSearchTerms());
+
+        this.setState({
+            visibleSize: this.calcViewableSize(),
+            cardIndex: 0
+        });
+
     },
     componentWillUnmount: function() {
         AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
+        window.removeEventListener('resize', this.onResize);
     },
     render: function() {
         var context = this;
@@ -231,12 +274,13 @@ var ProgramRow = React.createClass({
             return React.DOM.span();
         }
 
-        var mentionNodes = this.state.data.map(function(mention) {
+        var mentionNodes = this.state.data.map(function(mention, index) {
             return React.DOM.div({
                 key: MD5(Utils.generateMentionKey(mention)),
                 className: 'program-card-container'
             }, React.createElement(Mention, {
                 data: mention,
+                visible: this.state.visibleSize >= 0 && this.state.cardIndex >= 0 ? index >= this.state.cardIndex - 1 && index <= this.state.visibleSize + this.state.cardIndex : true,
                 onExpand: this.onExpand,
             }), React.DOM.div({
                 className: 'program-card-spacer'
@@ -341,7 +385,7 @@ var ProgramRow = React.createClass({
         var motionRowContainer = React.createElement(ReactMotion.Spring, {
             endValue: {
                 height: {
-                    val: this.state.isExpanding ? 354 : 219
+                    val: this.state.isExpanding ? ROW_HEIGHT_EXPANDED : ROW_HEIGHT
                 },
                 isExpanding: this.state.isExpanding
             }
@@ -352,7 +396,10 @@ var ProgramRow = React.createClass({
                     height: props.height.val
                 }
             }, programContainer, React.DOM.div({
-                className: 'program-list-mention-container'
+                className: 'program-list-mention-container',
+                style: {
+                    display: context.props.visible ? 'inline-block' : 'none'
+                }
             }, motionMentions, motionDetailed), leftArrow, rightArrow);
 
         });
@@ -386,7 +433,12 @@ module.exports = React.createClass({
 
         return collection;
     },
-
+    calcViewableSize: function() {
+        //measure what's the viewable size.
+        var clientHeight = AppStore.getClientHeight();
+        var viewableCards = Math.ceil(clientHeight / ROW_HEIGHT);
+        return viewableCards;
+    },
     onChange: function() {
         //first we remove the data before adding new list to animation the draw.
         this.sortedResult = this.sortData(AppStore.getSearchResults());
@@ -397,30 +449,59 @@ module.exports = React.createClass({
     onSearchTermChange: function() {
         AppAction.searchInit(AppStore.getSearchTerms());
     },
+    onScroll: function() {
+        // if (AppStore.getIsScrolling()) {
+        //     return;
+        // }
+
+        var scrollPos = AppStore.getScrollPos();
+        var rowIndex = isFinite(Math.floor(scrollPos / ROW_HEIGHT)) ? Math.floor(scrollPos / ROW_HEIGHT) : 0;
+
+        this.setState({
+            rowIndex: rowIndex,
+            visibleSize: this.calcViewableSize()
+        });
+    },
+    onResize: function() {
+
+        // if (this.calcViewableSize() !== this.state.visibleSize) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        // }
+
+    },
     componentDidMount: function() {
         AppStore.addChangeListener(this.onChange);
         AppStore.addChangeSearchTermListener(this.onSearchTermChange);
+        AppStore.addChangeUpdateScrollListener(this.onScroll)
+        window.addEventListener('resize', this.onResize);
+
     },
     componentWillUnmount: function() {
         AppStore.removeChangeListener(this.onChange);
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
-        // AppStore.removeChangeProgramSearchListener(this.onProgramSearchResult);
+        AppStore.removeChangeUpdateScrollListener(this.onScroll);
+        window.removeEventListener('resize', this.onResize);
     },
     getInitialState: function() {
         this.sortedResult = this.sortData(AppStore.getSearchResults());
 
         return {
             data: this.sortedResult,
-            searchTerms: AppStore.getSearchTerms()
+            searchTerms: AppStore.getSearchTerms(),
+            visibleSize: -1,
+            rowIndex: -1
         };
     },
     render: function() {
-        var programNodes = this.state.data.map(function(mentions) {
+        var programNodes = this.state.data.map(function(mentions, index) {
             return React.createElement(ProgramRow, {
                 key: mentions.get(0).get('programId'),
-                data: mentions
+                data: mentions,
+                visible: this.state.visibleSize >= 0 && this.state.rowIndex >= 0 ? index >= this.state.rowIndex - 1 && index <= this.state.visibleSize + this.state.rowIndex : true,
             });
-        });
+        }, this);
 
         var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
             transitionName: 'component',

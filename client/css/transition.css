@@ -176,6 +176,8 @@
 /*.flip-container:hover .flipper,*/
 
 .flip-container-hover .flipper {
+    -ms-transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 
@@ -200,6 +202,7 @@
 
 .front,
 .back {
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     position: absolute;
     top: 0;
@@ -212,6 +215,8 @@
 .front {
     z-index: 2;
     /* for firefox 31 */
+    -ms-transform: rotateY(0deg);
+    -webkit-transform: rotateY(0deg);
     transform: rotateY(0deg);
 }
 
@@ -219,5 +224,7 @@
 /* back, initially hidden pane */
 
 .back {
+  -ms-transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }

@@ -49,6 +49,25 @@ module.exports = React.createClass({
             }
         }
     },
+    onScroll: function(detail, view){
+        
+        var scrollContainer = this.refs.appContent.getDOMNode(),
+        clientHeight = scrollContainer.clientHeight,
+        scrollPos = scrollContainer.scrollTop;
+
+        AppAction.updateScroll(true, clientHeight, scrollPos);
+        if(this.scrollTimerId){
+            clearTimeout(this.scrollTimerId);
+        }
+        
+        this.scrollTimerId = setTimeout(function(){
+            AppAction.updateScroll(false, clientHeight, scrollPos);
+        },200)
+    },
+    componentDidMount: function(){
+        var scrollContainer = this.refs.appContent.getDOMNode();
+        AppAction.updateScroll(false, scrollContainer.clientHeight, scrollContainer.scrollTop);
+    },
     componentWillUnmount: function() {
         AppStore.removeChangeViewListener(this.onViewChange);
         AppStore.removeChangeSearchTermListener(this.onSearchTermChange);
@@ -96,7 +115,9 @@ module.exports = React.createClass({
                     this.props
                 )),
             React.DOM.div({
-                id: 'app-content'
+                id: 'app-content',
+                onScroll: this.onScroll,
+                ref:'appContent'
             }, React.createElement(TrendBody,
                 this.props
             ))

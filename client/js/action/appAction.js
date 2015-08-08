@@ -213,11 +213,13 @@ var appAction = {
         }, 100);
 
     },
-    updateScroll: function(isScrolling) {
+    updateScroll: function(isScrolling, clientHeight, scrollPos) {
         setTimeout(function() {
             AppDispatcher.dispatch({
                 actionType: AppConstant.ACTION_UPDATE_SCROLL,
-                data: isScrolling
+                data: isScrolling,
+                clientHeight: clientHeight,
+                scrollPos: scrollPos
             });
         }, 1);
     }

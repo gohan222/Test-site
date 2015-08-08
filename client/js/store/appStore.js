@@ -34,6 +34,8 @@ var curTranscriptId  = null;
 var topTrendMention  = null;
 var filterTopTrendMention  = null;
 var isScrolling = false;
+var clientHeight = -1;
+var scrollPos = -1;
 
 
 function updateSearchResults(results){
@@ -102,6 +104,14 @@ function updateFilterTopTrendMention(results){
 
 function updateScroll(results){
   isScrolling = results;
+}
+
+function updateClientHeight(results){
+  clientHeight = results;
+}
+
+function updateScrollPos(results){
+  scrollPos = results;
 }
 
 var AppStore = assign({}, EventEmitter.prototype, {
@@ -241,7 +251,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.on(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
   },
 
-  addChangeUpdateScroll: function(callback) {
+  addChangeUpdateScrollListener: function(callback) {
     this.on(Constants.CHANGE_UPDATE_SCROLL, callback);
   },  
 
@@ -313,7 +323,7 @@ var AppStore = assign({}, EventEmitter.prototype, {
     this.removeListener(Constants.CHANGE_FILTER_TOP_TREND_MENTION_EVENT, callback);
   },
 
-  removeChangeUpdateFilter: function(callback) {
+  removeChangeUpdateScrollListener: function(callback) {
     this.removeListener(Constants.CHANGE_UPDATE_SCROLL, callback);
   },
 
@@ -409,7 +419,15 @@ var AppStore = assign({}, EventEmitter.prototype, {
 
   getIsScrolling:function(){
     return isScrolling;
-  }
+  },
+
+  getClientHeight:function(){
+    return clientHeight;
+  },
+
+  getScrollPos:function(){
+    return scrollPos;
+  }  
 });
 
 // Register callback to handle all updates
@@ -484,6 +502,8 @@ AppDispatcher.register(function(action) {
       break;
     case Constants.ACTION_UPDATE_SCROLL:
       updateScroll(action.data);
+      updateClientHeight(action.clientHeight);
+      updateScrollPos(action.scrollPos);
       AppStore.emitUpdateScroll();
       break;
       
