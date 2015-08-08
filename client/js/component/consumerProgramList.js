@@ -15,6 +15,10 @@ var React = require('react'),
     MD5 = require('md5'),
     Utils = require('../../../server/utils');
 
+var CARD_WIDTH = 321,
+    ROW_HEIGHT= 219,
+    ROW_HEIGHT_EXPANDED = 354;
+
 var Mention = React.createClass({
     mixins: [PureRenderMixin],
     onPlayClick: function(event) {
@@ -144,11 +148,10 @@ var ProgramRow = React.createClass({
     mixins: [PureRenderMixin],
     scrollIndex: 0,
     onScrollLeft: function(event) {
-        var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
-        var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth / cardWidth);
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth / CARD_WIDTH);
 
         if (viewableCards >= this.state.data.size) {
             return;
@@ -165,16 +168,15 @@ var ProgramRow = React.createClass({
 
         this.setState({
             cardIndex: this.scrollIndex,
-            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (CARD_WIDTH * this.scrollIndex)
         });
     },
     onScrollRight: function(event) {
 
-        var cardWidth = 321;
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
-        var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth / cardWidth);
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth / CARD_WIDTH);
 
         // this.scrollIndex++;
         if (viewableCards >= this.state.data.size) {
@@ -187,7 +189,7 @@ var ProgramRow = React.createClass({
 
         this.setState({
             cardIndex: this.scrollIndex,
-            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (CARD_WIDTH * this.scrollIndex)
         });
     },
     getInitialState: function() {
@@ -226,11 +228,11 @@ var ProgramRow = React.createClass({
     },
     calcViewableSize: function() {
         //measure what's the viewable size.
-        var cardWidth = 321;
+        
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
-        var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.ceil(parentWidth / cardWidth);
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.ceil(parentWidth / CARD_WIDTH);
         return viewableCards;
     },
     onResize: function() {
@@ -383,7 +385,7 @@ var ProgramRow = React.createClass({
         var motionRowContainer = React.createElement(ReactMotion.Spring, {
             endValue: {
                 height: {
-                    val: this.state.isExpanding ? 354 : 219
+                    val: this.state.isExpanding ? ROW_HEIGHT_EXPANDED : ROW_HEIGHT
                 },
                 isExpanding: this.state.isExpanding
             }
@@ -433,9 +435,8 @@ module.exports = React.createClass({
     },
     calcViewableSize: function() {
         //measure what's the viewable size.
-        var rowHeight = 219;
         var clientHeight = AppStore.getClientHeight();
-        var viewableCards = Math.ceil(clientHeight / rowHeight);
+        var viewableCards = Math.ceil(clientHeight / ROW_HEIGHT);
         return viewableCards;
     },
     onChange: function() {
@@ -453,9 +454,8 @@ module.exports = React.createClass({
         //     return;
         // }
 
-        var rowHeight = 219;
         var scrollPos = AppStore.getScrollPos();
-        var rowIndex = isFinite(Math.floor(scrollPos / rowHeight)) ? Math.floor(scrollPos / rowHeight) : 0;
+        var rowIndex = isFinite(Math.floor(scrollPos / ROW_HEIGHT)) ? Math.floor(scrollPos / ROW_HEIGHT) : 0;
 
         this.setState({
             rowIndex: rowIndex,
@@ -464,11 +464,11 @@ module.exports = React.createClass({
     },
     onResize: function() {
 
-        if (this.calcViewableSize() !== this.state.visibleSize) {
+        // if (this.calcViewableSize() !== this.state.visibleSize) {
             this.setState({
                 visibleSize: this.calcViewableSize()
             });
-        }
+        // }
 
     },
     componentDidMount: function() {

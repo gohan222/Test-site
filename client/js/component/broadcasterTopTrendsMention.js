@@ -14,6 +14,11 @@ var React = require('react'),
     ReactMotion = require('react-motion'),
     Utils = require('../../../server/utils');
 
+    var CARD_WIDTH = 321,
+    ROW_HEIGHT= 340,
+    ROW_HEIGHT_EXPANDED = 354,
+    GRAPH_HEIGHT=456;
+
 var Mention = React.createClass({
     mixins: [PureRenderMixin],
     onPlayClick: function(event) {
@@ -53,7 +58,7 @@ var Mention = React.createClass({
             React.DOM.i({
                 className: 'fa fa-expand fa-stack-1x fa-inverse'
             }));
-        
+
         var backgroundImage = React.DOM.div({
                 className: 'trend-avtr2'
             },
@@ -356,7 +361,10 @@ var ProgramRow = React.createClass({
                     height: props.height.val
                 }
             }, programContainer, React.DOM.div({
-                className: 'trend-list-mention-container'
+                className: 'trend-list-mention-container',
+                style: {
+                    display: context.props.visible ? 'inline-block' : 'none'
+                }
             }, motionMentions, motionDetailed), leftArrow, rightArrow);
         });
 
@@ -369,6 +377,12 @@ var ProgramRow = React.createClass({
 module.exports = React.createClass({
     mixins: [PureRenderMixin],
     sortData: Immutable.List.of(),
+    calcViewableSize: function() {
+        //measure what's the viewable size.
+        var clientHeight = AppStore.getClientHeight() - GRAPH_HEIGHT;
+        var viewableCards = Math.ceil(clientHeight / ROW_HEIGHT);
+        return viewableCards;
+    },
     onChange: function() {
         var topTrends = AppStore.getTopTrends();
         var trendsList = [];
@@ -385,11 +399,38 @@ module.exports = React.createClass({
             data: this.sortData
         });
     },
+    onScroll: function() {
+        // if (AppStore.getIsScrolling()) {
+        //     return;
+        // }
+        
+        var scrollPos = AppStore.getScrollPos();
+        var index = Math.floor((scrollPos - GRAPH_HEIGHT) / ROW_HEIGHT);
+        var rowIndex = isFinite(index) && index > 0 ? Math.floor(scrollPos / ROW_HEIGHT) : 0;
+
+        this.setState({
+            rowIndex: rowIndex,
+            visibleSize: this.calcViewableSize()
+        });
+    },
+    onResize: function() {
+
+        // if (this.calcViewableSize() !== this.state.visibleSize) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        // }
+
+    },
     componentDidMount: function() {
         AppStore.addChangeTopTrendsListener(this.onChange);
+        AppStore.addChangeUpdateScrollListener(this.onScroll);
+        window.addEventListener('resize', this.onResize);
     },
     componentWillUnmount: function() {
         AppStore.removeChangeTopTrendsListener(this.onChange);
+        AppStore.removeChangeUpdateScrollListener(this.onScroll);
+        window.removeEventListener('resize', this.onResize);
     },
     getInitialState: function() {
         return {
@@ -401,9 +442,10 @@ module.exports = React.createClass({
             return React.createElement(ProgramRow, {
                 key: mentions.get('searchTerm'),
                 data: mentions,
-                index: index
+                index: index,
+                visible: this.state.visibleSize >= 0 && this.state.rowIndex >= 0 ? index >= this.state.rowIndex - 1 && index <= this.state.visibleSize + this.state.rowIndex : true,
             });
-        });
+        }, this);
 
         var animationElement = React.createElement(React.addons.CSSTransitionGroup, {
             transitionName: 'component',
