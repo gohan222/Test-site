@@ -74,7 +74,8 @@ var Mention = React.createClass({
         }, programName);
 
         var programContainer = React.DOM.div({
-            className: 'trend-container'
+            className: 'trend-container',
+            style: {display: this.props.visible ? 'inline-block' : 'none'}
         }, backgroundImage, programNameContainer)
 
 
@@ -98,7 +99,8 @@ var Mention = React.createClass({
             });
             //add mention snippet
             mentionContainer = React.DOM.p({
-                className: 'trend-list-mention-text'
+                className: 'trend-list-mention-text',
+                style: {display: this.props.visible ? 'block' : 'none'}
             }, React.DOM.span({
                 className: 'cur-point ui-snip-text'
             }, Utils.getSnippetText(this.props.data.get('mentionSnippet'))));
@@ -131,7 +133,7 @@ var Mention = React.createClass({
             });
         }
 
-        var footer = React.DOM.div(null,
+        var footer = React.DOM.div({style: {display: this.props.visible ? 'block' : 'none'}},
             airDate,
             mediaType,
             iconContainer);
@@ -164,11 +166,11 @@ var ProgramRow = React.createClass({
         }
     },
     onScrollLeft: function(event) {
-        var cardWidth = 280;
+        
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
-        var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth / cardWidth);
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth / CARD_WIDTH);
 
         if (viewableCards >= this.state.data.get('records').size) {
             return;
@@ -185,17 +187,18 @@ var ProgramRow = React.createClass({
         }
 
         this.setState({
-            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+            cardIndex: this.scrollIndex,
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (CARD_WIDTH * this.scrollIndex)
         });
 
     },
     onScrollRight: function(event) {
         // console.log(event);
-        var cardWidth = 280;
+        
         var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
         var parentWidth = parentContainer.offsetWidth;
-        var curPos = (cardWidth * this.scrollIndex);
-        var viewableCards = Math.floor(parentWidth / cardWidth);
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.floor(parentWidth / CARD_WIDTH);
 
         // this.scrollIndex++;
         if (viewableCards >= this.state.data.get('records').size) {
@@ -207,7 +210,8 @@ var ProgramRow = React.createClass({
         }
 
         this.setState({
-            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (cardWidth * this.scrollIndex)
+            cardIndex: this.scrollIndex,
+            scrollPosition: this.refs.mentionList.getDOMNode().style.left = -1 * (CARD_WIDTH * this.scrollIndex)
         });
 
     },
@@ -217,7 +221,9 @@ var ProgramRow = React.createClass({
             index: this.props.index,
             show: !AppStore.getFilterTopTrendMention() || AppStore.getFilterTopTrendMention() === this.props.data.get('searchTerm'),
             isExpanding: false,
-            scrollPosition: 0
+            scrollPosition: 0,
+            visibleSize: -1,
+            cardIndex: -1
         };
     },
     onExpand: function(mention) {
@@ -233,18 +239,50 @@ var ProgramRow = React.createClass({
         });
 
     },
+    calcViewableSize: function() {
+        //measure what's the viewable size.
+        
+        var parentContainer = this.refs.mentionList.getDOMNode().parentNode;
+        var parentWidth = parentContainer.offsetWidth;
+        var curPos = (CARD_WIDTH * this.scrollIndex);
+        var viewableCards = Math.ceil(parentWidth / CARD_WIDTH);
+        return viewableCards;
+    },
+    onResize: function() {
+
+        if (this.calcViewableSize() !== this.state.visibleSize) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        }
+
+    },
+    componentDidUpdate: function(nextProps) {
+        if (this.props.visible && this.state.visibleSize !== this.calcViewableSize()) {
+            this.setState({
+                visibleSize: this.calcViewableSize()
+            });
+        }
+    },
     componentDidMount: function() {
         // AppStore.addChangeTopTrendsListener(this.onChange);
         AppStore.addChangeTopTrendMentionListener(this.onChangeTopTrend);
         AppStore.addChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
+        window.addEventListener('resize', this.onResize);
 
         //init the data
         AppAction.getTopTrendsMention(this.state.data.get('searchTerm'), AppStore.getFilter());
+
+        this.setState({
+            visibleSize: this.calcViewableSize(),
+            cardIndex: 0
+        });
     },
     componentWillUnmount: function() {
         // AppStore.removeChangeTopTrendsListener(this.onChange);
         AppStore.removeChangeTopTrendMentionListener(this.onChangeTopTrend);
         AppStore.removeChangeFilterTopTrendMentionListener(this.onChangeFilterTopTrendMention);
+        window.removeEventListener('resize', this.onResize);
     },
     render: function() {
 
@@ -253,7 +291,7 @@ var ProgramRow = React.createClass({
         }
 
         var context = this;
-        var mentionNodes = this.state.data.get('records').map(function(mention) {
+        var mentionNodes = this.state.data.get('records').map(function(mention, index) {
             // console.log(Crypto.createHash('md5').update(JSON.stringify(mention)).digest('hex'));
             return React.DOM.div({
                 key: MD5(Utils.generateMentionKey(mention)),
@@ -261,6 +299,7 @@ var ProgramRow = React.createClass({
             }, React.createElement(Mention, {
                 data: mention,
                 onExpand: this.onExpand,
+                visible: this.state.visibleSize >= 0 && this.state.cardIndex >= 0 ? index >= this.state.cardIndex - 1 && index <= this.state.visibleSize + this.state.cardIndex : true
             }), React.DOM.div({
                 className: 'trend-card-spacer'
             }));
@@ -434,7 +473,9 @@ module.exports = React.createClass({
     },
     getInitialState: function() {
         return {
-            data: []
+            data: [],
+            visibleSize: -1,
+            rowIndex: -1
         };
     },
     render: function() {

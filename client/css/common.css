@@ -441,6 +441,7 @@
 }
 
 .trend-card{
+  vertical-align: top;
   background-color: #ffffff;
   display: inline-block;
   padding: 10px;
